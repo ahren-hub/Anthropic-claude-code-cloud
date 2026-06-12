@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Builder — Ahrendezvous Entertainment</title>
+<style>
+  :root {
+    --ink: #1a2421;
+    --paper: #f7f5f0;
+    --card: #ffffff;
+    --accent: #0f6b54;
+    --accent-soft: #e3efe9;
+    --amber: #b3641a;
+    --amber-soft: #f6ead9;
+    --red: #a33232;
+    --red-soft: #f5e3e3;
+    --line: #e2ddd2;
+    --muted: #6b7470;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 1.1rem 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    background: var(--card);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .logo { font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; }
+  .logo .dot { color: var(--accent); }
+  .tagline { color: var(--muted); font-size: 0.9rem; }
+  main { max-width: 860px; margin: 0 auto; padding: 2.2rem 1.5rem 5rem; }
+
+  /* Step indicator */
+  .steps-nav {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--card);
+    margin-bottom: 2.4rem;
+  }
+  .step-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1rem;
+    border-right: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  .step-item:last-child { border-right: none; }
+  .step-item.active { color: var(--accent); background: var(--accent-soft); }
+  .step-item.done { color: var(--accent); }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-item.done .step-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    font-size: 0;
+  }
+  .step-item.done .step-num::after { content: "✓"; font-size: 0.72rem; }
+  @media (max-width: 600px) { .step-label { display: none; } }
+
+  /* Section headings */
+  .section-title {
+    font-family: Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.35rem;
+  }
+  .section-desc { color: var(--muted); font-size: 0.9rem; max-width: 60ch; margin-bottom: 1.8rem; }
+
+  /* Step sections */
+  .step-section { display: none; }
+  .step-section.active { display: block; }
+
+  /* Panels */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+  }
+  .panel label, .field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); font-size: 0.82rem; }
+
+  /* Inputs */
+  .url-input-row { display: flex; gap: 0.6rem; }
+  .url-input, input[type="url"], input[type="text"] {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0.7rem 0.9rem;
+    font: 0.9rem/1.4 inherit;
+    background: #fdfcfa;
+    color: var(--ink);
+    min-width: 0;
+  }
+  .url-input:focus, input[type="url"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  textarea {
+    width: 100%;
+    resize: vertical;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0.75rem;
+    font: 0.88rem/1.5 inherit;
+    background: #fdfcfa;
+    color: var(--ink);
+  }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+
+  /* Buttons */
+  button.primary {
+    background: var(--accent); color: #fff; border: none; cursor: pointer;
+    font: 600 0.92rem/1 inherit; font-family: inherit;
+    padding: 0.75rem 1.5rem; border-radius: 8px; white-space: nowrap;
+  }
+  button.primary:hover { background: #0c5a47; }
+  button.primary:disabled { background: #9ab8af; cursor: wait; }
+  button.ghost {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    font: 500 0.85rem/1 inherit; font-family: inherit;
+    padding: 0.65rem 1.1rem; border-radius: 8px; cursor: pointer; white-space: nowrap;
+  }
+  button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  button.ghost:disabled { opacity: 0.5; cursor: default; }
+  .nav-actions { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.8rem; flex-wrap: wrap; }
+  .status-msg { color: var(--muted); font-size: 0.88rem; }
+
+  /* Inspiration rows */
+  .insp-row {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 0.9rem;
+  }
+  .insp-header {
+    display: flex; align-items: center; gap: 0.65rem;
+    margin-bottom: 0.9rem;
+  }
+  .insp-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+  }
+  .insp-title {
+    font-weight: 600; font-size: 0.82rem;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .insp-row .url-input-row { margin-bottom: 0; }
+
+  /* Analysis card */
+  .analysis-card {
+    margin-top: 0.9rem;
+    background: var(--accent-soft);
+    border: 1px solid #c4dcd2;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .analysis-label {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); margin-bottom: 0.35rem;
+  }
+  .analysis-text {
+    font-size: 0.88rem; line-height: 1.6; color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .user-likes-label {
+    font-weight: 600; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 0.4rem; display: block;
+  }
+  .user-likes { min-height: 72px; background: white; border-color: #c4dcd2; }
+  .user-likes:focus { outline-color: var(--accent); border-color: transparent; }
+
+  /* Fetch error / paste fallback */
+  .fetch-error {
+    margin-top: 0.7rem;
+    background: var(--amber-soft);
+    border: 1px solid #e5cfae;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+  }
+  .fetch-error .err-text { color: var(--amber); font-size: 0.86rem; margin-bottom: 0.6rem; }
+  .paste-section { border-top: 1px solid #e5cfae; padding-top: 0.7rem; margin-top: 0.4rem; }
+  .paste-section p { font-size: 0.84rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .paste-textarea {
+    min-height: 90px;
+    font: 0.8rem/1.4 ui-monospace, "SF Mono", Menlo, monospace;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Content card */
+  .content-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-top: 1rem;
+  }
+  .content-success-badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 0.78rem; font-weight: 600;
+    border-radius: 99px; padding: 0.25rem 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .content-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  @media (max-width: 600px) { .content-fields { grid-template-columns: 1fr; } }
+  .content-field-label {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin-bottom: 0.15rem;
+  }
+  .content-field-value { font-size: 0.88rem; color: var(--ink); }
+
+  /* Brief (Step 3) */
+  .brief-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .brief-block h3 {
+    font-family: Georgia, serif; font-size: 1rem;
+    margin-bottom: 0.8rem; color: var(--ink);
+  }
+  .brief-insp-item { margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--line); }
+  .brief-insp-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .brief-url { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.2rem; word-break: break-all; }
+  .brief-analysis { font-size: 0.86rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .brief-likes { font-size: 0.82rem; color: var(--accent); font-style: italic; }
+
+  /* Preview (Step 4) */
+  .preview-toolbar { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+  #preview-iframe {
+    width: 100%;
+    height: 72vh;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #080810;
+  }
+
+  /* Spinner */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    display: inline-block; width: 15px; height: 15px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  /* Error / status */
+  .error-banner {
+    background: var(--red-soft); border: 1px solid #e0bcbc; color: var(--red);
+    border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem;
+    font-size: 0.88rem;
+  }
+  .hidden { display: none !important; }
+
+  /* Add URL button area */
+  .add-url-area { margin-top: 0.5rem; }
+
+  /* Step 3 generate loading */
+  #gen-loading {
+    background: var(--accent-soft);
+    border: 1px solid #c4dcd2;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+  #gen-loading p { margin-top: 0.3rem; color: var(--muted); font-size: 0.84rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">Site<span class="dot">Builder</span></span>
+  <span class="tagline">Cinematic website generator for Ahrendezvous Entertainment</span>
+</header>
+
+<main>
+  <!-- Step indicator -->
+  <div class="steps-nav">
+    <div class="step-item active" data-step="1">
+      <div class="step-num"><span>1</span></div>
+      <span class="step-label">Inspiration</span>
+    </div>
+    <div class="step-item" data-step="2">
+      <div class="step-num"><span>2</span></div>
+      <span class="step-label">Your Content</span>
+    </div>
+    <div class="step-item" data-step="3">
+      <div class="step-num"><span>3</span></div>
+      <span class="step-label">Generate</span>
+    </div>
+    <div class="step-item" data-step="4">
+      <div class="step-num"><span>4</span></div>
+      <span class="step-label">Preview</span>
+    </div>
+  </div>
+
+  <!-- ── Step 1: Inspiration URLs ── -->
+  <section id="section-1" class="step-section active">
+    <h2 class="section-title">Inspiration Sites</h2>
+    <p class="section-desc">Add up to 4 websites whose visual style you want to draw inspiration from. After each analysis, tell us what you love about it — this shapes the design direction.</p>
+
+    <div id="inspirations-container"></div>
+
+    <div class="add-url-area">
+      <button class="ghost" id="add-url-btn" onclick="addInspirationRow()">+ Add another URL</button>
+    </div>
+
+    <div id="step1-error" class="error-banner hidden"></div>
+
+    <div class="nav-actions">
+      <button class="primary" id="step1-next" onclick="goToStep(2)" disabled>
+        Next: Add Your Content →
+      </button>
+      <span class="status-msg" id="step1-hint">Analyze at least one site and share what you like about it to continue.</span>
+    </div>
+  </section>
+
+  <!-- ── Step 2: Content Source ── -->
+  <section id="section-2" class="step-section">
+    <h2 class="section-title">Your Existing Site</h2>
+    <p class="section-desc">Enter your current website URL to extract your company's content — your copy, services, and portfolio. We'll use this to populate the new site. You can also skip this step.</p>
+
+    <div class="panel">
+      <label>Current website URL <span class="hint">— Squarespace, Wix, etc.</span></label>
+      <div class="url-input-row">
+        <input type="url" id="source-url" placeholder="https://yoursite.com" class="url-input">
+        <button class="primary" id="scrape-btn" onclick="scrapeContent()">Extract Content</button>
+      </div>
+
+      <div id="source-error" class="fetch-error hidden" style="margin-top:0.8rem">
+        <div class="err-text" id="source-err-text"></div>
+        <div class="paste-section">
+          <p>Paste your site's HTML source instead (open your site → Ctrl+U to view source → copy all):</p>
+          <textarea id="source-paste" class="paste-textarea" rows="5" placeholder="Paste full HTML source here..."></textarea>
+          <button class="ghost" onclick="scrapePasted()">Extract from pasted HTML</button>
+        </div>
+      </div>
+
+      <div id="content-card" class="content-card hidden">
+        <div class="content-success-badge">✓ Content extracted</div>
+        <div class="content-fields" id="content-fields-display"></div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="ghost" onclick="goToStep(1)">← Back</button>
+      <button class="primary" onclick="goToStep(3)">Next: Review & Generate →</button>
+      <button class="ghost" onclick="skipContent()">Skip (use defaults)</button>
+    </div>
+  </section>
+
+  <!-- ── Step 3: Review & Generate ── -->
+  <section id="section-3" class="step-section">
+    <h2 class="section-title">Review & Generate</h2>
+    <p class="section-desc">Review what we've collected and add any final instructions before Claude builds your site.</p>
+
+    <div id="brief-container"></div>
+
+    <div class="panel" style="margin-top:1rem">
+      <label for="additional-notes">Additional instructions <span class="hint">— optional, be as specific as you like</span></label>
+      <textarea id="additional-notes" rows="4" placeholder="e.g., Extra dramatic — use a deep blood-red accent instead of gold. Add a cinematic film grain texture overlay. Make the hero text even larger and more imposing. Include a showreel video embed placeholder..."></textarea>
+    </div>
+
+    <div id="gen-loading" class="hidden">
+      <strong>Generating your cinematic website…</strong>
+      <p>Claude is crafting your site. This typically takes 30–90 seconds — please don't close the tab.</p>
+    </div>
+
+    <div id="step3-error" class="error-banner hidden" style="margin-top:0.8rem"></div>
+
+    <div class="nav-actions">
+      <button class="ghost" onclick="goToStep(2)">← Back</button>
+      <button class="primary" id="generate-btn" onclick="generateSite()">Generate Site →</button>
+    </div>
+  </section>
+
+  <!-- ── Step 4: Preview ── -->
+  <section id="section-4" class="step-section">
+    <h2 class="section-title">Your Site Preview</h2>
+    <p class="section-desc">Preview your generated website below. When you're happy with it, download the HTML file — it's fully self-contained and ready to deploy.</p>
+
+    <div class="preview-toolbar">
+      <button class="primary" onclick="downloadSite()">⬇ Download HTML</button>
+      <button class="ghost" onclick="goToStep(3)">Regenerate with changes</button>
+      <button class="ghost" onclick="goToStep(1)">← Start over</button>
+    </div>
+
+    <iframe id="preview-iframe" sandbox="allow-scripts allow-same-origin" title="Site preview"></iframe>
+  </section>
+</main>
+
+<footer style="text-align:center;color:var(--muted);font-size:0.8rem;padding:2rem 0 3rem">
+  Powered by Claude · Ahrendezvous Entertainment
+</footer>
+
+<script>
+const state = {
+  inspirations: [],
+  content: null,
+  generatedHtml: null,
+  currentStep: 1,
+};
+let inspirationCount = 0;
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+
+function $(id) { return document.getElementById(id); }
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+  );
+}
+
+function showError(containerId, message) {
+  const el = $(containerId);
+  if (!el) return;
+  el.textContent = message;
+  el.classList.remove("hidden");
+}
+
+function clearError(containerId) {
+  const el = $(containerId);
+  if (el) el.classList.add("hidden");
+}
+
+// ── Step navigation ────────────────────────────────────────────────────────
+
+function goToStep(step) {
+  document.querySelectorAll(".step-section").forEach(s => s.classList.remove("active"));
+  $(`section-${step}`).classList.add("active");
+
+  document.querySelectorAll(".step-item").forEach(item => {
+    const n = parseInt(item.dataset.step);
+    item.classList.remove("active", "done");
+    if (n === step) item.classList.add("active");
+    else if (n < step) item.classList.add("done");
+  });
+
+  if (step === 3) buildBrief();
+  state.currentStep = step;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Step 1: Inspiration URLs ───────────────────────────────────────────────
+
+function addInspirationRow() {
+  if (inspirationCount >= 4) return;
+  const idx = inspirationCount++;
+  state.inspirations[idx] = { url: "", analysis: "", userLikes: "" };
+
+  const container = $("inspirations-container");
+  const div = document.createElement("div");
+  div.className = "insp-row";
+  div.id = `insp-row-${idx}`;
+  div.innerHTML = `
+    <div class="insp-header">
+      <div class="insp-num">${idx + 1}</div>
+      <span class="insp-title">Inspiration site ${idx + 1}</span>
+    </div>
+    <div class="url-input-row">
+      <input type="url" id="url-input-${idx}" placeholder="https://..." class="url-input"
+        onkeydown="if(event.key==='Enter') analyzeInspiration(${idx})">
+      <button class="primary" id="analyze-btn-${idx}" onclick="analyzeInspiration(${idx})">Analyze</button>
+    </div>
+
+    <div id="fetch-err-${idx}" class="fetch-error hidden" style="margin-top:0.8rem">
+      <div class="err-text" id="fetch-err-text-${idx}"></div>
+      <div class="paste-section">
+        <p>Paste this site's HTML source instead (view-source: or Ctrl+U → copy all):</p>
+        <textarea id="paste-html-${idx}" class="paste-textarea" rows="4"
+          placeholder="Paste full HTML source here..."></textarea>
+        <button class="ghost" onclick="analyzePasted(${idx})">Analyze pasted HTML</button>
+      </div>
+    </div>
+
+    <div id="analysis-card-${idx}" class="analysis-card hidden">
+      <div class="analysis-label">Visual style analysis</div>
+      <div class="analysis-text" id="analysis-text-${idx}"></div>
+      <label class="user-likes-label" for="user-likes-${idx}">
+        What do you enjoy about this site? <span class="hint">— be specific, this shapes the design</span>
+      </label>
+      <textarea class="user-likes" id="user-likes-${idx}" rows="3"
+        placeholder="e.g., The dark, moody atmosphere. The way typography commands attention. The smooth parallax scrolling. The gold accents against black..."
+        oninput="updateUserLikes(${idx})"></textarea>
+    </div>
+  `;
+  container.appendChild(div);
+
+  if (inspirationCount >= 4) $("add-url-btn").disabled = true;
+  updateStep1Next();
+}
+
+async function analyzeInspiration(idx) {
+  const urlInput = $(`url-input-${idx}`);
+  const btn = $(`analyze-btn-${idx}`);
+  const url = urlInput.value.trim();
+
+  if (!url) { urlInput.focus(); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing…';
+  $(`fetch-err-${idx}`).classList.add("hidden");
+  $(`analysis-card-${idx}`).classList.add("hidden");
+  clearError("step1-error");
+
+  try {
+    const res = await fetch("/api/analyze-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    const data = await res.json();
+
+    if (data.fetchFailed) {
+      $(`fetch-err-text-${idx}`).textContent = data.error || "Could not fetch this URL.";
+      $(`fetch-err-${idx}`).classList.remove("hidden");
+    } else if (data.error) {
+      showError("step1-error", data.error);
+    } else {
+      state.inspirations[idx] = { url, analysis: data.analysis, userLikes: "" };
+      $(`analysis-text-${idx}`).textContent = data.analysis;
+      $(`analysis-card-${idx}`).classList.remove("hidden");
+      updateStep1Next();
+    }
+  } catch (err) {
+    showError("step1-error", `Network error: ${err.message}`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Re-analyze";
+  }
+}
+
+async function analyzePasted(idx) {
+  const pastedHtml = $(`paste-html-${idx}`).value.trim();
+  if (!pastedHtml) return;
+
+  const btn = $(`paste-html-${idx}`).nextElementSibling;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analyzing…';
+
+  try {
+    const res = await fetch("/api/analyze-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ html: pastedHtml }),
+    });
+    const data = await res.json();
+
+    if (data.error) {
+      showError("step1-error", data.error);
+    } else {
+      const url = $(`url-input-${idx}`).value.trim() || `pasted-${idx + 1}`;
+      state.inspirations[idx] = { url, analysis: data.analysis, userLikes: "" };
+      $(`analysis-text-${idx}`).textContent = data.analysis;
+      $(`analysis-card-${idx}`).classList.remove("hidden");
+      $(`fetch-err-${idx}`).classList.add("hidden");
+      updateStep1Next();
+    }
+  } catch (err) {
+    showError("step1-error", `Error: ${err.message}`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Analyze pasted HTML";
+  }
+}
+
+function updateUserLikes(idx) {
+  if (state.inspirations[idx]) {
+    state.inspirations[idx].userLikes = $(`user-likes-${idx}`).value;
+    updateStep1Next();
+  }
+}
+
+function updateStep1Next() {
+  const filled = state.inspirations.filter(i => i.analysis && i.userLikes?.trim());
+  const btn = $("step1-next");
+  const hint = $("step1-hint");
+  if (filled.length > 0) {
+    btn.disabled = false;
+    hint.textContent = `${filled.length} inspiration${filled.length > 1 ? "s" : ""} ready.`;
+  } else {
+    btn.disabled = true;
+    hint.textContent = "Analyze at least one site and share what you like about it to continue.";
+  }
+}
+
+// ── Step 2: Content Source ─────────────────────────────────────────────────
+
+async function scrapeContent() {
+  const url = $("source-url").value.trim();
+  if (!url) { $("source-url").focus(); return; }
+
+  const btn = $("scrape-btn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Extracting…';
+  $("source-error").classList.add("hidden");
+  $("content-card").classList.add("hidden");
+
+  try {
+    const res = await fetch("/api/scrape-content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    const data = await res.json();
+
+    if (data.fetchFailed) {
+      $("source-err-text").textContent = data.error || "Could not fetch this URL.";
+      $("source-error").classList.remove("hidden");
+    } else if (data.error) {
+      $("source-err-text").textContent = data.error;
+      $("source-error").classList.remove("hidden");
+    } else {
+      state.content = data;
+      renderContentCard(data);
+    }
+  } catch (err) {
+    $("source-err-text").textContent = `Network error: ${err.message}`;
+    $("source-error").classList.remove("hidden");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Re-extract";
+  }
+}
+
+async function scrapePasted() {
+  const html = $("source-paste").value.trim();
+  if (!html) return;
+
+  const btn = $("source-paste").nextElementSibling;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Extracting…';
+
+  try {
+    const res = await fetch("/api/scrape-content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ html }),
+    });
+    const data = await res.json();
+
+    if (data.error) {
+      $("source-err-text").textContent = data.error;
+    } else {
+      state.content = data;
+      renderContentCard(data);
+      $("source-error").classList.add("hidden");
+    }
+  } catch (err) {
+    $("source-err-text").textContent = `Error: ${err.message}`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Extract from pasted HTML";
+  }
+}
+
+function skipContent() {
+  state.content = null;
+  goToStep(3);
+}
+
+function renderContentCard(data) {
+  const fields = [
+    ["Company", data.companyName],
+    ["Tagline", data.tagline],
+    ["About", data.about ? data.about.substring(0, 120) + (data.about.length > 120 ? "…" : "") : null],
+    ["Services", data.services?.length ? `${data.services.length} found: ${data.services.map(s => s.name).join(", ")}` : null],
+    ["Portfolio", data.portfolioItems?.length ? `${data.portfolioItems.length} items found` : null],
+    ["Contact", data.contact?.email || data.contact?.phone || data.contact?.social],
+  ].filter(([, v]) => v);
+
+  $("content-fields-display").innerHTML = fields.map(([label, value]) => `
+    <div>
+      <div class="content-field-label">${escapeHtml(label)}</div>
+      <div class="content-field-value">${escapeHtml(value)}</div>
+    </div>
+  `).join("");
+
+  $("content-card").classList.remove("hidden");
+}
+
+// ── Step 3: Brief + Generate ───────────────────────────────────────────────
+
+function buildBrief() {
+  const container = $("brief-container");
+  const filled = state.inspirations.filter(i => i.analysis);
+  let html = "";
+
+  if (filled.length > 0) {
+    html += `<div class="brief-block">
+      <h3>Inspiration Sites (${filled.length})</h3>`;
+    for (const ins of filled) {
+      html += `<div class="brief-insp-item">
+        <div class="brief-url">${escapeHtml(ins.url || "Pasted HTML")}</div>
+        <div class="brief-analysis">${escapeHtml(ins.analysis.substring(0, 220))}${ins.analysis.length > 220 ? "…" : ""}</div>
+        ${ins.userLikes ? `<div class="brief-likes">You like: ${escapeHtml(ins.userLikes)}</div>` : ""}
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (state.content) {
+    const name = state.content.companyName || "—";
+    const tagline = state.content.tagline || "—";
+    const svcCount = (state.content.services || []).length;
+    const portCount = (state.content.portfolioItems || []).length;
+    html += `<div class="brief-block">
+      <h3>Content Source</h3>
+      <div style="font-size:0.9rem">
+        <strong>${escapeHtml(name)}</strong> — ${escapeHtml(tagline)}<br>
+        <span style="color:var(--muted);font-size:0.84rem">${svcCount} service${svcCount !== 1 ? "s" : ""}, ${portCount} portfolio item${portCount !== 1 ? "s" : ""} extracted.</span>
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="brief-block">
+      <h3>Content</h3>
+      <p style="font-size:0.88rem;color:var(--muted)">Using default Ahrendezvous Entertainment content. You can add specific details in the instructions below.</p>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+async function generateSite() {
+  const btn = $("generate-btn");
+  const additionalNotes = $("additional-notes").value;
+  clearError("step3-error");
+  $("gen-loading").classList.remove("hidden");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Generating…';
+
+  try {
+    const res = await fetch("/api/generate-site", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        inspirations: state.inspirations.filter(i => i.analysis),
+        content: state.content,
+        additionalNotes,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) throw new Error(data.error || "Generation failed");
+
+    state.generatedHtml = data.html;
+    goToStep(4);
+
+    // Load preview via Blob URL so scripts and CDN links work
+    const blob = new Blob([data.html], { type: "text/html" });
+    const blobUrl = URL.createObjectURL(blob);
+    $("preview-iframe").src = blobUrl;
+  } catch (err) {
+    showError("step3-error", `Generation failed: ${err.message}`);
+  } finally {
+    $("gen-loading").classList.add("hidden");
+    btn.disabled = false;
+    btn.textContent = "Generate Site →";
+  }
+}
+
+// ── Step 4: Download ───────────────────────────────────────────────────────
+
+function downloadSite() {
+  if (!state.generatedHtml) return;
+  const blob = new Blob([state.generatedHtml], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ahrendezvous-entertainment.html";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+// Start with one inspiration row
+addInspirationRow();
+</script>
+</body>
+</html>
