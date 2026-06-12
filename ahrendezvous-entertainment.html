@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahrendezvous — Content Creation & Cinematic Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── Tokens ───────────────────────────────────────────────── */
+:root {
+  --obsidian:   #0D0D0D;
+  --shadow:     #1A1A1A;
+  --gold:       #C5A880;
+  --gold-dim:   rgba(197,168,128,0.18);
+  --parchment:  #F7F5F0;
+  --slate:      #4A5551;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+  --sp: clamp(5rem, 10vw, 9rem);
+  --gutter: clamp(1.5rem, 6vw, 7rem);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--obsidian);
+  color: var(--parchment);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ─── Nav ────────────────────────────────────────────────────── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 1.8rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: padding .4s, background .4s, backdrop-filter .4s;
+}
+#nav.scrolled {
+  padding: 1rem var(--gutter);
+  background: rgba(13,13,13,.92);
+  backdrop-filter: blur(14px);
+}
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-decoration: none;
+  color: var(--parchment);
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  gap: 2.8rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(247,245,240,.55);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--parchment);
+  transition: all .3s;
+}
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: rgba(13,13,13,.97);
+    backdrop-filter: blur(16px);
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem;
+    gap: 2rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: .85rem; }
+}
+
+/* ─── Hero ────────────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--obsidian);
+}
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+}
+/* subtle vignette over canvas */
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(13,13,13,.65) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  max-width: 900px;
+}
+.hero-eyebrow {
+  font-size: .68rem;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.8rem;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 9.5vw, 8.5rem);
+  font-weight: 900;
+  letter-spacing: .06em;
+  line-height: .92;
+  color: var(--parchment);
+  margin-bottom: 2rem;
+}
+.hero-tagline {
+  font-size: clamp(.9rem, 1.6vw, 1.05rem);
+  color: rgba(247,245,240,.62);
+  max-width: 560px;
+  margin: 0 auto 2.8rem;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.hero-ctas {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-fill {
+  background: var(--gold);
+  color: var(--obsidian);
+  padding: .9rem 2.2rem;
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid var(--gold);
+  transition: background .22s, transform .22s;
+  display: inline-block;
+}
+.btn-fill:hover { background: #d4b690; border-color: #d4b690; transform: translateY(-2px); }
+.btn-ghost {
+  border: 1.5px solid rgba(197,168,128,.4);
+  color: var(--gold);
+  padding: .9rem 2.2rem;
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background .22s, border-color .22s;
+  display: inline-block;
+}
+.btn-ghost:hover { background: rgba(197,168,128,.07); border-color: var(--gold); }
+.hero-scroll {
+  position: absolute;
+  bottom: 2.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+}
+.scroll-word {
+  font-size: .58rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(247,245,240,.3);
+}
+.scroll-bar {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollbar 2.2s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes scrollbar {
+  0%, 100% { opacity: .35; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.15); }
+}
+
+/* ─── Shared section chrome ─────────────────────────────────── */
+.section-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.eyebrow {
+  display: block;
+  font-size: .65rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.s-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--parchment);
+  margin-bottom: 1.2rem;
+}
+.s-body {
+  font-size: .97rem;
+  color: rgba(247,245,240,.62);
+  max-width: 54ch;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.gold-rule { width: 44px; height: 1px; background: var(--gold); margin: 1.6rem 0; }
+.gold-rule--center { margin-left: auto; margin-right: auto; }
+
+/* ─── About ──────────────────────────────────────────────────── */
+#about {
+  padding: var(--sp) var(--gutter);
+  background: var(--obsidian);
+  text-align: center;
+}
+#about .section-inner { display: flex; flex-direction: column; align-items: center; }
+#about .s-body { text-align: center; margin-bottom: 4.5rem; }
+#about .gold-rule { margin-bottom: 1.8rem; }
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  border: 1px solid var(--gold-dim);
+}
+@media (max-width: 768px) { .pillars { grid-template-columns: 1fr; } }
+.pillar {
+  padding: 2.8rem 2.2rem;
+  border-right: 1px solid var(--gold-dim);
+  text-align: left;
+  transition: background .3s;
+}
+.pillar:last-child { border-right: none; }
+@media (max-width: 768px) {
+  .pillar { border-right: none; border-bottom: 1px solid var(--gold-dim); }
+  .pillar:last-child { border-bottom: none; }
+}
+.pillar:hover { background: rgba(197,168,128,.03); }
+.pillar-num {
+  font-family: var(--font-serif);
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: rgba(197,168,128,.1);
+  line-height: 1;
+  margin-bottom: .9rem;
+  letter-spacing: -.02em;
+}
+.pillar h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--parchment);
+  margin-bottom: .55rem;
+  font-weight: 700;
+}
+.pillar p {
+  font-size: .85rem;
+  color: rgba(247,245,240,.52);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ─── Services ───────────────────────────────────────────────── */
+#services {
+  padding: var(--sp) var(--gutter);
+  background: var(--shadow);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+@media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+.svc {
+  background: var(--obsidian);
+  border: 1px solid var(--gold-dim);
+  padding: 2.8rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color .3s;
+}
+.svc:hover { border-color: rgba(197,168,128,.45); }
+.svc--hero {
+  border-color: rgba(197,168,128,.4);
+}
+.svc--hero::before {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: -1px; left: 2.4rem;
+  background: var(--gold);
+  color: var(--obsidian);
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  padding: .28rem .7rem;
+}
+.svc-tier {
+  font-size: .62rem;
+  letter-spacing: .28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: .9rem;
+  font-weight: 600;
+}
+.svc-name {
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--parchment);
+  margin-bottom: .5rem;
+  line-height: 1.15;
+}
+.svc-price {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: .3rem;
+}
+.svc-price sup { font-size: 1.1rem; vertical-align: super; }
+.svc-price span { font-size: .95rem; font-family: var(--font-sans); color: rgba(247,245,240,.4); font-weight: 300; }
+.svc-commit {
+  font-size: .74rem;
+  color: rgba(247,245,240,.35);
+  margin-bottom: 2rem;
+  letter-spacing: .04em;
+}
+.svc-rule { width: 36px; height: 1px; background: var(--gold); opacity: .35; margin-bottom: 2rem; }
+.svc-feats {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 1.6rem;
+}
+.svc-feats li {
+  font-size: .86rem;
+  color: rgba(247,245,240,.7);
+  padding: .5rem 0 .5rem 1.1rem;
+  border-bottom: 1px solid rgba(247,245,240,.05);
+  position: relative;
+  font-weight: 300;
+}
+.svc-feats li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: .68rem;
+  top: .55rem;
+}
+.svc-ideal {
+  font-size: .8rem;
+  font-style: italic;
+  color: rgba(247,245,240,.38);
+  margin-bottom: 1.8rem;
+  line-height: 1.55;
+}
+.svc-btn {
+  display: block;
+  text-align: center;
+  padding: .88rem;
+  border: 1.5px solid rgba(197,168,128,.38);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  transition: all .25s;
+}
+.svc-btn:hover { background: var(--gold); color: var(--obsidian); border-color: var(--gold); }
+.svc--hero .svc-btn {
+  background: var(--gold);
+  color: var(--obsidian);
+  border-color: var(--gold);
+}
+.svc--hero .svc-btn:hover { background: #d4b690; border-color: #d4b690; }
+
+/* ─── Artist Hub ─────────────────────────────────────────────── */
+#hub {
+  padding: var(--sp) var(--gutter);
+  background: var(--obsidian);
+  position: relative;
+  overflow: hidden;
+}
+.hub-bg-word {
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-serif);
+  font-size: clamp(7rem, 20vw, 22rem);
+  font-weight: 900;
+  color: rgba(197,168,128,.025);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+.hub-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+#hub .s-body { margin-bottom: 2.8rem; }
+.hub-tag {
+  display: inline-block;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: .35rem .9rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* ─── Community ──────────────────────────────────────────────── */
+#community {
+  padding: var(--sp) var(--gutter);
+  background: var(--shadow);
+}
+.comm-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin-top: 3.5rem;
+}
+@media (max-width: 768px) { .comm-grid { grid-template-columns: 1fr; } }
+.comm-card {
+  background: var(--obsidian);
+  border: 1px solid rgba(74,85,81,.35);
+  padding: 2.2rem;
+  transition: border-color .3s, background .3s;
+}
+.comm-card:hover {
+  border-color: var(--slate);
+  background: rgba(74,85,81,.06);
+}
+.comm-glyph {
+  font-size: 1.4rem;
+  margin-bottom: 1.1rem;
+  display: block;
+  line-height: 1;
+}
+.comm-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  color: var(--parchment);
+  margin-bottom: .45rem;
+  font-weight: 700;
+}
+.comm-card p {
+  font-size: .84rem;
+  color: rgba(247,245,240,.5);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ─── Contact ────────────────────────────────────────────────── */
+#contact {
+  padding: var(--sp) var(--gutter);
+  background: var(--obsidian);
+  text-align: center;
+}
+#contact .section-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#contact .s-heading { font-size: clamp(2.4rem, 5vw, 4.2rem); }
+#contact .s-body { text-align: center; max-width: 44ch; margin: 0 auto 1.5rem; }
+.contact-line {
+  width: 1px;
+  height: 55px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  margin: 0 auto 2rem;
+}
+.contact-email-link {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(197,168,128,.3);
+  padding-bottom: .2rem;
+  transition: border-color .2s, color .2s;
+  display: inline-block;
+  margin-bottom: 3.5rem;
+  font-style: italic;
+}
+.contact-email-link:hover { color: #d4b690; border-color: var(--gold); }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+footer {
+  background: #080808;
+  padding: 2.2rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  border-top: 1px solid rgba(197,168,128,.06);
+}
+.footer-logo {
+  font-family: var(--font-serif);
+  font-size: .82rem;
+  letter-spacing: .16em;
+  color: rgba(247,245,240,.35);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.footer-copy { font-size: .68rem; color: rgba(247,245,240,.2); letter-spacing: .04em; }
+.footer-links { display: flex; gap: 1.8rem; }
+.footer-links a {
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(247,245,240,.28);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--gold); }
+@media (max-width: 600px) {
+  footer { flex-direction: column; align-items: flex-start; gap: .8rem; }
+  .footer-links { gap: 1.2rem; }
+}
+
+/* ─── Utility ────────────────────────────────────────────────── */
+.visually-hidden { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ─────────────────────────────────────────────────────── -->
+<nav id="nav" role="navigation">
+  <a href="#" class="nav-logo">Ahrendezvous</a>
+  <ul class="nav-links" id="nav-links" role="list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#hub">Artist Hub</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────── -->
+<section id="hero" aria-label="Hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">West Midtown · Atlanta</p>
+    <h1 class="hero-title">AHRENDEZVOUS</h1>
+    <p class="hero-tagline">Bridging the post-pandemic isolation gap through high-end production, vetted collaboration, and curated cultural experiences.</p>
+    <div class="hero-ctas">
+      <a href="#services" class="btn-fill">View Services</a>
+      <a href="#contact" class="btn-ghost">Book a Session</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span class="scroll-word">Scroll</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- ── About ────────────────────────────────────────────────────── -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Sanctuary · Studio · Community</span>
+    <h2 class="s-heading" id="about-heading" data-reveal>More Than a Studio.<br>A Movement.</h2>
+    <div class="gold-rule gold-rule--center" data-reveal></div>
+    <p class="s-body" data-reveal>
+      Ahrendezvous is a physical, commercial, and artistic sanctuary engineered to address the post-COVID loneliness crisis. With a distinct, moody, auteur-driven aesthetic, we operate at the intersection of commerce, creativity, and community in Atlanta.
+    </p>
+
+    <div class="pillars" data-stagger-group>
+      <div class="pillar" data-stagger-item>
+        <div class="pillar-num">01</div>
+        <h3>Commercial</h3>
+        <p>Connecting B2B brands and luxury local businesses with high-end visual storytelling — photography and cinematography that moves product and builds identity.</p>
+      </div>
+      <div class="pillar" data-stagger-item>
+        <div class="pillar-num">02</div>
+        <h3>Professional</h3>
+        <p>Eliminating the "lone wolf" bottleneck through the invite-only Nationwide Artist Hub and our signature REP SHEET — a vetted creative directory unlike anything else.</p>
+      </div>
+      <div class="pillar" data-stagger-item>
+        <div class="pillar-num">03</div>
+        <h3>Cultural</h3>
+        <p>Organizing curated community experiences, art exhibitions, and brand activations across Atlanta — because creativity compounds in community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services ─────────────────────────────────────────────────── -->
+<section id="services" aria-labelledby="services-heading">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Content Packages</span>
+    <h2 class="s-heading" id="services-heading" data-reveal>Built for Brands<br>That Mean It.</h2>
+    <div class="gold-rule" data-reveal></div>
+    <p class="s-body" data-reveal>Monthly production retainers structured around predictable output and uncompromising quality. Choose your level of investment.</p>
+
+    <div class="services-grid" data-stagger-group>
+      <!-- Tier 1 -->
+      <div class="svc" data-stagger-item>
+        <div class="svc-tier">Tier 01</div>
+        <h3 class="svc-name">The Social Engine</h3>
+        <div class="svc-price"><sup>$</sup>2,000 <span>/ month</span></div>
+        <div class="svc-commit">3, 6, or 12 month commitment</div>
+        <div class="svc-rule"></div>
+        <ul class="svc-feats">
+          <li>One 3-hour studio production block monthly</li>
+          <li>8 fully edited short-form videos (color-graded, custom audio, captions)</li>
+          <li>10 high-resolution editorial brand photos</li>
+          <li>10-day guaranteed delivery</li>
+          <li>2 rounds of revisions</li>
+        </ul>
+        <p class="svc-ideal">Ideal for brands establishing authority on Reels, TikTok, and YouTube Shorts.</p>
+        <a href="#contact" class="svc-btn">Start with Tier 01</a>
+      </div>
+      <!-- Tier 2 -->
+      <div class="svc svc--hero" data-stagger-item>
+        <div class="svc-tier">Tier 02</div>
+        <h3 class="svc-name">The Enterprise Presence</h3>
+        <div class="svc-price"><sup>$</sup>5,000 <span>/ month</span></div>
+        <div class="svc-commit">3, 6, or 12 month commitment</div>
+        <div class="svc-rule"></div>
+        <ul class="svc-feats">
+          <li>One 8-hour production block (or two 4-hour sessions)</li>
+          <li>16 short-form videos + 1 cinematic long-form brand video</li>
+          <li>25 high-resolution editorial brand photos</li>
+          <li>Priority 24–72 hour turnaround</li>
+          <li>Custom aesthetic direction templates</li>
+          <li>Monthly visual audit &amp; strategy calls</li>
+          <li>5 rounds of revisions</li>
+        </ul>
+        <p class="svc-ideal">Complete digital overhaul for premium service brands and high-tier creators.</p>
+        <a href="#contact" class="svc-btn">Start with Tier 02</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Artist Hub ───────────────────────────────────────────────── -->
+<section id="hub" aria-labelledby="hub-heading">
+  <div class="hub-bg-word" aria-hidden="true">REP</div>
+  <div class="section-inner">
+    <div class="hub-inner">
+      <span class="hub-tag" data-reveal>Invite Only</span>
+      <span class="eyebrow" data-reveal>Nationwide Artist Hub</span>
+      <h2 class="s-heading" id="hub-heading" data-reveal>The REP SHEET</h2>
+      <div class="gold-rule" data-reveal></div>
+      <p class="s-body" data-reveal>
+        Stop working alone. The REP SHEET is Ahrendezvous's invite-only creative directory — a physical and digital network of vetted photographers, cinematographers, directors, and producers nationwide. Built to eliminate the lone-wolf bottleneck that's slowing your art down.
+      </p>
+      <br data-reveal>
+      <a href="#contact" class="btn-ghost" data-reveal>Request an Invitation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Community ────────────────────────────────────────────────── -->
+<section id="community" aria-labelledby="community-heading">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Atlanta &amp; Beyond</span>
+    <h2 class="s-heading" id="community-heading" data-reveal>Where Culture<br>Gets Made.</h2>
+    <div class="gold-rule" data-reveal></div>
+    <p class="s-body" data-reveal>Ahrendezvous isn't just a studio — it's an ecosystem. We produce events, exhibitions, and activations that bring the creative community together.</p>
+
+    <div class="comm-grid" data-stagger-group>
+      <div class="comm-card" data-stagger-item>
+        <span class="comm-glyph">◈</span>
+        <h3>Art Exhibitions</h3>
+        <p>Curated showcases bringing Atlanta's most compelling visual work to audiences that actually show up — intimate, intentional, electric.</p>
+      </div>
+      <div class="comm-card" data-stagger-item>
+        <span class="comm-glyph">◉</span>
+        <h3>Brand Activations</h3>
+        <p>Experience-first activations for luxury and emerging local brands — where culture and commerce intersect at the highest level.</p>
+      </div>
+      <div class="comm-card" data-stagger-item>
+        <span class="comm-glyph">◐</span>
+        <h3>Film &amp; Photography Camps</h3>
+        <p>Intensive mentorship programs scaling raw talent into working professionals — hands-on, no fluff, taught by creatives who've done it.</p>
+      </div>
+      <div class="comm-card" data-stagger-item>
+        <span class="comm-glyph">◑</span>
+        <h3>Curated Experiences</h3>
+        <p>From rooftop screenings to private studio dinners, Ahrendezvous creates the environments where meaningful creative connections happen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ──────────────────────────────────────────────────── -->
+<section id="contact" aria-labelledby="contact-heading">
+  <div class="section-inner">
+    <span class="eyebrow" data-reveal>Get In Touch</span>
+    <h2 class="s-heading" id="contact-heading" data-reveal>Let's Create<br>Together.</h2>
+    <div class="contact-line" data-reveal aria-hidden="true"></div>
+    <p class="s-body" data-reveal>Whether you're a brand ready to invest in your visual identity, a creative looking to join the network, or an Atlanta institution wanting to collaborate — the door is open.</p>
+    <br>
+    <a href="mailto:support@ahrendezvous.com" class="contact-email-link" data-reveal>support@ahrendezvous.com</a>
+    <div class="hero-ctas" data-reveal>
+      <a href="mailto:support@ahrendezvous.com" class="btn-fill">Start a Project</a>
+      <a href="#hub" class="btn-ghost">Join the Hub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────────── -->
+<footer>
+  <a href="#" class="footer-logo">Ahrendezvous</a>
+  <span class="footer-copy">© 2025 Ahrendezvous · West Midtown, Atlanta</span>
+  <nav class="footer-links" aria-label="Footer navigation">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#hub">Hub</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</footer>
+
+<!-- ── Scripts ─────────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// NAV — mobile toggle + scroll state
+// ═══════════════════════════════════════════════════════════════
+const nav       = document.getElementById('nav');
+const navToggle = document.getElementById('nav-toggle');
+const navLinks  = document.getElementById('nav-links');
+
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+
+// Close on link click (mobile)
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+
+// ═══════════════════════════════════════════════════════════════
+// THREE.JS HERO  — interactive particles + wireframe geometry
+// ═══════════════════════════════════════════════════════════════
+(function initThree() {
+  const canvas = document.getElementById('hero-canvas');
+  const heroEl = document.getElementById('hero');
+
+  // Scene
+  const scene    = new THREE.Scene();
+  const W        = window.innerWidth;
+  const H        = window.innerHeight;
+  const camera   = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
+  camera.position.set(0, 0, 6);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  // ── Particle field ──────────────────────────────────────────
+  const isMobile = W < 768;
+  const N        = isMobile ? 900 : 2000;
+
+  const positions  = new Float32Array(N * 3);
+  const colors     = new Float32Array(N * 3);
+  const velocities = [];
+
+  // Aura Gold → Classic Parchment gradient palette
+  const GOLD_R = 197/255, GOLD_G = 168/255, GOLD_B = 128/255;
+  const PARC_R = 247/255, PARC_G = 245/255, PARC_B = 240/255;
+
+  for (let i = 0; i < N; i++) {
+    positions[i*3]   = (Math.random() - 0.5) * 26;
+    positions[i*3+1] = (Math.random() - 0.5) * 26;
+    positions[i*3+2] = (Math.random() - 0.5) * 14;
+
+    const t = Math.random();
+    colors[i*3]   = GOLD_R + (PARC_R - GOLD_R) * t * 0.45;
+    colors[i*3+1] = GOLD_G + (PARC_G - GOLD_G) * t * 0.45;
+    colors[i*3+2] = GOLD_B + (PARC_B - GOLD_B) * t * 0.45;
+
+    velocities.push({
+      x: (Math.random() - 0.5) * 0.0035,
+      y:  Math.random()        * 0.007 + 0.0008,
+      z: 0
+    });
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
+
+  const mat = new THREE.PointsMaterial({
+    size: 0.038,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.72,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    sizeAttenuation: true,
+  });
+
+  const points = new THREE.Points(geo, mat);
+  scene.add(points);
+
+  // ── Central wireframe — torus knot (primary interactive form) ──
+  const tkGeo = new THREE.TorusKnotGeometry(1.85, 0.46, 130, 20);
+  const tkMat = new THREE.MeshBasicMaterial({
+    color: 0xC5A880,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.09,
+  });
+  const tk = new THREE.Mesh(tkGeo, tkMat);
+  scene.add(tk);
+
+  // ── Outer icosahedron shell (depth layer) ───────────────────
+  const icoGeo = new THREE.IcosahedronGeometry(3.8, 1);
+  const icoMat = new THREE.MeshBasicMaterial({
+    color: 0x4A5551,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.035,
+  });
+  const ico = new THREE.Mesh(icoGeo, icoMat);
+  scene.add(ico);
+
+  // ── Mouse tracking ──────────────────────────────────────────
+  let targetMX = 0, targetMY = 0;
+  let smoothMX = 0, smoothMY = 0;
+
+  window.addEventListener('mousemove', e => {
+    targetMX = (e.clientX / window.innerWidth  - 0.5);
+    targetMY = (e.clientY / window.innerHeight - 0.5);
+  }, { passive: true });
+
+  // Touch support
+  window.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    targetMX = (t.clientX / window.innerWidth  - 0.5);
+    targetMY = (t.clientY / window.innerHeight - 0.5);
+  }, { passive: true });
+
+  // ── Resize ─────────────────────────────────────────────────
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }, { passive: true });
+
+  // ── Animate ────────────────────────────────────────────────
+  let frame = 0;
+
+  function tick() {
+    requestAnimationFrame(tick);
+    frame++;
+
+    // Smooth mouse lerp
+    smoothMX += (targetMX - smoothMX) * 0.028;
+    smoothMY += (targetMY - smoothMY) * 0.028;
+
+    // Torus knot: rotate + follow mouse slightly
+    tk.rotation.x += 0.0028;
+    tk.rotation.y += 0.0065;
+    tk.position.x  += (smoothMX * 0.9 - tk.position.x) * 0.025;
+    tk.position.y  += (-smoothMY * 0.9 - tk.position.y) * 0.025;
+
+    // Icosahedron: slow counter-rotation
+    ico.rotation.y += 0.0018;
+    ico.rotation.z += 0.0009;
+
+    // Update particle positions (drift upward, wrap)
+    const pos = geo.attributes.position.array;
+    for (let i = 0; i < N; i++) {
+      pos[i*3]   += velocities[i].x;
+      pos[i*3+1] += velocities[i].y;
+      if (pos[i*3+1] > 13)  pos[i*3+1] = -13;
+      if (pos[i*3]   > 13)  pos[i*3]   = -13;
+      if (pos[i*3]   < -13) pos[i*3]   =  13;
+    }
+    geo.attributes.position.needsUpdate = true;
+
+    // Camera parallax (secondary layer over object mouse-follow)
+    camera.position.x += (smoothMX * 1.4 - camera.position.x) * 0.035;
+    camera.position.y += (-smoothMY * 1.4 - camera.position.y) * 0.035;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  }
+
+  tick();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// GSAP — hero entrance + scroll reveals
+// ═══════════════════════════════════════════════════════════════
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero entrance (staggered, from below)
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+heroTl
+  .from('#nav',            { opacity: 0, y: -20, duration: 0.8 }, 0.1)
+  .from('.hero-eyebrow',   { opacity: 0, y: 25,  duration: 1   }, 0.35)
+  .from('.hero-title',     { opacity: 0, y: 70,  duration: 1.5 }, 0.5)
+  .from('.hero-tagline',   { opacity: 0, y: 40,  duration: 1.2 }, 0.75)
+  .from('.hero-ctas > *',  { opacity: 0, y: 30,  duration: 1, stagger: 0.15 }, 0.95)
+  .from('.hero-scroll',    { opacity: 0, duration: 1 }, 1.4);
+
+// Section reveal — any element with [data-reveal]
+document.querySelectorAll('[data-reveal]').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 55 },
+    {
+      opacity: 1, y: 0,
+      duration: 1.05,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 83%',
+        toggleActions: 'play none none none',
+      }
+    }
+  );
+});
+
+// Stagger groups — children with [data-stagger-item] inside [data-stagger-group]
+document.querySelectorAll('[data-stagger-group]').forEach(group => {
+  const items = group.querySelectorAll('[data-stagger-item]');
+  if (!items.length) return;
+  gsap.fromTo(items,
+    { opacity: 0, y: 65 },
+    {
+      opacity: 1, y: 0,
+      duration: 1,
+      ease: 'power3.out',
+      stagger: 0.14,
+      scrollTrigger: {
+        trigger: group,
+        start: 'top 78%',
+        toggleActions: 'play none none none',
+      }
+    }
+  );
+});
+
+// Pillar numbers — slide in from left
+gsap.from('.pillar-num', {
+  x: -30,
+  opacity: 0,
+  duration: 0.9,
+  ease: 'power3.out',
+  stagger: 0.18,
+  scrollTrigger: {
+    trigger: '.pillars',
+    start: 'top 80%',
+    toggleActions: 'play none none none',
+  }
+});
+
+// Hub background word — slow reveal
+gsap.from('.hub-bg-word', {
+  opacity: 0,
+  x: 80,
+  duration: 1.4,
+  ease: 'power2.out',
+  scrollTrigger: {
+    trigger: '#hub',
+    start: 'top 85%',
+    toggleActions: 'play none none none',
+  }
+});
+
+// Service card hover glow (CSS handles most, but we add a subtle scale)
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('mouseenter', () =>
+    gsap.to(card, { scale: 1.015, duration: 0.3, ease: 'power2.out' })
+  );
+  card.addEventListener('mouseleave', () =>
+    gsap.to(card, { scale: 1,     duration: 0.3, ease: 'power2.out' })
+  );
+});
+
+// Community card accent-color sweep on hover
+document.querySelectorAll('.comm-card').forEach(card => {
+  card.addEventListener('mouseenter', () =>
+    gsap.to(card, { borderColor: 'rgba(74,85,81,0.7)', duration: 0.25 })
+  );
+  card.addEventListener('mouseleave', () =>
+    gsap.to(card, { borderColor: 'rgba(74,85,81,0.35)', duration: 0.25 })
+  );
+});
+</script>
+</body>
+</html>
