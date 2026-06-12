@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal tools for staffing agencies — fixed price, delivered in two weekends</title>
+<meta name="description" content="Custom screening, tracking, and submittal tools for tech staffing agencies. Fixed scope, fixed price, you own everything.">
+<style>
+  :root {
+    --ink: #1a2421; --paper: #f7f5f0; --card: #fff;
+    --accent: #0f6b54; --accent-soft: #e3efe9;
+    --line: #e2ddd2; --muted: #6b7470;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; letter-spacing: -0.01em; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; }
+  .brand { font-family: Georgia, serif; font-weight: 700; font-size: 1.2rem; }
+  .brand span { color: var(--accent); }
+  nav a.cta { background: var(--accent); color: #fff; text-decoration: none; padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+
+  .hero { padding: 4.5rem 0 3.5rem; }
+  .hero h1 { font-size: 2.6rem; line-height: 1.15; max-width: 22ch; margin-bottom: 1.1rem; }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+  .hero p { font-size: 1.12rem; color: var(--muted); max-width: 54ch; margin-bottom: 1.8rem; }
+  .hero .buttons { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .btn { text-decoration: none; font-weight: 600; padding: 0.85rem 1.5rem; border-radius: 8px; }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.secondary { border: 1.5px solid var(--ink); color: var(--ink); }
+
+  section { padding: 3rem 0; border-top: 1px solid var(--line); }
+  section h2 { font-size: 1.7rem; margin-bottom: 0.5rem; }
+  section > .wrap > p.lead { color: var(--muted); max-width: 58ch; margin-bottom: 2rem; }
+
+  .pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+  @media (max-width: 760px) { .pains { grid-template-columns: 1fr; } }
+  .pain { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.3rem; }
+  .pain h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .pain p { font-size: 0.93rem; color: var(--muted); }
+
+  .demo-box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+  .demo-box .txt { flex: 1 1 320px; }
+  .demo-box h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .demo-box p { color: var(--muted); font-size: 0.97rem; margin-bottom: 1rem; }
+  .demo-shot {
+    flex: 1 1 280px; background: var(--accent-soft); border-radius: 10px; padding: 1.2rem;
+    font: 0.8rem/1.6 ui-monospace, Menlo, monospace; color: var(--ink); border: 1px solid #c4dcd2;
+  }
+  .demo-shot .score { color: var(--accent); font-weight: 700; }
+
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+  @media (max-width: 760px) { .tiers { grid-template-columns: 1fr; } }
+  .tier { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.6rem 1.4rem; display: flex; flex-direction: column; }
+  .tier.featured { border: 2px solid var(--accent); }
+  .tier h3 { font-size: 1.1rem; }
+  .tier .price { font-family: Georgia, serif; font-size: 1.9rem; margin: 0.5rem 0 0.2rem; }
+  .tier .per { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; }
+  .tier ul { padding-left: 1.1rem; font-size: 0.92rem; margin-bottom: 1.4rem; flex: 1; }
+  .tier li { margin-bottom: 0.45rem; }
+  .tier a { text-align: center; }
+
+  .how ol { padding-left: 1.3rem; max-width: 60ch; }
+  .how li { margin-bottom: 0.9rem; }
+  .how li strong { font-family: Georgia, serif; }
+
+  .contact { text-align: center; padding: 4rem 0; }
+  .contact h2 { font-size: 1.9rem; margin-bottom: 0.6rem; }
+  .contact p { color: var(--muted); margin-bottom: 1.6rem; }
+
+  footer { border-top: 1px solid var(--line); padding: 1.6rem 0; text-align: center; color: var(--muted); font-size: 0.83rem; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="brand">Shortlist<span>.</span>Studio</div>
+    <a class="cta" href="#contact">Book a build</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Internal tools for staffing agencies — <em>built in two weekends</em>, fixed price.</h1>
+    <p>I replace the spreadsheet your recruiters hate with a tool shaped to your exact workflow —
+       candidate screening, submittal tracking, client reporting. You own the code, the data, everything.</p>
+    <div class="buttons">
+      <a class="btn primary" href="#contact">Tell me about your spreadsheet</a>
+      <a class="btn secondary" href="#demo">See a live demo tool</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The problems I keep seeing inside staffing teams</h2>
+    <p class="lead">Generic ATS platforms are built for everyone, which means they fit no one. The gaps get filled with spreadsheets, sticky notes, and Slack threads.</p>
+    <div class="pains">
+      <div class="pain">
+        <h3>Screening eats the day</h3>
+        <p>Recruiters skim 40 resumes to find 3 worth a call — and the quality bar slips when the req is urgent. Tech roles make it worse: keyword-stuffed resumes all look the same.</p>
+      </div>
+      <div class="pain">
+        <h3>Submittals are hand-written, every time</h3>
+        <p>Every client submittal gets composed from scratch in email. Tone drifts, details get missed, and nobody can find what was promised three weeks later.</p>
+      </div>
+      <div class="pain">
+        <h3>Pipeline lives in someone's head</h3>
+        <p>Which candidates are with which client, who's waiting on feedback, who's about to accept elsewhere — the answer is a tab in someone's browser, until they're on leave.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <h2>A working example: Shortlist</h2>
+    <p class="lead">Built to show what a focused tool looks like. Paste a job spec and a stack of resumes; get fit scores, red flags, screening questions, and a client-ready submittal draft per candidate.</p>
+    <div class="demo-box">
+      <div class="txt">
+        <h3>AI screening, tuned for tech roles</h3>
+        <p>It reads resumes the way your best technical recruiter does — skeptical of buzzwords, looking for evidence of delivered work — and writes the screening call prep for you.</p>
+        <a class="btn primary" href="#contact">Get a walkthrough</a>
+      </div>
+      <div class="demo-shot">
+        Priya Raghavan &nbsp;<span class="score">86/100 · Strong fit</span><br>
+        ✓ Led 2M-MAU microservices migration<br>
+        ✓ Metrics throughout (p95 −40%)<br>
+        ⚠ Two stints under 12 months — probe<br>
+        → Submittal draft ready · 4 screening Qs
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Fixed scope. Fixed price. No surprises.</h2>
+    <p class="lead">Every build starts with a 30-minute call to scope one painful workflow. If I can't help, I'll tell you on that call.</p>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Automation Sprint</h3>
+        <div class="price">$1,500</div>
+        <div class="per">one weekend</div>
+        <ul>
+          <li>One workflow automated end-to-end</li>
+          <li>Connects the tools you already use</li>
+          <li>Loom walkthrough + handover doc</li>
+        </ul>
+        <a class="btn secondary" href="#contact">Start here</a>
+      </div>
+      <div class="tier featured">
+        <h3>Custom Internal Tool</h3>
+        <div class="price">$3,500</div>
+        <div class="per">two weekends</div>
+        <ul>
+          <li>A full tool like Shortlist, shaped to your workflow</li>
+          <li>AI-assisted where it actually helps</li>
+          <li>Your branding, your data, your code</li>
+          <li>Two weeks of post-launch fixes included</li>
+        </ul>
+        <a class="btn primary" href="#contact">Most popular</a>
+      </div>
+      <div class="tier">
+        <h3>Tool + Care Plan</h3>
+        <div class="price">$3,500<span style="font-size:1rem"> + $300/mo</span></div>
+        <div class="per">ongoing</div>
+        <ul>
+          <li>Everything in Custom Internal Tool</li>
+          <li>Monthly improvements and tweaks</li>
+          <li>Priority fixes within 48 hours</li>
+          <li>Cancel anytime, keep the tool</li>
+        </ul>
+        <a class="btn secondary" href="#contact">For growing teams</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Scope call (30 min, free).</strong> You show me the spreadsheet or the workflow that hurts. We agree on exactly what the tool will do — in writing.</li>
+      <li><strong>Build.</strong> I build it over one or two weekends and send progress Looms — no meetings required.</li>
+      <li><strong>Handover.</strong> Your team gets the tool, a walkthrough video, and the keys. You own it outright; there is no lock-in and no per-seat pricing.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Got a spreadsheet your team hates?</h2>
+    <p>Tell me what it does and I'll reply within a day with whether I can replace it, and for how much.</p>
+    <a class="btn primary" href="mailto:ahrenrene@gmail.com?subject=Internal%20tool%20inquiry">ahrenrene@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Shortlist Studio — custom internal tools for staffing &amp; recruiting teams.</div>
+</footer>
+
+</body>
+</html>

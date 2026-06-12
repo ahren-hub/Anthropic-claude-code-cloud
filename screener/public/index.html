@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortlist — AI candidate screening for tech staffing</title>
+<style>
+  :root {
+    --ink: #1a2421;
+    --paper: #f7f5f0;
+    --card: #ffffff;
+    --accent: #0f6b54;
+    --accent-soft: #e3efe9;
+    --amber: #b3641a;
+    --amber-soft: #f6ead9;
+    --red: #a33232;
+    --red-soft: #f5e3e3;
+    --line: #e2ddd2;
+    --muted: #6b7470;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    background: var(--paper); color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 1.1rem 2rem;
+    display: flex; align-items: baseline; gap: 0.9rem;
+    background: var(--card);
+  }
+  .logo { font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; }
+  .logo .dot { color: var(--accent); }
+  .tagline { color: var(--muted); font-size: 0.9rem; }
+  main { max-width: 1060px; margin: 0 auto; padding: 2.2rem 1.5rem 4rem; }
+
+  .intro h1 {
+    font-family: Georgia, serif; font-size: 2rem; font-weight: 700;
+    letter-spacing: -0.015em; margin-bottom: 0.4rem;
+  }
+  .intro p { color: var(--muted); max-width: 56ch; margin-bottom: 2rem; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1.2rem;
+  }
+  .panel label {
+    display: block; font-weight: 600; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.55rem;
+  }
+  .panel .hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); }
+  textarea {
+    width: 100%; min-height: 290px; resize: vertical;
+    border: 1px solid var(--line); border-radius: 7px;
+    padding: 0.8rem; font: 0.88rem/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    background: #fdfcfa; color: var(--ink);
+  }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+
+  .actions { margin-top: 1.4rem; display: flex; align-items: center; gap: 1rem; }
+  button.primary {
+    background: var(--accent); color: #fff; border: none; cursor: pointer;
+    font: 600 1rem/1 inherit; font-family: inherit;
+    padding: 0.85rem 1.7rem; border-radius: 8px;
+  }
+  button.primary:hover { background: #0c5a47; }
+  button.primary:disabled { background: #9ab8af; cursor: wait; }
+  button.ghost {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    font: 500 0.85rem/1 inherit; font-family: inherit;
+    padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer;
+  }
+  button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .status { color: var(--muted); font-size: 0.9rem; }
+
+  .demo-banner {
+    background: var(--amber-soft); border: 1px solid #e5cfae; color: var(--amber);
+    border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.88rem; margin: 1.4rem 0 0;
+  }
+
+  #results { margin-top: 2.4rem; }
+  .ranking-note {
+    background: var(--accent-soft); border: 1px solid #c4dcd2;
+    border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1.6rem;
+  }
+  .ranking-note h3 { font-family: Georgia, serif; margin-bottom: 0.3rem; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1.4rem 1.5rem; margin-bottom: 1.2rem;
+  }
+  .card-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+  .card-head h2 { font-family: Georgia, serif; font-size: 1.25rem; }
+  .score {
+    font: 700 1.05rem/1 inherit; padding: 0.35rem 0.7rem; border-radius: 7px;
+  }
+  .chip { font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: 99px; letter-spacing: 0.02em; }
+  .strong_fit  { background: var(--accent-soft); color: var(--accent); }
+  .possible_fit{ background: var(--amber-soft); color: var(--amber); }
+  .weak_fit    { background: var(--red-soft); color: var(--red); }
+
+  .bar { height: 6px; background: #eee8db; border-radius: 99px; overflow: hidden; margin-bottom: 1rem; }
+  .bar > div { height: 100%; border-radius: 99px; }
+
+  .summary { margin-bottom: 1rem; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } }
+  .cols h4, .qa h4, .sub h4 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em;
+    margin-bottom: 0.4rem; color: var(--muted);
+  }
+  ul { padding-left: 1.1rem; font-size: 0.92rem; }
+  li { margin-bottom: 0.3rem; }
+  .flags li::marker { color: var(--red); }
+  .qa { margin-bottom: 1rem; }
+  .sub-box {
+    background: #fbfaf7; border: 1px dashed var(--line); border-radius: 8px;
+    padding: 0.9rem 1rem; font-size: 0.92rem; position: relative;
+  }
+  .copy-btn {
+    position: absolute; top: 0.55rem; right: 0.6rem;
+    font-size: 0.75rem; padding: 0.3rem 0.6rem;
+  }
+  .error {
+    background: var(--red-soft); border: 1px solid #e0bcbc; color: var(--red);
+    border-radius: 8px; padding: 0.8rem 1rem; margin-top: 1.4rem;
+  }
+  footer { text-align: center; color: var(--muted); font-size: 0.82rem; padding: 2rem 0 3rem; }
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">Shortlist<span class="dot">.</span></span>
+  <span class="tagline">AI candidate screening for tech staffing teams</span>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Screen a stack of resumes in one pass</h1>
+    <p>Paste the job spec and up to ten resumes. Get fit scores, red flags worth probing,
+       pointed screening questions, and a client-ready submittal draft for each candidate.</p>
+  </section>
+
+  <div class="grid">
+    <div class="panel">
+      <label for="jobspec">Job spec <span class="hint">— the role you're filling</span></label>
+      <textarea id="jobspec" placeholder="Senior Full-Stack Engineer — React, Node, AWS. 5+ years..."></textarea>
+    </div>
+    <div class="panel">
+      <label for="resumes">Resumes <span class="hint">— separate candidates with a line containing only ---</span></label>
+      <textarea id="resumes" placeholder="Priya Raghavan&#10;Senior Software Engineer...&#10;---&#10;Marcus Webb&#10;Full-Stack Developer..."></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="screen-btn">Screen candidates</button>
+    <button class="ghost" id="sample-btn">Load sample data</button>
+    <span class="status" id="status"></span>
+  </div>
+
+  <div id="banner"></div>
+  <div id="results"></div>
+</main>
+
+<footer>Built as a custom internal tool. Want one shaped to your agency's workflow? Get in touch.</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+const SAMPLE_SPEC = `Senior Full-Stack Engineer (contract-to-hire)
+Client: Series B fintech, team of 12 engineers.
+Must have: 5+ years professional experience; React + Node.js in production;
+AWS (ECS or Lambda); experience scaling a consumer-facing product;
+comfort leading 1-2 mid-level engineers.
+Nice to have: GraphQL federation, Postgres performance tuning.
+Rate: $85-105/hr. Remote, US overlap to 2pm ET required.`;
+
+const SAMPLE_RESUMES = `Priya Raghavan — Senior Software Engineer
+6 years experience. Led migration of monolith to microservices serving 2M MAU at FinServe Co; cut p95 latency 40% and infra spend 25%. Tech lead for a pod of 4 engineers. React, Node, TypeScript, Postgres, AWS (ECS, Lambda, certified Solutions Architect). Previously CloudNine (9 months), DataBridge (2.5 yrs).
+---
+Marcus Webb — Full-Stack Developer
+4 years across two startups. Worked on customer dashboard in React/Node. Participated in migration to Postgres. Architected CI/CD pipeline. Worked on mobile app features. Gap Mar-Sep 2025. Stack: React, Node, Express, MongoDB, Postgres, Docker.
+---
+Senior Engineer, 3 years experience.
+Skills: React, Angular, Vue, Svelte, Node, Django, Flask, Spring Boot, Kafka, Redis, MySQL, MongoDB, Kubernetes, Terraform.
+TechStart Inc: Intern (2023), Engineer (2023), Senior Engineer (2024-present).`;
+
+$("sample-btn").onclick = () => {
+  $("jobspec").value = SAMPLE_SPEC;
+  $("resumes").value = SAMPLE_RESUMES;
+};
+
+$("screen-btn").onclick = async () => {
+  const jobSpec = $("jobspec").value.trim();
+  const resumes = $("resumes").value.split(/\n\s*---\s*\n/).map(r => r.trim()).filter(Boolean);
+  $("banner").innerHTML = "";
+  $("results").innerHTML = "";
+
+  if (!jobSpec || resumes.length === 0) {
+    $("banner").innerHTML = '<div class="error">Add a job spec and at least one resume first.</div>';
+    return;
+  }
+
+  const btn = $("screen-btn");
+  btn.disabled = true;
+  $("status").textContent = `Screening ${resumes.length} candidate${resumes.length > 1 ? "s" : ""}…`;
+
+  try {
+    const res = await fetch("/api/screen", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jobSpec, resumes })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Screening failed");
+    render(data);
+  } catch (err) {
+    $("banner").innerHTML = `<div class="error">${escapeHtml(err.message)}</div>`;
+  } finally {
+    btn.disabled = false;
+    $("status").textContent = "";
+  }
+};
+
+function render(data) {
+  if (data.demo) {
+    $("banner").innerHTML = '<div class="demo-banner">Demo mode — showing sample output. Set ANTHROPIC_API_KEY to screen real candidates.</div>';
+  }
+  const sorted = [...data.candidates].sort((a, b) => b.fit_score - a.fit_score);
+  const verdictLabel = { strong_fit: "Strong fit", possible_fit: "Possible fit", weak_fit: "Weak fit" };
+  const barColor = (s) => s >= 80 ? "var(--accent)" : s >= 60 ? "var(--amber)" : "var(--red)";
+
+  let html = `<div class="ranking-note"><h3>Recommendation</h3><p>${escapeHtml(data.ranking_note)}</p></div>`;
+
+  for (const c of sorted) {
+    html += `
+    <div class="card">
+      <div class="card-head">
+        <h2>${escapeHtml(c.name)}</h2>
+        <span class="score" style="color:${barColor(c.fit_score)}">${c.fit_score}/100</span>
+        <span class="chip ${c.verdict}">${verdictLabel[c.verdict] || c.verdict}</span>
+      </div>
+      <div class="bar"><div style="width:${c.fit_score}%;background:${barColor(c.fit_score)}"></div></div>
+      <p class="summary">${escapeHtml(c.summary)}</p>
+      <div class="cols">
+        <div><h4>Strengths</h4><ul>${c.strengths.map(s => `<li>${escapeHtml(s)}</li>`).join("")}</ul></div>
+        <div><h4>Red flags</h4><ul class="flags">${c.red_flags.map(s => `<li>${escapeHtml(s)}</li>`).join("")}</ul></div>
+      </div>
+      <div class="qa"><h4>Screening questions</h4><ul>${c.screening_questions.map(q => `<li>${escapeHtml(q)}</li>`).join("")}</ul></div>
+      <div class="sub">
+        <h4>Submittal draft</h4>
+        <div class="sub-box">
+          <button class="ghost copy-btn" onclick="copyText(this)">Copy</button>
+          <span class="sub-text">${escapeHtml(c.submittal_draft)}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  $("results").innerHTML = html;
+  $("results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function copyText(btn) {
+  const text = btn.parentElement.querySelector(".sub-text").textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = "Copied";
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+</script>
+</body>
+</html>

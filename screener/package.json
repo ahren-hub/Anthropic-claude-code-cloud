@@ -1,0 +1,16 @@
+{
+  "name": "shortlist-screener",
+  "version": "0.1.0",
+  "description": "AI candidate screener for tech staffing agencies",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1"
+  },
+  "type": "module"
+}

@@ -1,0 +1,69 @@
+{
+  "candidates": [
+    {
+      "name": "Priya Raghavan",
+      "fit_score": 86,
+      "verdict": "strong_fit",
+      "summary": "Priya is a near-ideal match: 6 years of hands-on React/Node delivery with two production migrations she owned end-to-end. Her experience leading a 4-person pod maps directly to the team-lead expectations in the spec.",
+      "strengths": [
+        "Led migration of a monolith to microservices serving 2M MAU — matches the spec's scaling requirement",
+        "Concrete metrics throughout the resume (cut p95 latency 40%, reduced infra spend 25%)",
+        "AWS certifications backed by actual architecture decisions, not just the cert list"
+      ],
+      "red_flags": [
+        "Two stints under 12 months in the last three years — worth probing reasons for leaving",
+        "No direct experience with the client's specific stack component (GraphQL federation)"
+      ],
+      "screening_questions": [
+        "Walk me through why you left CloudNine after 9 months — what would your manager there say?",
+        "The role uses GraphQL federation heavily. What's your closest hands-on experience to that?",
+        "You list 'led a pod of 4' — were you the people manager, the tech lead, or both?",
+        "What was the hardest production incident in the 2M MAU migration, and what did you personally do?"
+      ],
+      "submittal_draft": "Priya brings 6 years of full-stack delivery with a track record our client will recognize immediately: she led the decomposition of a 2M-MAU monolith into microservices, cutting p95 latency by 40% while mentoring a four-engineer pod. Her AWS depth is practical rather than certificate-deep, and she is available to interview this week. We rate her a strong fit for the Senior Full-Stack role and recommend moving directly to a technical interview."
+    },
+    {
+      "name": "Marcus Webb",
+      "fit_score": 64,
+      "verdict": "possible_fit",
+      "summary": "Marcus has the right keywords but thinner evidence of ownership — most bullets describe team accomplishments rather than his individual contribution. Could be a solid mid-level hire if the screening call surfaces specifics.",
+      "strengths": [
+        "Relevant stack coverage (React, Node, Postgres) across 4 years",
+        "Startup background suggests comfort with ambiguity, which the client values"
+      ],
+      "red_flags": [
+        "Nearly every bullet starts with 'Worked on' or 'Participated in' — individual ownership unclear",
+        "Claims 'architected CI/CD pipeline' but lists no tooling specifics anywhere",
+        "Six-month employment gap in 2025 not addressed"
+      ],
+      "screening_questions": [
+        "Pick the project you're proudest of — what part of it exists only because of you?",
+        "You mention architecting a CI/CD pipeline. Which tools, and what did the pipeline look like before and after?",
+        "What were you doing between March and September 2025?",
+        "If I called your last tech lead, what would they say you're best and worst at?"
+      ],
+      "submittal_draft": "Marcus offers four years of full-stack experience across two early-stage startups, with working coverage of the client's core stack. He presents as a dependable mid-level engineer who has shipped in fast-moving environments. We recommend a screening call to validate depth of individual contribution before client submittal."
+    },
+    {
+      "name": "Candidate 3",
+      "fit_score": 38,
+      "verdict": "weak_fit",
+      "summary": "This resume is a keyword list with almost no evidence of delivered work — 14 frameworks claimed across 3 years of experience. Submitting this profile would risk the agency's credibility with the client.",
+      "strengths": [
+        "Lists exposure to the required technologies, which may reflect bootcamp coverage"
+      ],
+      "red_flags": [
+        "14 frameworks/languages claimed in 3 years of experience — breadth implausible at depth",
+        "No project descriptions, metrics, or outcomes anywhere in the resume",
+        "Job titles inflate from 'Intern' to 'Senior Engineer' within 18 months at the same company"
+      ],
+      "screening_questions": [
+        "Of the 14 technologies listed, which three have you used in production for more than six months?",
+        "Describe the most complex bug you fixed in the last year — what was the root cause?",
+        "Your title went from Intern to Senior in 18 months — what changed in your responsibilities?"
+      ],
+      "submittal_draft": "Not recommended for submittal in current form. If the screening call reveals genuine depth in 2-3 core technologies, consider repositioning the resume around those with concrete project evidence before any client introduction."
+    }
+  ],
+  "ranking_note": "Submit Priya first — she clears the bar on both technical depth and leadership, and her red flags are conversational rather than disqualifying. Hold Marcus for a screening call: his profile pattern (team-credit language, missing specifics) often hides either a solid contributor with a weak resume or a passenger; ten minutes of pointed questions will tell you which. Do not submit Candidate 3 without a substantial rewrite and verification of actual production experience."
+}
