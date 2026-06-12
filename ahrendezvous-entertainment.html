@@ -3,1066 +3,837 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ahrendezvous — Content Creation & Cinematic Production</title>
+<title>Ahrendezvous® — Cinematic Production & Artist Hub · Atlanta</title>
+<meta name="description" content="Ahrendezvous Entertainment — high-end production, vetted collaboration, and curated cultural experiences. West Midtown, Atlanta.">
+<meta property="og:title" content="Ahrendezvous® — Cinematic Production & Artist Hub">
+<meta property="og:description" content="Bridging the post-pandemic isolation gap through high-end production, vetted collaboration, and curated cultural experiences.">
+<script>document.documentElement.className = 'js';</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ─── Tokens ───────────────────────────────────────────────── */
-:root {
-  --obsidian:   #0D0D0D;
-  --shadow:     #1A1A1A;
-  --gold:       #C5A880;
-  --gold-dim:   rgba(197,168,128,0.18);
-  --parchment:  #F7F5F0;
-  --slate:      #4A5551;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans:  'Inter', system-ui, sans-serif;
-  --sp: clamp(5rem, 10vw, 9rem);
-  --gutter: clamp(1.5rem, 6vw, 7rem);
+/* ════════ TOKENS ════════ */
+:root{
+  --obsidian:#0D0D0D;
+  --shadow:#1A1A1A;
+  --gold:#C5A880;
+  --gold-12:rgba(197,168,128,.12);
+  --gold-25:rgba(197,168,128,.25);
+  --parchment:#F7F5F0;
+  --parch-60:rgba(247,245,240,.6);
+  --parch-35:rgba(247,245,240,.35);
+  --slate:#4A5551;
+  --ember:#FF4517;            /* the single pop — interactive states only */
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --gutter:clamp(1.4rem,5vw,6rem);
+  --sect:clamp(7rem,16vh,12rem);
 }
 
-/* ─── Reset ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--obsidian);
-  color: var(--parchment);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  overflow-x: hidden;
+/* ════════ BASE ════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html.has-cursor, html.has-cursor a, html.has-cursor button{cursor:none}
+body{
+  background:var(--obsidian);
+  color:var(--parchment);
+  font-family:var(--sans);
+  font-weight:300;
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
-img { display: block; max-width: 100%; }
-a { color: inherit; }
+::selection{background:var(--ember);color:var(--obsidian)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--obsidian)}
+::-webkit-scrollbar-thumb{background:var(--slate);border-radius:3px}
+a{color:inherit;text-decoration:none}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 
-/* ─── Nav ────────────────────────────────────────────────────── */
-#nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  padding: 1.8rem var(--gutter);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: padding .4s, background .4s, backdrop-filter .4s;
+.label{
+  font-family:var(--mono);font-size:.66rem;font-weight:400;
+  letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
 }
-#nav.scrolled {
-  padding: 1rem var(--gutter);
-  background: rgba(13,13,13,.92);
-  backdrop-filter: blur(14px);
-}
-.nav-logo {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: .18em;
-  text-decoration: none;
-  color: var(--parchment);
-  text-transform: uppercase;
-}
-.nav-links {
-  display: flex;
-  gap: 2.8rem;
-  list-style: none;
-}
-.nav-links a {
-  font-size: .72rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgba(247,245,240,.55);
-  text-decoration: none;
-  transition: color .2s;
-}
-.nav-links a:hover { color: var(--gold); }
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-}
-.nav-toggle span {
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--parchment);
-  transition: all .3s;
-}
-@media (max-width: 768px) {
-  .nav-toggle { display: flex; }
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0; right: 0;
-    background: rgba(13,13,13,.97);
-    backdrop-filter: blur(16px);
-    flex-direction: column;
-    align-items: center;
-    padding: 2.5rem 1rem;
-    gap: 2rem;
-    border-bottom: 1px solid var(--gold-dim);
-  }
-  .nav-links.open { display: flex; }
-  .nav-links a { font-size: .85rem; }
-}
+.label .idx{color:var(--parch-35);margin-right:1em}
 
-/* ─── Hero ────────────────────────────────────────────────────── */
-#hero {
-  position: relative;
-  height: 100vh;
-  min-height: 620px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--obsidian);
+/* reveal initial states (gated on .js so no-JS users still see content) */
+.js [data-reveal]{opacity:0;transform:translateY(44px)}
+.js [data-word]{opacity:0;transform:translateY(.5em);display:inline-block}
+
+/* ════════ GRAIN + CURSOR ════════ */
+#grain{
+  position:fixed;inset:-60px;z-index:900;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(4) infinite;
 }
-#hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 0;
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-22px,14px)}
+  50%{transform:translate(14px,-20px)}75%{transform:translate(-10px,-12px)}100%{transform:translate(0,0)}
 }
-/* subtle vignette over canvas */
-#hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(13,13,13,.65) 100%);
-  z-index: 1;
-  pointer-events: none;
+#cursor-dot,#cursor-ring{
+  position:fixed;top:0;left:0;z-index:1000;pointer-events:none;border-radius:50%;
+  transform:translate(-50%,-50%);display:none;
 }
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 0 clamp(1.5rem, 5vw, 4rem);
-  max-width: 900px;
+.has-cursor #cursor-dot,.has-cursor #cursor-ring{display:block}
+#cursor-dot{width:5px;height:5px;background:var(--ember)}
+#cursor-ring{
+  width:34px;height:34px;border:1px solid var(--gold-25);
+  transition:width .35s,height .35s,border-color .35s,background .35s;
 }
-.hero-eyebrow {
-  font-size: .68rem;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.8rem;
-  font-weight: 500;
+#cursor-ring.is-hover{width:64px;height:64px;border-color:var(--gold);background:var(--gold-12)}
+
+/* ════════ PRELOADER ════════ */
+#loader{
+  position:fixed;inset:0;z-index:800;background:var(--obsidian);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
 }
-.hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 9.5vw, 8.5rem);
-  font-weight: 900;
-  letter-spacing: .06em;
-  line-height: .92;
-  color: var(--parchment);
-  margin-bottom: 2rem;
+.js #loader{display:flex}
+#loader .label{color:var(--parch-35)}
+#load-num{font-family:var(--serif);font-size:clamp(3rem,8vw,5rem);font-weight:400;font-style:italic;color:var(--gold);line-height:1}
+#loader .bar{width:min(240px,50vw);height:1px;background:var(--shadow);overflow:hidden}
+#loader .bar i{display:block;height:100%;width:0;background:var(--gold)}
+
+/* ════════ NAV ════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.6rem var(--gutter);
+  transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;
+  border-bottom:1px solid transparent;
 }
-.hero-tagline {
-  font-size: clamp(.9rem, 1.6vw, 1.05rem);
-  color: rgba(247,245,240,.62);
-  max-width: 560px;
-  margin: 0 auto 2.8rem;
-  line-height: 1.7;
-  font-weight: 300;
+#nav.scrolled{
+  padding:.9rem var(--gutter);
+  background:rgba(13,13,13,.82);backdrop-filter:blur(16px);
+  border-bottom-color:rgba(197,168,128,.14);
 }
-.hero-ctas {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
+.nav-logo{font-family:var(--mono);font-size:.8rem;font-weight:700;letter-spacing:.3em;color:var(--parchment)}
+.nav-logo sup{color:var(--ember);font-size:.55em}
+.nav-links{display:flex;gap:2.4rem;align-items:center}
+.nav-links a{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--parch-60);position:relative;padding:.3rem 0;transition:color .3s;
 }
-.btn-fill {
-  background: var(--gold);
-  color: var(--obsidian);
-  padding: .9rem 2.2rem;
-  font-family: var(--font-sans);
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1.5px solid var(--gold);
-  transition: background .22s, transform .22s;
-  display: inline-block;
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--ember);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.76,0,.24,1);
 }
-.btn-fill:hover { background: #d4b690; border-color: #d4b690; transform: translateY(-2px); }
-.btn-ghost {
-  border: 1.5px solid rgba(197,168,128,.4);
-  color: var(--gold);
-  padding: .9rem 2.2rem;
-  font-family: var(--font-sans);
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background .22s, border-color .22s;
-  display: inline-block;
+.nav-links a:hover{color:var(--parchment)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--obsidian);background:var(--gold);padding:.7rem 1.3rem;
+  display:inline-block;transition:background .3s,color .3s;
 }
-.btn-ghost:hover { background: rgba(197,168,128,.07); border-color: var(--gold); }
-.hero-scroll {
-  position: absolute;
-  bottom: 2.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .6rem;
+.nav-cta:hover{background:var(--ember);color:var(--parchment)}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* ════════ HERO ════════ */
+#hero{position:relative;height:100vh;height:100svh;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+#hero-canvas canvas{display:block}
+.hero-ui{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-eyebrow{
+  position:absolute;top:7.5rem;left:var(--gutter);
 }
-.scroll-word {
-  font-size: .58rem;
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: rgba(247,245,240,.3);
+.hero-tag{
+  position:absolute;left:var(--gutter);right:var(--gutter);bottom:7.2rem;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;
 }
-.scroll-bar {
-  width: 1px;
-  height: 42px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: scrollbar 2.2s ease-in-out infinite;
-  transform-origin: top;
+.hero-tag h2{
+  font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,2.4vw,1.8rem);
+  line-height:1.35;max-width:30ch;
 }
-@keyframes scrollbar {
-  0%, 100% { opacity: .35; transform: scaleY(1); }
-  50%       { opacity: 1;   transform: scaleY(1.15); }
+.hero-tag h2 em{font-style:italic;color:var(--gold)}
+.hero-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:var(--parch-35);text-transform:uppercase;white-space:nowrap}
+.hero-hint b{color:var(--ember);font-weight:400;animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.hero-meta{
+  position:absolute;left:var(--gutter);right:var(--gutter);bottom:2rem;
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;color:var(--parch-35);text-transform:uppercase;
+}
+.no-webgl #hero-fallback{display:flex}
+#hero-fallback{
+  display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:clamp(2.4rem,9vw,7.5rem);letter-spacing:.04em;color:var(--parchment);
 }
 
-/* ─── Shared section chrome ─────────────────────────────────── */
-.section-inner {
-  max-width: 1240px;
-  margin: 0 auto;
+/* ════════ MARQUEE ════════ */
+#marquee{
+  border-top:1px solid var(--gold-12);border-bottom:1px solid var(--gold-12);
+  padding:1.1rem 0;overflow:hidden;background:var(--obsidian);
 }
-.eyebrow {
-  display: block;
-  font-size: .65rem;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
-  font-weight: 500;
+.marquee-track{display:flex;width:max-content;animation:marq 30s linear infinite}
+.marquee-track span{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--parch-35);white-space:nowrap;padding-right:.4em;
 }
-.s-heading {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
-  font-weight: 700;
-  line-height: 1.12;
-  color: var(--parchment);
-  margin-bottom: 1.2rem;
-}
-.s-body {
-  font-size: .97rem;
-  color: rgba(247,245,240,.62);
-  max-width: 54ch;
-  line-height: 1.75;
-  font-weight: 300;
-}
-.gold-rule { width: 44px; height: 1px; background: var(--gold); margin: 1.6rem 0; }
-.gold-rule--center { margin-left: auto; margin-right: auto; }
+.marquee-track span i{font-style:normal;color:var(--gold);padding:0 1.6em}
+@keyframes marq{to{transform:translateX(-50%)}}
 
-/* ─── About ──────────────────────────────────────────────────── */
-#about {
-  padding: var(--sp) var(--gutter);
-  background: var(--obsidian);
-  text-align: center;
-}
-#about .section-inner { display: flex; flex-direction: column; align-items: center; }
-#about .s-body { text-align: center; margin-bottom: 4.5rem; }
-#about .gold-rule { margin-bottom: 1.8rem; }
+/* ════════ SECTION SHELL ════════ */
+section.block{padding:var(--sect) var(--gutter);max-width:1500px;margin:0 auto}
+.sect-head{margin-bottom:clamp(2.5rem,6vh,4.5rem)}
 
-.pillars {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  border: 1px solid var(--gold-dim);
+/* ════════ MANIFESTO ════════ */
+#manifesto p.big{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.9rem,4.6vw,4rem);line-height:1.22;letter-spacing:.005em;
+  max-width:22ch;margin-top:2.2rem;
 }
-@media (max-width: 768px) { .pillars { grid-template-columns: 1fr; } }
-.pillar {
-  padding: 2.8rem 2.2rem;
-  border-right: 1px solid var(--gold-dim);
-  text-align: left;
-  transition: background .3s;
-}
-.pillar:last-child { border-right: none; }
-@media (max-width: 768px) {
-  .pillar { border-right: none; border-bottom: 1px solid var(--gold-dim); }
-  .pillar:last-child { border-bottom: none; }
-}
-.pillar:hover { background: rgba(197,168,128,.03); }
-.pillar-num {
-  font-family: var(--font-serif);
-  font-size: 3.8rem;
-  font-weight: 900;
-  color: rgba(197,168,128,.1);
-  line-height: 1;
-  margin-bottom: .9rem;
-  letter-spacing: -.02em;
-}
-.pillar h3 {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  color: var(--parchment);
-  margin-bottom: .55rem;
-  font-weight: 700;
-}
-.pillar p {
-  font-size: .85rem;
-  color: rgba(247,245,240,.52);
-  line-height: 1.65;
-  font-weight: 300;
+#manifesto p.big em{font-style:italic;color:var(--gold)}
+#manifesto .sub{
+  margin-top:3rem;max-width:52ch;color:var(--parch-60);font-size:.95rem;
+  border-left:1px solid var(--gold-25);padding-left:1.6rem;
 }
 
-/* ─── Services ───────────────────────────────────────────────── */
-#services {
-  padding: var(--sp) var(--gutter);
-  background: var(--shadow);
+/* ════════ LAYERS ════════ */
+.layer-row{
+  display:grid;grid-template-columns:8rem 1fr auto;gap:2rem;align-items:baseline;
+  padding:2.6rem 1.2rem;border-top:1px solid rgba(247,245,240,.08);
+  position:relative;transition:background .45s;
 }
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-top: 3.5rem;
+.layer-row:last-child{border-bottom:1px solid rgba(247,245,240,.08)}
+.layer-row:hover{background:var(--shadow)}
+.layer-num{font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;color:var(--parch-35);transition:color .3s}
+.layer-row:hover .layer-num{color:var(--ember)}
+.layer-body h3{
+  font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,3.4vw,2.8rem);
+  line-height:1.1;margin-bottom:.7rem;
 }
-@media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
-.svc {
-  background: var(--obsidian);
-  border: 1px solid var(--gold-dim);
-  padding: 2.8rem 2.4rem;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transition: border-color .3s;
+.layer-body p{color:var(--parch-60);font-size:.92rem;max-width:56ch}
+.layer-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+.layer-tags i{
+  font-style:normal;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-25);padding:.32rem .7rem;
 }
-.svc:hover { border-color: rgba(197,168,128,.45); }
-.svc--hero {
-  border-color: rgba(197,168,128,.4);
-}
-.svc--hero::before {
-  content: 'MOST POPULAR';
-  position: absolute;
-  top: -1px; left: 2.4rem;
-  background: var(--gold);
-  color: var(--obsidian);
-  font-size: .58rem;
-  font-weight: 800;
-  letter-spacing: .15em;
-  padding: .28rem .7rem;
-}
-.svc-tier {
-  font-size: .62rem;
-  letter-spacing: .28em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: .9rem;
-  font-weight: 600;
-}
-.svc-name {
-  font-family: var(--font-serif);
-  font-size: 1.7rem;
-  font-weight: 700;
-  color: var(--parchment);
-  margin-bottom: .5rem;
-  line-height: 1.15;
-}
-.svc-price {
-  font-family: var(--font-serif);
-  font-size: 2.6rem;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: .3rem;
-}
-.svc-price sup { font-size: 1.1rem; vertical-align: super; }
-.svc-price span { font-size: .95rem; font-family: var(--font-sans); color: rgba(247,245,240,.4); font-weight: 300; }
-.svc-commit {
-  font-size: .74rem;
-  color: rgba(247,245,240,.35);
-  margin-bottom: 2rem;
-  letter-spacing: .04em;
-}
-.svc-rule { width: 36px; height: 1px; background: var(--gold); opacity: .35; margin-bottom: 2rem; }
-.svc-feats {
-  list-style: none;
-  flex: 1;
-  margin-bottom: 1.6rem;
-}
-.svc-feats li {
-  font-size: .86rem;
-  color: rgba(247,245,240,.7);
-  padding: .5rem 0 .5rem 1.1rem;
-  border-bottom: 1px solid rgba(247,245,240,.05);
-  position: relative;
-  font-weight: 300;
-}
-.svc-feats li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--gold);
-  font-size: .68rem;
-  top: .55rem;
-}
-.svc-ideal {
-  font-size: .8rem;
-  font-style: italic;
-  color: rgba(247,245,240,.38);
-  margin-bottom: 1.8rem;
-  line-height: 1.55;
-}
-.svc-btn {
-  display: block;
-  text-align: center;
-  padding: .88rem;
-  border: 1.5px solid rgba(197,168,128,.38);
-  color: var(--gold);
-  text-decoration: none;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  transition: all .25s;
-}
-.svc-btn:hover { background: var(--gold); color: var(--obsidian); border-color: var(--gold); }
-.svc--hero .svc-btn {
-  background: var(--gold);
-  color: var(--obsidian);
-  border-color: var(--gold);
-}
-.svc--hero .svc-btn:hover { background: #d4b690; border-color: #d4b690; }
+.layer-arrow{font-family:var(--mono);color:var(--parch-35);font-size:1.1rem;transition:color .3s,transform .45s cubic-bezier(.76,0,.24,1)}
+.layer-row:hover .layer-arrow{color:var(--gold);transform:translate(6px,-6px)}
+@media(max-width:760px){.layer-row{grid-template-columns:1fr;gap:.9rem}.layer-arrow{display:none}}
 
-/* ─── Artist Hub ─────────────────────────────────────────────── */
-#hub {
-  padding: var(--sp) var(--gutter);
-  background: var(--obsidian);
-  position: relative;
-  overflow: hidden;
+/* ════════ REEL ════════ */
+#reel{padding-left:0;padding-right:0;max-width:none}
+#reel .sect-head{padding:0 var(--gutter);max-width:1500px;margin-left:auto;margin-right:auto}
+.reel-frame{
+  position:relative;width:min(94vw,1500px);margin:0 auto;aspect-ratio:21/9;
+  background:var(--shadow);overflow:hidden;border:1px solid rgba(197,168,128,.14);
 }
-.hub-bg-word {
-  position: absolute;
-  right: -1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-serif);
-  font-size: clamp(7rem, 20vw, 22rem);
-  font-weight: 900;
-  color: rgba(197,168,128,.025);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-  letter-spacing: -.04em;
-  white-space: nowrap;
+@media(max-width:760px){.reel-frame{aspect-ratio:16/9}}
+/* ── DROP YOUR SHOWREEL HERE ──
+   Replace .reel-placeholder below with:
+   <video class="reel-video" autoplay muted loop playsinline src="showreel.mp4"></video>
+   (style: position:absolute;inset:0;width:100%;height:100%;object-fit:cover) */
+.reel-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(ellipse 80% 90% at 50% 110%,rgba(197,168,128,.10),transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% -10%,rgba(74,85,81,.35),transparent 60%),
+    var(--shadow);
 }
-.hub-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
+.reel-placeholder::after{ /* scanlines */
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(13,13,13,.5) 3px 4px);
+  opacity:.4;
 }
-#hub .s-body { margin-bottom: 2.8rem; }
-.hub-tag {
-  display: inline-block;
-  border: 1px solid var(--gold-dim);
-  color: var(--gold);
-  font-size: .68rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  padding: .35rem .9rem;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
+.reel-play{
+  position:relative;z-index:1;width:108px;height:108px;border-radius:50%;
+  border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  background:rgba(13,13,13,.4);backdrop-filter:blur(4px);
+  transition:transform .5s cubic-bezier(.76,0,.24,1),background .4s;
+}
+.reel-play:hover{transform:scale(1.12);background:rgba(255,69,23,.18)}
+.reel-play svg{margin-left:5px}
+.reel-corner{
+  position:absolute;font-family:var(--mono);font-size:.58rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--parch-35);z-index:1;
+}
+.reel-corner.tl{top:1.2rem;left:1.4rem}.reel-corner.br{bottom:1.2rem;right:1.4rem;color:var(--gold)}
+.reel-corner .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ember);margin-right:.7em;animation:blink 1.4s infinite;vertical-align:1px}
+
+/* ════════ RETAINERS ════════ */
+#retainers .intro{color:var(--parch-60);max-width:46ch;font-size:.95rem;margin-top:1.6rem}
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:3.4rem}
+@media(max-width:900px){.tier-grid{grid-template-columns:1fr}}
+.tier{
+  background:var(--shadow);padding:2.8rem 2.4rem;position:relative;
+  border:1px solid rgba(247,245,240,.07);
+  transition:transform .5s cubic-bezier(.76,0,.24,1),border-color .4s;
+}
+.tier:hover{transform:translateY(-8px);border-color:var(--gold-25)}
+.tier.feature{border:1px solid var(--gold-25)}
+.tier .flag{
+  position:absolute;top:-1px;right:2rem;background:var(--gold);color:var(--obsidian);
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.24em;padding:.45rem .9rem;text-transform:uppercase;
+}
+.tier h3{font-family:var(--serif);font-weight:500;font-size:2rem;line-height:1.1}
+.tier .for{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--parch-35);margin-top:.8rem;max-width:38ch;line-height:1.9}
+.tier .price{font-family:var(--serif);font-style:italic;font-size:2.6rem;color:var(--gold);margin:1.8rem 0 .2rem;line-height:1}
+.tier .price small{font-family:var(--mono);font-style:normal;font-size:.6rem;letter-spacing:.2em;color:var(--parch-35);margin-left:.6rem}
+.tier ul{list-style:none;margin-top:1.8rem;border-top:1px solid rgba(247,245,240,.08)}
+.tier li{
+  padding:.95rem 0;border-bottom:1px solid rgba(247,245,240,.08);
+  font-size:.88rem;color:var(--parch-60);display:flex;gap:.9rem;
+}
+.tier li::before{content:'✦';color:var(--gold);font-size:.7rem;line-height:1.9}
+.tier li b{color:var(--parchment);font-weight:400}
+.tier .tier-cta{
+  margin-top:2.2rem;display:inline-block;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--parchment);
+  border:1px solid var(--gold-25);padding:1rem 1.7rem;transition:background .35s,color .35s,border-color .35s;
+}
+.tier .tier-cta:hover{background:var(--gold);border-color:var(--gold);color:var(--obsidian)}
+.commit-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;color:var(--parch-35);text-transform:uppercase;margin-top:2rem;text-align:center}
+
+/* ════════ BEYOND ════════ */
+#beyond{border-top:1px solid var(--gold-12);border-bottom:1px solid var(--gold-12);max-width:none;background:var(--obsidian)}
+#beyond .wrap{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
+@media(max-width:860px){#beyond .wrap{grid-template-columns:1fr;gap:2.2rem}}
+.beyond-item h4{font-family:var(--mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.beyond-item h4 span{color:var(--ember)}
+.beyond-item p{color:var(--parch-60);font-size:.88rem;max-width:34ch}
+
+/* ════════ CONTACT ════════ */
+#contact{text-align:center;padding-bottom:clamp(5rem,10vh,8rem)}
+#contact .giant{
+  font-family:var(--serif);font-weight:400;font-size:clamp(3.2rem,12vw,10rem);
+  line-height:.98;letter-spacing:.01em;margin-top:2.6rem;
+}
+#contact .giant em{font-style:italic;color:var(--gold)}
+.contact-mail{
+  display:inline-block;margin-top:3.4rem;font-family:var(--mono);font-size:clamp(.7rem,1.6vw,.95rem);
+  letter-spacing:.2em;color:var(--parchment);border:1px solid var(--gold-25);
+  padding:1.4rem 2.6rem;transition:background .4s,color .4s,border-color .4s;
+}
+.contact-mail:hover{background:var(--ember);border-color:var(--ember);color:var(--parchment)}
+.contact-meta{margin-top:2.6rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--parch-35)}
+
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{animation:none}
+  #grain{animation:none}
+  .hero-hint b,.reel-corner .dot{animation:none}
+  html{scroll-behavior:auto}
 }
 
-/* ─── Community ──────────────────────────────────────────────── */
-#community {
-  padding: var(--sp) var(--gutter);
-  background: var(--shadow);
+/* ════════ FOOTER ════════ */
+footer{
+  border-top:1px solid rgba(247,245,240,.08);
+  padding:1.8rem var(--gutter);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--parch-35);
 }
-.comm-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.4rem;
-  margin-top: 3.5rem;
-}
-@media (max-width: 768px) { .comm-grid { grid-template-columns: 1fr; } }
-.comm-card {
-  background: var(--obsidian);
-  border: 1px solid rgba(74,85,81,.35);
-  padding: 2.2rem;
-  transition: border-color .3s, background .3s;
-}
-.comm-card:hover {
-  border-color: var(--slate);
-  background: rgba(74,85,81,.06);
-}
-.comm-glyph {
-  font-size: 1.4rem;
-  margin-bottom: 1.1rem;
-  display: block;
-  line-height: 1;
-}
-.comm-card h3 {
-  font-family: var(--font-serif);
-  font-size: 1.18rem;
-  color: var(--parchment);
-  margin-bottom: .45rem;
-  font-weight: 700;
-}
-.comm-card p {
-  font-size: .84rem;
-  color: rgba(247,245,240,.5);
-  line-height: 1.65;
-  font-weight: 300;
-}
-
-/* ─── Contact ────────────────────────────────────────────────── */
-#contact {
-  padding: var(--sp) var(--gutter);
-  background: var(--obsidian);
-  text-align: center;
-}
-#contact .section-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#contact .s-heading { font-size: clamp(2.4rem, 5vw, 4.2rem); }
-#contact .s-body { text-align: center; max-width: 44ch; margin: 0 auto 1.5rem; }
-.contact-line {
-  width: 1px;
-  height: 55px;
-  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-  margin: 0 auto 2rem;
-}
-.contact-email-link {
-  font-family: var(--font-serif);
-  font-size: clamp(1rem, 2.2vw, 1.5rem);
-  color: var(--gold);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(197,168,128,.3);
-  padding-bottom: .2rem;
-  transition: border-color .2s, color .2s;
-  display: inline-block;
-  margin-bottom: 3.5rem;
-  font-style: italic;
-}
-.contact-email-link:hover { color: #d4b690; border-color: var(--gold); }
-
-/* ─── Footer ─────────────────────────────────────────────────── */
-footer {
-  background: #080808;
-  padding: 2.2rem var(--gutter);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.2rem;
-  border-top: 1px solid rgba(197,168,128,.06);
-}
-.footer-logo {
-  font-family: var(--font-serif);
-  font-size: .82rem;
-  letter-spacing: .16em;
-  color: rgba(247,245,240,.35);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.footer-copy { font-size: .68rem; color: rgba(247,245,240,.2); letter-spacing: .04em; }
-.footer-links { display: flex; gap: 1.8rem; }
-.footer-links a {
-  font-size: .66rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: rgba(247,245,240,.28);
-  text-decoration: none;
-  transition: color .2s;
-}
-.footer-links a:hover { color: var(--gold); }
-@media (max-width: 600px) {
-  footer { flex-direction: column; align-items: flex-start; gap: .8rem; }
-  .footer-links { gap: 1.2rem; }
-}
-
-/* ─── Utility ────────────────────────────────────────────────── */
-.visually-hidden { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+footer a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
 
-<!-- ── Nav ─────────────────────────────────────────────────────── -->
-<nav id="nav" role="navigation">
-  <a href="#" class="nav-logo">Ahrendezvous</a>
-  <ul class="nav-links" id="nav-links" role="list">
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#hub">Artist Hub</a></li>
-    <li><a href="#community">Community</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+<h1 class="visually-hidden">Ahrendezvous Entertainment — Cinematic Production &amp; Artist Hub, Atlanta</h1>
+
+<div id="grain" aria-hidden="true"></div>
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
+<!-- ════════ PRELOADER ════════ -->
+<div id="loader" aria-hidden="true">
+  <span class="label">Ahrendezvous® — Est. ATL</span>
+  <div id="load-num">000</div>
+  <div class="bar"><i id="load-bar"></i></div>
+</div>
+
+<!-- ════════ NAV ════════ -->
+<nav id="nav">
+  <a class="nav-logo" href="#hero">AHRZV<sup>®</sup></a>
+  <div class="nav-links">
+    <a href="#manifesto">Manifesto</a>
+    <a href="#layers">Studio</a>
+    <a href="#reel">Reel</a>
+    <a href="#retainers">Retainers</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="mailto:support@ahrendezvous.com" data-magnetic>Start a project</a>
 </nav>
 
-<!-- ── Hero ─────────────────────────────────────────────────────── -->
-<section id="hero" aria-label="Hero">
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero-inner">
-    <p class="hero-eyebrow">West Midtown · Atlanta</p>
-    <h1 class="hero-title">AHRENDEZVOUS</h1>
-    <p class="hero-tagline">Bridging the post-pandemic isolation gap through high-end production, vetted collaboration, and curated cultural experiences.</p>
-    <div class="hero-ctas">
-      <a href="#services" class="btn-fill">View Services</a>
-      <a href="#contact" class="btn-ghost">Book a Session</a>
+<!-- ════════ HERO ════════ -->
+<section id="hero">
+  <div id="hero-canvas" aria-hidden="true"></div>
+  <div id="hero-fallback" aria-hidden="true">AHRENDEZVOUS</div>
+  <div class="hero-ui">
+    <div class="hero-eyebrow"><span class="label">Cinematic Production · Artist Hub · West Midtown, Atlanta</span></div>
+    <div class="hero-tag">
+      <h2 data-hero-fade>High-end production. Vetted collaboration. <em>Curated culture.</em></h2>
+      <span class="hero-hint" data-hero-fade>[ <b>●</b> <span id="hint-verb">Hover</span> the name — it remembers it's made of pixels ]</span>
     </div>
-  </div>
-  <div class="hero-scroll" aria-hidden="true">
-    <span class="scroll-word">Scroll</span>
-    <div class="scroll-bar"></div>
-  </div>
-</section>
-
-<!-- ── About ────────────────────────────────────────────────────── -->
-<section id="about" aria-labelledby="about-heading">
-  <div class="section-inner">
-    <span class="eyebrow" data-reveal>Sanctuary · Studio · Community</span>
-    <h2 class="s-heading" id="about-heading" data-reveal>More Than a Studio.<br>A Movement.</h2>
-    <div class="gold-rule gold-rule--center" data-reveal></div>
-    <p class="s-body" data-reveal>
-      Ahrendezvous is a physical, commercial, and artistic sanctuary engineered to address the post-COVID loneliness crisis. With a distinct, moody, auteur-driven aesthetic, we operate at the intersection of commerce, creativity, and community in Atlanta.
-    </p>
-
-    <div class="pillars" data-stagger-group>
-      <div class="pillar" data-stagger-item>
-        <div class="pillar-num">01</div>
-        <h3>Commercial</h3>
-        <p>Connecting B2B brands and luxury local businesses with high-end visual storytelling — photography and cinematography that moves product and builds identity.</p>
-      </div>
-      <div class="pillar" data-stagger-item>
-        <div class="pillar-num">02</div>
-        <h3>Professional</h3>
-        <p>Eliminating the "lone wolf" bottleneck through the invite-only Nationwide Artist Hub and our signature REP SHEET — a vetted creative directory unlike anything else.</p>
-      </div>
-      <div class="pillar" data-stagger-item>
-        <div class="pillar-num">03</div>
-        <h3>Cultural</h3>
-        <p>Organizing curated community experiences, art exhibitions, and brand activations across Atlanta — because creativity compounds in community.</p>
-      </div>
+    <div class="hero-meta" data-hero-fade>
+      <span>33.78° N — 84.41° W</span>
+      <span>Scroll ↓</span>
     </div>
   </div>
 </section>
 
-<!-- ── Services ─────────────────────────────────────────────────── -->
-<section id="services" aria-labelledby="services-heading">
-  <div class="section-inner">
-    <span class="eyebrow" data-reveal>Content Packages</span>
-    <h2 class="s-heading" id="services-heading" data-reveal>Built for Brands<br>That Mean It.</h2>
-    <div class="gold-rule" data-reveal></div>
-    <p class="s-body" data-reveal>Monthly production retainers structured around predictable output and uncompromising quality. Choose your level of investment.</p>
+<!-- ════════ MARQUEE ════════ -->
+<div id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Cinematic Production<i>✦</i>Visual Storytelling<i>✦</i>Artist Hub<i>✦</i>Rep Sheet<i>✦</i>Curated Culture<i>✦</i>Mentorship Camps<i>✦</i></span>
+    <span>Cinematic Production<i>✦</i>Visual Storytelling<i>✦</i>Artist Hub<i>✦</i>Rep Sheet<i>✦</i>Curated Culture<i>✦</i>Mentorship Camps<i>✦</i></span>
+  </div>
+</div>
 
-    <div class="services-grid" data-stagger-group>
-      <!-- Tier 1 -->
-      <div class="svc" data-stagger-item>
-        <div class="svc-tier">Tier 01</div>
-        <h3 class="svc-name">The Social Engine</h3>
-        <div class="svc-price"><sup>$</sup>2,000 <span>/ month</span></div>
-        <div class="svc-commit">3, 6, or 12 month commitment</div>
-        <div class="svc-rule"></div>
-        <ul class="svc-feats">
-          <li>One 3-hour studio production block monthly</li>
-          <li>8 fully edited short-form videos (color-graded, custom audio, captions)</li>
-          <li>10 high-resolution editorial brand photos</li>
-          <li>10-day guaranteed delivery</li>
-          <li>2 rounds of revisions</li>
-        </ul>
-        <p class="svc-ideal">Ideal for brands establishing authority on Reels, TikTok, and YouTube Shorts.</p>
-        <a href="#contact" class="svc-btn">Start with Tier 01</a>
-      </div>
-      <!-- Tier 2 -->
-      <div class="svc svc--hero" data-stagger-item>
-        <div class="svc-tier">Tier 02</div>
-        <h3 class="svc-name">The Enterprise Presence</h3>
-        <div class="svc-price"><sup>$</sup>5,000 <span>/ month</span></div>
-        <div class="svc-commit">3, 6, or 12 month commitment</div>
-        <div class="svc-rule"></div>
-        <ul class="svc-feats">
-          <li>One 8-hour production block (or two 4-hour sessions)</li>
-          <li>16 short-form videos + 1 cinematic long-form brand video</li>
-          <li>25 high-resolution editorial brand photos</li>
-          <li>Priority 24–72 hour turnaround</li>
-          <li>Custom aesthetic direction templates</li>
-          <li>Monthly visual audit &amp; strategy calls</li>
-          <li>5 rounds of revisions</li>
-        </ul>
-        <p class="svc-ideal">Complete digital overhaul for premium service brands and high-tier creators.</p>
-        <a href="#contact" class="svc-btn">Start with Tier 02</a>
-      </div>
+<!-- ════════ MANIFESTO ════════ -->
+<section class="block" id="manifesto">
+  <div class="sect-head" data-reveal><span class="label"><span class="idx">01</span>Manifesto</span></div>
+  <p class="big" id="manifesto-line">Bridging the post-pandemic isolation gap through high-end <em>production</em>, vetted <em>collaboration</em>, and curated <em>cultural experiences</em>.</p>
+  <p class="sub" data-reveal>Ahrendezvous is a physical, commercial, and artistic sanctuary in West Midtown, Atlanta — engineered against the loneliness crisis and built on a moody, auteur-driven aesthetic. We connect brands to storytellers, artists to each other, and the city to its culture.</p>
+</section>
+
+<!-- ════════ LAYERS ════════ -->
+<section class="block" id="layers">
+  <div class="sect-head" data-reveal><span class="label"><span class="idx">02</span>The Three Layers</span></div>
+
+  <div class="layer-row" data-reveal>
+    <span class="layer-num">/ 01</span>
+    <div class="layer-body">
+      <h3>Commercial</h3>
+      <p>Visual storytelling for B2B brands and luxury local businesses — photography and cinematography delivered with an auteur's eye, not an agency's template.</p>
+      <div class="layer-tags"><i>B2B</i><i>Photography</i><i>Cinematography</i><i>E-commerce</i></div>
+    </div>
+    <span class="layer-arrow">↗</span>
+  </div>
+
+  <div class="layer-row" data-reveal>
+    <span class="layer-num">/ 02</span>
+    <div class="layer-body">
+      <h3>Professional</h3>
+      <p>The invite-only Nationwide Artist Hub — physical and digital — and its signature REP SHEET directory. The end of the lone-wolf creative bottleneck.</p>
+      <div class="layer-tags"><i>Artist Hub</i><i>Rep Sheet</i><i>Invite-only</i><i>Nationwide</i></div>
+    </div>
+    <span class="layer-arrow">↗</span>
+  </div>
+
+  <div class="layer-row" data-reveal>
+    <span class="layer-num">/ 03</span>
+    <div class="layer-body">
+      <h3>Cultural</h3>
+      <p>Curated community experiences, art exhibitions, and brand activations across Atlanta — the rendezvous the name promises.</p>
+      <div class="layer-tags"><i>Experiences</i><i>Exhibitions</i><i>Activations</i><i>ATL</i></div>
+    </div>
+    <span class="layer-arrow">↗</span>
+  </div>
+</section>
+
+<!-- ════════ REEL ════════ -->
+<section class="block" id="reel">
+  <div class="sect-head" data-reveal><span class="label"><span class="idx">03</span>Showreel</span></div>
+  <div class="reel-frame" data-reveal>
+    <!-- DROP YOUR SHOWREEL HERE: replace .reel-placeholder with your <video> (see CSS note above) -->
+    <div class="reel-placeholder">
+      <span class="reel-corner tl"><span class="dot"></span>REC — REEL '26</span>
+      <a class="reel-play" href="mailto:support@ahrendezvous.com?subject=Showreel%20request" aria-label="Request the showreel" data-hover>
+        <svg width="26" height="30" viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0L26 15L0 30V0Z" fill="#C5A880"/></svg>
+      </a>
+      <span class="reel-corner br">Coming into focus</span>
     </div>
   </div>
 </section>
 
-<!-- ── Artist Hub ───────────────────────────────────────────────── -->
-<section id="hub" aria-labelledby="hub-heading">
-  <div class="hub-bg-word" aria-hidden="true">REP</div>
-  <div class="section-inner">
-    <div class="hub-inner">
-      <span class="hub-tag" data-reveal>Invite Only</span>
-      <span class="eyebrow" data-reveal>Nationwide Artist Hub</span>
-      <h2 class="s-heading" id="hub-heading" data-reveal>The REP SHEET</h2>
-      <div class="gold-rule" data-reveal></div>
-      <p class="s-body" data-reveal>
-        Stop working alone. The REP SHEET is Ahrendezvous's invite-only creative directory — a physical and digital network of vetted photographers, cinematographers, directors, and producers nationwide. Built to eliminate the lone-wolf bottleneck that's slowing your art down.
-      </p>
-      <br data-reveal>
-      <a href="#contact" class="btn-ghost" data-reveal>Request an Invitation</a>
+<!-- ════════ RETAINERS ════════ -->
+<section class="block" id="retainers">
+  <div class="sect-head" data-reveal>
+    <span class="label"><span class="idx">04</span>Production Retainers</span>
+    <p class="intro">Monthly retainers for brands that need predictable, high-retention content with an auteur finish. 3, 6, or 12-month commitments.</p>
+  </div>
+
+  <div class="tier-grid">
+    <div class="tier" data-reveal>
+      <h3>The Social Engine</h3>
+      <p class="for">For brands establishing authority on Reels · TikTok · Shorts</p>
+      <p class="price">$2,000<small>/ month</small></p>
+      <ul>
+        <li><b>One 3-hour studio day</b>&nbsp;per month — Atlanta studio or local location</li>
+        <li><b>8 short-form videos</b>&nbsp;— color-graded, custom audio, native captions</li>
+        <li><b>10 editorial brand photos</b>&nbsp;— high resolution</li>
+        <li><b>10-day guaranteed turnaround</b>&nbsp;· 2 revisions</li>
+      </ul>
+      <a class="tier-cta" href="mailto:support@ahrendezvous.com?subject=The%20Social%20Engine" data-magnetic>Reserve a studio day</a>
+    </div>
+
+    <div class="tier feature" data-reveal>
+      <span class="flag">Most impact</span>
+      <h3>The Enterprise Presence</h3>
+      <p class="for">For premium service brands · e-commerce · high-tier creators</p>
+      <p class="price">$5,000<small>/ month</small></p>
+      <ul>
+        <li><b>One 8-hour studio day</b>&nbsp;per month — or two 4-hour sessions</li>
+        <li><b>16 short-form + 1 cinematic long-form</b>&nbsp;— or 5 long-form videos</li>
+        <li><b>25 editorial brand photos</b>&nbsp;— high resolution</li>
+        <li><b>Aesthetic direction templates</b>&nbsp;+ monthly visual audit &amp; strategy call</li>
+        <li><b>24–72 hr priority turnaround</b>&nbsp;· 5 revisions</li>
+      </ul>
+      <a class="tier-cta" href="mailto:support@ahrendezvous.com?subject=The%20Enterprise%20Presence" data-magnetic>Claim the calendar</a>
+    </div>
+  </div>
+  <p class="commit-note" data-reveal>— 3 / 6 / 12-month commitments · limited studio days per month —</p>
+</section>
+
+<!-- ════════ BEYOND ════════ -->
+<section class="block" id="beyond">
+  <div class="wrap">
+    <div class="beyond-item" data-reveal>
+      <h4><span>✦</span> Artist Hub</h4>
+      <p>Invite-only. Physical &amp; digital. A nationwide network of vetted creatives.</p>
+    </div>
+    <div class="beyond-item" data-reveal>
+      <h4><span>✦</span> Rep Sheet</h4>
+      <p>The signature directory — proof of work, not promises. Collaboration without the cold call.</p>
+    </div>
+    <div class="beyond-item" data-reveal>
+      <h4><span>✦</span> Mentorship Camps</h4>
+      <p>Intensive film &amp; photography camps that scale raw talent into working artists.</p>
     </div>
   </div>
 </section>
 
-<!-- ── Community ────────────────────────────────────────────────── -->
-<section id="community" aria-labelledby="community-heading">
-  <div class="section-inner">
-    <span class="eyebrow" data-reveal>Atlanta &amp; Beyond</span>
-    <h2 class="s-heading" id="community-heading" data-reveal>Where Culture<br>Gets Made.</h2>
-    <div class="gold-rule" data-reveal></div>
-    <p class="s-body" data-reveal>Ahrendezvous isn't just a studio — it's an ecosystem. We produce events, exhibitions, and activations that bring the creative community together.</p>
-
-    <div class="comm-grid" data-stagger-group>
-      <div class="comm-card" data-stagger-item>
-        <span class="comm-glyph">◈</span>
-        <h3>Art Exhibitions</h3>
-        <p>Curated showcases bringing Atlanta's most compelling visual work to audiences that actually show up — intimate, intentional, electric.</p>
-      </div>
-      <div class="comm-card" data-stagger-item>
-        <span class="comm-glyph">◉</span>
-        <h3>Brand Activations</h3>
-        <p>Experience-first activations for luxury and emerging local brands — where culture and commerce intersect at the highest level.</p>
-      </div>
-      <div class="comm-card" data-stagger-item>
-        <span class="comm-glyph">◐</span>
-        <h3>Film &amp; Photography Camps</h3>
-        <p>Intensive mentorship programs scaling raw talent into working professionals — hands-on, no fluff, taught by creatives who've done it.</p>
-      </div>
-      <div class="comm-card" data-stagger-item>
-        <span class="comm-glyph">◑</span>
-        <h3>Curated Experiences</h3>
-        <p>From rooftop screenings to private studio dinners, Ahrendezvous creates the environments where meaningful creative connections happen.</p>
-      </div>
-    </div>
-  </div>
+<!-- ════════ CONTACT ════════ -->
+<section class="block" id="contact">
+  <div data-reveal><span class="label"><span class="idx">05</span>Contact</span></div>
+  <p class="giant" data-reveal>Let's <em>create.</em></p>
+  <a class="contact-mail" href="mailto:support@ahrendezvous.com" data-magnetic data-reveal>support@ahrendezvous.com</a>
+  <p class="contact-meta" data-reveal>West Midtown · Atlanta · By appointment</p>
 </section>
 
-<!-- ── Contact ──────────────────────────────────────────────────── -->
-<section id="contact" aria-labelledby="contact-heading">
-  <div class="section-inner">
-    <span class="eyebrow" data-reveal>Get In Touch</span>
-    <h2 class="s-heading" id="contact-heading" data-reveal>Let's Create<br>Together.</h2>
-    <div class="contact-line" data-reveal aria-hidden="true"></div>
-    <p class="s-body" data-reveal>Whether you're a brand ready to invest in your visual identity, a creative looking to join the network, or an Atlanta institution wanting to collaborate — the door is open.</p>
-    <br>
-    <a href="mailto:support@ahrendezvous.com" class="contact-email-link" data-reveal>support@ahrendezvous.com</a>
-    <div class="hero-ctas" data-reveal>
-      <a href="mailto:support@ahrendezvous.com" class="btn-fill">Start a Project</a>
-      <a href="#hub" class="btn-ghost">Join the Hub</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Footer ───────────────────────────────────────────────────── -->
 <footer>
-  <a href="#" class="footer-logo">Ahrendezvous</a>
-  <span class="footer-copy">© 2025 Ahrendezvous · West Midtown, Atlanta</span>
-  <nav class="footer-links" aria-label="Footer navigation">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#hub">Hub</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <span>© 2026 Ahrendezvous Entertainment — All rights reserved</span>
+  <a href="#hero" data-hover>Back to top ↑</a>
 </footer>
 
-<!-- ── Scripts ─────────────────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
-// ═══════════════════════════════════════════════════════════════
-// NAV — mobile toggle + scroll state
-// ═══════════════════════════════════════════════════════════════
-const nav       = document.getElementById('nav');
-const navToggle = document.getElementById('nav-toggle');
-const navLinks  = document.getElementById('nav-links');
+(function () {
+  'use strict';
 
-navToggle.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  navToggle.setAttribute('aria-expanded', open);
-});
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TOUCH   = window.matchMedia('(pointer: coarse)').matches;
+  var hasGSAP = typeof window.gsap !== 'undefined';
+  var hasTHREE = typeof window.THREE !== 'undefined';
 
-// Close on link click (mobile)
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  });
-});
+  // If GSAP failed to load, un-gate the reveal states so content is visible.
+  if (!hasGSAP) { document.documentElement.classList.remove('js'); }
+  if (TOUCH) { document.getElementById('hint-verb').textContent = 'Touch'; }
 
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 80);
-}, { passive: true });
-
-// ═══════════════════════════════════════════════════════════════
-// THREE.JS HERO  — interactive particles + wireframe geometry
-// ═══════════════════════════════════════════════════════════════
-(function initThree() {
-  const canvas = document.getElementById('hero-canvas');
-  const heroEl = document.getElementById('hero');
-
-  // Scene
-  const scene    = new THREE.Scene();
-  const W        = window.innerWidth;
-  const H        = window.innerHeight;
-  const camera   = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
-  camera.position.set(0, 0, 6);
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
-
-  // ── Particle field ──────────────────────────────────────────
-  const isMobile = W < 768;
-  const N        = isMobile ? 900 : 2000;
-
-  const positions  = new Float32Array(N * 3);
-  const colors     = new Float32Array(N * 3);
-  const velocities = [];
-
-  // Aura Gold → Classic Parchment gradient palette
-  const GOLD_R = 197/255, GOLD_G = 168/255, GOLD_B = 128/255;
-  const PARC_R = 247/255, PARC_G = 245/255, PARC_B = 240/255;
-
-  for (let i = 0; i < N; i++) {
-    positions[i*3]   = (Math.random() - 0.5) * 26;
-    positions[i*3+1] = (Math.random() - 0.5) * 26;
-    positions[i*3+2] = (Math.random() - 0.5) * 14;
-
-    const t = Math.random();
-    colors[i*3]   = GOLD_R + (PARC_R - GOLD_R) * t * 0.45;
-    colors[i*3+1] = GOLD_G + (PARC_G - GOLD_G) * t * 0.45;
-    colors[i*3+2] = GOLD_B + (PARC_B - GOLD_B) * t * 0.45;
-
-    velocities.push({
-      x: (Math.random() - 0.5) * 0.0035,
-      y:  Math.random()        * 0.007 + 0.0008,
-      z: 0
+  /* ───────────────────── CUSTOM CURSOR ───────────────────── */
+  if (!TOUCH && hasGSAP) {
+    document.documentElement.classList.add('has-cursor');
+    var dot = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    var dx = gsap.quickTo(dot, 'left', { duration: 0.08, ease: 'power2.out' });
+    var dy = gsap.quickTo(dot, 'top',  { duration: 0.08, ease: 'power2.out' });
+    var rx = gsap.quickTo(ring, 'left', { duration: 0.42, ease: 'power3.out' });
+    var ry = gsap.quickTo(ring, 'top',  { duration: 0.42, ease: 'power3.out' });
+    window.addEventListener('pointermove', function (e) {
+      dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
+    });
+    document.querySelectorAll('a, button, [data-hover]').forEach(function (el) {
+      el.addEventListener('pointerenter', function () { ring.classList.add('is-hover'); });
+      el.addEventListener('pointerleave', function () { ring.classList.remove('is-hover'); });
     });
   }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geo.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.038,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.72,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true,
-  });
-
-  const points = new THREE.Points(geo, mat);
-  scene.add(points);
-
-  // ── Central wireframe — torus knot (primary interactive form) ──
-  const tkGeo = new THREE.TorusKnotGeometry(1.85, 0.46, 130, 20);
-  const tkMat = new THREE.MeshBasicMaterial({
-    color: 0xC5A880,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.09,
-  });
-  const tk = new THREE.Mesh(tkGeo, tkMat);
-  scene.add(tk);
-
-  // ── Outer icosahedron shell (depth layer) ───────────────────
-  const icoGeo = new THREE.IcosahedronGeometry(3.8, 1);
-  const icoMat = new THREE.MeshBasicMaterial({
-    color: 0x4A5551,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.035,
-  });
-  const ico = new THREE.Mesh(icoGeo, icoMat);
-  scene.add(ico);
-
-  // ── Mouse tracking ──────────────────────────────────────────
-  let targetMX = 0, targetMY = 0;
-  let smoothMX = 0, smoothMY = 0;
-
-  window.addEventListener('mousemove', e => {
-    targetMX = (e.clientX / window.innerWidth  - 0.5);
-    targetMY = (e.clientY / window.innerHeight - 0.5);
-  }, { passive: true });
-
-  // Touch support
-  window.addEventListener('touchmove', e => {
-    const t = e.touches[0];
-    targetMX = (t.clientX / window.innerWidth  - 0.5);
-    targetMY = (t.clientY / window.innerHeight - 0.5);
-  }, { passive: true });
-
-  // ── Resize ─────────────────────────────────────────────────
-  window.addEventListener('resize', () => {
-    const w = window.innerWidth, h = window.innerHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  }, { passive: true });
-
-  // ── Animate ────────────────────────────────────────────────
-  let frame = 0;
-
-  function tick() {
-    requestAnimationFrame(tick);
-    frame++;
-
-    // Smooth mouse lerp
-    smoothMX += (targetMX - smoothMX) * 0.028;
-    smoothMY += (targetMY - smoothMY) * 0.028;
-
-    // Torus knot: rotate + follow mouse slightly
-    tk.rotation.x += 0.0028;
-    tk.rotation.y += 0.0065;
-    tk.position.x  += (smoothMX * 0.9 - tk.position.x) * 0.025;
-    tk.position.y  += (-smoothMY * 0.9 - tk.position.y) * 0.025;
-
-    // Icosahedron: slow counter-rotation
-    ico.rotation.y += 0.0018;
-    ico.rotation.z += 0.0009;
-
-    // Update particle positions (drift upward, wrap)
-    const pos = geo.attributes.position.array;
-    for (let i = 0; i < N; i++) {
-      pos[i*3]   += velocities[i].x;
-      pos[i*3+1] += velocities[i].y;
-      if (pos[i*3+1] > 13)  pos[i*3+1] = -13;
-      if (pos[i*3]   > 13)  pos[i*3]   = -13;
-      if (pos[i*3]   < -13) pos[i*3]   =  13;
-    }
-    geo.attributes.position.needsUpdate = true;
-
-    // Camera parallax (secondary layer over object mouse-follow)
-    camera.position.x += (smoothMX * 1.4 - camera.position.x) * 0.035;
-    camera.position.y += (-smoothMY * 1.4 - camera.position.y) * 0.035;
-    camera.lookAt(0, 0, 0);
-
-    renderer.render(scene, camera);
+  /* ───────────────────── MAGNETIC BUTTONS ───────────────────── */
+  if (!TOUCH && hasGSAP) {
+    document.querySelectorAll('[data-magnetic]').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        gsap.to(el, {
+          x: (e.clientX - r.left - r.width / 2) * 0.32,
+          y: (e.clientY - r.top - r.height / 2) * 0.32,
+          duration: 0.4, ease: 'power3.out'
+        });
+      });
+      el.addEventListener('pointerleave', function () {
+        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.4)' });
+      });
+    });
   }
 
-  tick();
+  /* ───────────────────── NAV SCROLL STATE ───────────────────── */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ═════════════════════ THREE.JS VOXEL WORDMARK ═════════════════════
+     "AHRENDEZVOUS" rendered as ~3–4k instanced cubes sampled from canvas
+     pixels. Assembles from dust on load; voxels within the cursor radius
+     scatter, shrink and tint gold/ember — the wordmark "pixelates". */
+  var heroGo = false;          // flips true when the preloader finishes
+  if (hasTHREE) { buildHero(); } else { document.body.classList.add('no-webgl'); }
+
+  function buildHero() {
+    var holder = document.getElementById('hero-canvas');
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch (e) {
+      document.body.classList.add('no-webgl');
+      return;
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    holder.appendChild(renderer.domElement);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 400);
+    camera.position.z = 62;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    var key = new THREE.DirectionalLight(0xfff3e0, 0.95);
+    key.position.set(8, 14, 26); scene.add(key);
+    var rim = new THREE.DirectionalLight(0xC5A880, 0.55);
+    rim.position.set(-14, -8, -12); scene.add(rim);
+
+    /* sample the word into voxel home positions */
+    var WORD = 'AHRENDEZVOUS';
+    var CW = 1440, CH = 256;
+    var cnv = document.createElement('canvas'); cnv.width = CW; cnv.height = CH;
+    var ctx = cnv.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.font = '900 168px Arial, Helvetica, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(WORD, CW / 2, CH / 2 + 6);
+    var img = ctx.getImageData(0, 0, CW, CH).data;
+
+    var STEP = window.innerWidth < 768 ? 9 : 6;
+    var WORLD_W = 64;
+    var SX = WORLD_W / CW;
+    var VOX = STEP * SX * 0.94;
+
+    var homes = [], starts = [], rnd = [], delays = [];
+    var x, y, a;
+    for (var py = 0; py < CH; py += STEP) {
+      for (var pxx = 0; pxx < CW; pxx += STEP) {
+        a = img[(py * CW + pxx) * 4 + 3];
+        if (a < 128) continue;
+        x = (pxx - CW / 2) * SX;
+        y = (CH / 2 - py) * SX;
+        homes.push(x, y, (Math.random() - 0.5) * 1.1);
+        // assembly start: somewhere out in the dark
+        var dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+        var dist = 18 + Math.random() * 42;
+        starts.push(x + dir.x * dist, y + dir.y * dist, dir.z * dist);
+        rnd.push(
+          Math.random() * 2 - 1,            // jitter x
+          Math.random() * 2 - 1,            // jitter y
+          Math.random() * 1.4 + 0.3,        // burst z (toward camera)
+          Math.random() * 2 - 1,            // spin x
+          Math.random() * 2 - 1,            // spin y
+          Math.random()                     // tint selector
+        );
+        delays.push(((x + WORLD_W / 2) / WORLD_W) * 0.9 + Math.random() * 0.3);
+      }
+    }
+    var COUNT = homes.length / 3;
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    var geo = new THREE.BoxGeometry(VOX, VOX, VOX);
+    var mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.42, metalness: 0.28 });
+    var mesh = new THREE.InstancedMesh(geo, mat, COUNT);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    group.add(mesh);
+
+    var cParch = new THREE.Color('#F7F5F0');
+    var cGold  = new THREE.Color('#C5A880');
+    var cEmber = new THREE.Color('#FF4517');
+    var tmpCol = new THREE.Color();
+    var i;
+    for (i = 0; i < COUNT; i++) mesh.setColorAt(i, cParch);
+    mesh.instanceColor.needsUpdate = true;
+
+    /* ambient gold dust drifting behind the wordmark */
+    var dustGeo = new THREE.BufferGeometry();
+    var dustPos = new Float32Array(350 * 3);
+    for (i = 0; i < 350; i++) {
+      dustPos[i * 3]     = (Math.random() - 0.5) * 110;
+      dustPos[i * 3 + 1] = (Math.random() - 0.5) * 60;
+      dustPos[i * 3 + 2] = -8 - Math.random() * 40;
+    }
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+    var dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+      color: 0xC5A880, size: 0.22, transparent: true, opacity: 0.35,
+      depthWrite: false, sizeAttenuation: true
+    }));
+    scene.add(dust);
+
+    /* interaction state */
+    var ndc = new THREE.Vector2(99, 99);
+    var targetRotX = 0, targetRotY = 0;
+    var raycaster = new THREE.Raycaster();
+    var plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    var hitW = new THREE.Vector3();
+    var hitL = new THREE.Vector3(9999, 9999, 0);
+    var pointerOn = false;
+
+    window.addEventListener('pointermove', function (e) {
+      ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
+      ndc.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      targetRotY = ndc.x * 0.16;
+      targetRotX = -ndc.y * 0.10;
+      pointerOn = true;
+    });
+    document.addEventListener('pointerleave', function () { pointerOn = false; });
+
+    function fit() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      var visW = 2 * Math.tan(THREE.MathUtils.degToRad(20)) * camera.position.z * camera.aspect;
+      group.scale.setScalar(Math.min(1, (visW * 0.9) / WORLD_W));
+    }
+    fit();
+    window.addEventListener('resize', fit);
+
+    /* pause rendering while the hero is offscreen */
+    var visible = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+      }, { threshold: 0.02 }).observe(document.getElementById('hero'));
+    }
+
+    var disp = new Float32Array(COUNT);            // smoothed scatter amount per voxel
+    var dummy = new THREE.Object3D();
+    var clock = new THREE.Clock();
+    var heroStart = -1;
+    var R = 7.5, PUSH = 7;
+
+    function ease3(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function tick() {
+      requestAnimationFrame(tick);
+      if (!visible) return;
+      var t = clock.getElapsedTime();
+
+      if (heroGo && heroStart < 0) heroStart = t;
+      var tA = heroStart < 0 ? 0 : t - heroStart;
+
+      group.rotation.y += (targetRotY - group.rotation.y) * 0.055;
+      group.rotation.x += (targetRotX - group.rotation.x) * 0.055;
+      group.updateMatrixWorld(true);
+
+      if (pointerOn) {
+        raycaster.setFromCamera(ndc, camera);
+        if (raycaster.ray.intersectPlane(plane, hitW)) {
+          hitL.copy(hitW);
+          group.worldToLocal(hitL);
+        }
+      } else {
+        hitL.set(9999, 9999, 0);
+      }
+
+      for (var i = 0; i < COUNT; i++) {
+        var i3 = i * 3, i6 = i * 6;
+        var at = REDUCED ? 1 : ease3(Math.min(1, Math.max(0, (tA - delays[i]) / 1.5)));
+
+        var hx = starts[i3]     + (homes[i3]     - starts[i3])     * at;
+        var hy = starts[i3 + 1] + (homes[i3 + 1] - starts[i3 + 1]) * at;
+        var hz = starts[i3 + 2] + (homes[i3 + 2] - starts[i3 + 2]) * at;
+        if (!REDUCED) hz += Math.sin(t * 0.85 + homes[i3] * 0.18 + homes[i3 + 1] * 0.3) * 0.45 * at;
+
+        var ddx = hx - hitL.x, ddy = hy - hitL.y;
+        var d = Math.sqrt(ddx * ddx + ddy * ddy);
+        var f = (d < R && at > 0.95) ? Math.pow(1 - d / R, 2) : 0;
+        disp[i] += (f - disp[i]) * (f > disp[i] ? 0.25 : 0.05);
+        var D = disp[i];
+
+        var inv = 1 / Math.max(d, 0.001);
+        dummy.position.set(
+          hx + (ddx * inv * 2.2 + rnd[i6])     * D * PUSH * 0.6,
+          hy + (ddy * inv * 2.2 + rnd[i6 + 1]) * D * PUSH * 0.6,
+          hz + rnd[i6 + 2] * D * PUSH * 1.35
+        );
+        dummy.rotation.set(rnd[i6 + 3] * D * 3.2, rnd[i6 + 4] * D * 3.2, 0);
+        dummy.scale.setScalar(Math.max(0.001, at) * (1 - D * 0.45 * (0.4 + rnd[i6 + 5] * 0.6)));
+        dummy.updateMatrix();
+        mesh.setMatrixAt(i, dummy.matrix);
+
+        tmpCol.copy(cParch).lerp(rnd[i6 + 5] > 0.72 ? cEmber : cGold, Math.min(1, D * 1.6));
+        mesh.setColorAt(i, tmpCol);
+      }
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.instanceColor.needsUpdate = true;
+
+      dust.rotation.y = t * 0.018;
+      renderer.render(scene, camera);
+    }
+    tick();
+  }
+
+  /* ───────────────────── PRELOADER + ENTRANCE ───────────────────── */
+  function enter() {
+    heroGo = true;
+    if (!hasGSAP) return;
+    var tl = gsap.timeline();
+    tl.to('#loader', { yPercent: -100, duration: 0.9, ease: 'power4.inOut' })
+      .set('#loader', { display: 'none' })
+      .from('#nav', { y: -50, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.45')
+      .from('.hero-eyebrow', { y: 26, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.55')
+      .from('[data-hero-fade]', { y: 26, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' }, '-=0.6');
+  }
+
+  if (hasGSAP && !REDUCED) {
+    var counter = { v: 0 };
+    var numEl = document.getElementById('load-num');
+    var barEl = document.getElementById('load-bar');
+    gsap.to(counter, {
+      v: 100, duration: 1.25, ease: 'power2.inOut',
+      onUpdate: function () {
+        var n = Math.round(counter.v);
+        numEl.textContent = (n < 10 ? '00' : n < 100 ? '0' : '') + n;
+        barEl.style.width = n + '%';
+      },
+      onComplete: enter
+    });
+  } else {
+    var l = document.getElementById('loader');
+    if (l) l.style.display = 'none';
+    heroGo = true;
+  }
+
+  /* ───────────────────── SCROLL REVEALS ───────────────────── */
+  if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('[data-reveal]').forEach(function (el) {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 86%' }
+      });
+    });
+
+    /* manifesto: word-by-word rise */
+    var line = document.getElementById('manifesto-line');
+    if (line) {
+      var nodes = Array.prototype.slice.call(line.childNodes);
+      line.textContent = '';
+      nodes.forEach(function (node) {
+        var em = node.nodeType === 1;
+        String(node.textContent).split(/\s+/).forEach(function (w) {
+          if (!w) return;
+          var s = document.createElement(em ? 'em' : 'span');
+          s.setAttribute('data-word', '');
+          s.textContent = w;
+          line.appendChild(s);
+          line.appendChild(document.createTextNode(' '));
+        });
+      });
+      gsap.to(line.querySelectorAll('[data-word]'), {
+        opacity: 1, y: 0, duration: 0.9, stagger: 0.045, ease: 'power3.out',
+        scrollTrigger: { trigger: line, start: 'top 82%' }
+      });
+    }
+  }
 })();
-
-// ═══════════════════════════════════════════════════════════════
-// GSAP — hero entrance + scroll reveals
-// ═══════════════════════════════════════════════════════════════
-gsap.registerPlugin(ScrollTrigger);
-
-// Hero entrance (staggered, from below)
-const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-heroTl
-  .from('#nav',            { opacity: 0, y: -20, duration: 0.8 }, 0.1)
-  .from('.hero-eyebrow',   { opacity: 0, y: 25,  duration: 1   }, 0.35)
-  .from('.hero-title',     { opacity: 0, y: 70,  duration: 1.5 }, 0.5)
-  .from('.hero-tagline',   { opacity: 0, y: 40,  duration: 1.2 }, 0.75)
-  .from('.hero-ctas > *',  { opacity: 0, y: 30,  duration: 1, stagger: 0.15 }, 0.95)
-  .from('.hero-scroll',    { opacity: 0, duration: 1 }, 1.4);
-
-// Section reveal — any element with [data-reveal]
-document.querySelectorAll('[data-reveal]').forEach(el => {
-  gsap.fromTo(el,
-    { opacity: 0, y: 55 },
-    {
-      opacity: 1, y: 0,
-      duration: 1.05,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 83%',
-        toggleActions: 'play none none none',
-      }
-    }
-  );
-});
-
-// Stagger groups — children with [data-stagger-item] inside [data-stagger-group]
-document.querySelectorAll('[data-stagger-group]').forEach(group => {
-  const items = group.querySelectorAll('[data-stagger-item]');
-  if (!items.length) return;
-  gsap.fromTo(items,
-    { opacity: 0, y: 65 },
-    {
-      opacity: 1, y: 0,
-      duration: 1,
-      ease: 'power3.out',
-      stagger: 0.14,
-      scrollTrigger: {
-        trigger: group,
-        start: 'top 78%',
-        toggleActions: 'play none none none',
-      }
-    }
-  );
-});
-
-// Pillar numbers — slide in from left
-gsap.from('.pillar-num', {
-  x: -30,
-  opacity: 0,
-  duration: 0.9,
-  ease: 'power3.out',
-  stagger: 0.18,
-  scrollTrigger: {
-    trigger: '.pillars',
-    start: 'top 80%',
-    toggleActions: 'play none none none',
-  }
-});
-
-// Hub background word — slow reveal
-gsap.from('.hub-bg-word', {
-  opacity: 0,
-  x: 80,
-  duration: 1.4,
-  ease: 'power2.out',
-  scrollTrigger: {
-    trigger: '#hub',
-    start: 'top 85%',
-    toggleActions: 'play none none none',
-  }
-});
-
-// Service card hover glow (CSS handles most, but we add a subtle scale)
-document.querySelectorAll('.svc').forEach(card => {
-  card.addEventListener('mouseenter', () =>
-    gsap.to(card, { scale: 1.015, duration: 0.3, ease: 'power2.out' })
-  );
-  card.addEventListener('mouseleave', () =>
-    gsap.to(card, { scale: 1,     duration: 0.3, ease: 'power2.out' })
-  );
-});
-
-// Community card accent-color sweep on hover
-document.querySelectorAll('.comm-card').forEach(card => {
-  card.addEventListener('mouseenter', () =>
-    gsap.to(card, { borderColor: 'rgba(74,85,81,0.7)', duration: 0.25 })
-  );
-  card.addEventListener('mouseleave', () =>
-    gsap.to(card, { borderColor: 'rgba(74,85,81,0.35)', duration: 0.25 })
-  );
-});
 </script>
 </body>
 </html>
