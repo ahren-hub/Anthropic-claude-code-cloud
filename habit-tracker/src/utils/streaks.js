@@ -10,7 +10,8 @@ export function calculateStreak(logs, habitId) {
   }
 
   let streak = 0
-  while (true) {
+  const MAX_STREAK = 3650 // cap at 10 years to prevent runaway loop on corrupted data
+  while (streak < MAX_STREAK) {
     const dateStr = localDateStr(now)
     if (logs[dateStr]?.[habitId]) {
       streak++

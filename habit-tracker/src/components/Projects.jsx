@@ -27,6 +27,7 @@ export default function Projects() {
   const [filter, setFilter] = useState('all')
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
+  const [pendingDelete, setPendingDelete] = useState(null)
 
   const counts = {
     all: projects.length,
@@ -51,8 +52,11 @@ export default function Projects() {
   }
 
   const remove = (id) => {
-    if (confirm('Delete this project?')) {
+    if (pendingDelete === id) {
       setProjects((prev) => prev.filter((p) => p.id !== id))
+      setPendingDelete(null)
+    } else {
+      setPendingDelete(id)
     }
   }
 
@@ -153,18 +157,36 @@ export default function Projects() {
 
                 <div className="flex border-t border-zinc-800">
                   <button
-                    onClick={() => openEdit(project)}
+                    onClick={() => { setPendingDelete(null); openEdit(project) }}
                     className="flex-1 py-2.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors"
                   >
                     Edit
                   </button>
                   <div className="w-px bg-zinc-800" />
-                  <button
-                    onClick={() => remove(project.id)}
-                    className="flex-1 py-2.5 text-xs text-red-400/60 hover:text-red-400 hover:bg-zinc-800/50 transition-colors"
-                  >
-                    Delete
-                  </button>
+                  {pendingDelete === project.id ? (
+                    <div className="flex flex-1">
+                      <button
+                        onClick={() => remove(project.id)}
+                        className="flex-1 py-2.5 text-xs text-red-400 font-semibold hover:bg-red-500/10 transition-colors"
+                      >
+                        Confirm
+                      </button>
+                      <div className="w-px bg-zinc-800" />
+                      <button
+                        onClick={() => setPendingDelete(null)}
+                        className="flex-1 py-2.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => remove(project.id)}
+                      className="flex-1 py-2.5 text-xs text-red-400/60 hover:text-red-400 hover:bg-zinc-800/50 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             )

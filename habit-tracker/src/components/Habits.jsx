@@ -10,6 +10,7 @@ export default function Habits() {
   const [logs] = useLocalStorage('habitLogs', {})
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
+  const [pendingDelete, setPendingDelete] = useState(null)
 
   const days = last7Days()
 
@@ -24,8 +25,11 @@ export default function Habits() {
   }
 
   const remove = (id) => {
-    if (confirm('Delete this habit?')) {
+    if (pendingDelete === id) {
       setHabits((prev) => prev.filter((h) => h.id !== id))
+      setPendingDelete(null)
+    } else {
+      setPendingDelete(id)
     }
   }
 
@@ -77,19 +81,38 @@ export default function Habits() {
                         <p className="text-xs text-amber-400 mt-0.5">🔥 {streak} day streak</p>
                       )}
                     </div>
-                    <div className="flex gap-1 flex-shrink-0">
-                      <button
-                        onClick={() => openEdit(habit)}
-                        className="px-2 py-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => remove(habit.id)}
-                        className="px-2 py-1 text-xs text-red-400/60 hover:text-red-400 transition-colors"
-                      >
-                        ✕
-                      </button>
+                    <div className="flex gap-1 flex-shrink-0 items-center">
+                      {pendingDelete === habit.id ? (
+                        <>
+                          <button
+                            onClick={() => remove(habit.id)}
+                            className="px-2 py-1 text-xs text-red-400 font-semibold transition-colors"
+                          >
+                            Confirm?
+                          </button>
+                          <button
+                            onClick={() => setPendingDelete(null)}
+                            className="px-2 py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => { setPendingDelete(null); openEdit(habit) }}
+                            className="px-2 py-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => remove(habit.id)}
+                            className="px-2 py-1 text-xs text-red-400/60 hover:text-red-400 transition-colors"
+                          >
+                            ✕
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
 
