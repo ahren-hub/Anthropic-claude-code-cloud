@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0A0E1A">
 <title>Virtual Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0A0E1A; --surface:#151929; --surface2:#1E2340; --border:#252940;
@@ -19,8 +22,12 @@
   html,body{height:100%;}
   body{
     background:var(--bg); color:#fff;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     overflow:hidden; user-select:none; -webkit-user-select:none;
+  }
+  /* Rajdhani display font — matches GoogleFonts.rajdhani in the Flutter app */
+  #start h1, .age, .btn, .section-label, #over h1{
+    font-family:'Rajdhani','Inter',sans-serif;
   }
   #app{
     max-width:480px; margin:0 auto; height:100%;
