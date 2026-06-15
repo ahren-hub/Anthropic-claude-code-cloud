@@ -185,7 +185,7 @@
     opacity:0; pointer-events:none; transition:opacity .2s;
   }
   #modal-bg.show{opacity:1; pointer-events:auto;}
-  .modal{background:var(--surface); border-radius:16px; padding:22px; width:100%; max-width:340px;}
+  .modal{background:var(--surface); border-radius:16px; padding:22px; width:100%; max-width:340px; max-height:86vh; overflow-y:auto;}
   .modal h3{font-size:17px; margin-bottom:12px;}
   .modal p{color:rgba(255,255,255,.54); font-size:14px; line-height:1.5; white-space:pre-line;}
   .modal-actions{display:flex; gap:10px; margin-top:20px;}
@@ -193,6 +193,24 @@
   .mb-cancel{background:transparent; color:rgba(255,255,255,.38);}
   .mb-ok{background:var(--purple); color:#fff;}
   .mb-ok.danger{background:var(--red);}
+
+  /* ── Life-event dilemma + recap popups ── */
+  .dilemma-emoji{font-size:48px; text-align:center; margin-bottom:8px;}
+  .choice-list{display:flex; flex-direction:column; gap:10px; margin-top:18px;}
+  .choice-btn{
+    width:100%; text-align:left; background:var(--surface2);
+    border:1px solid rgba(124,58,237,.4); border-radius:12px; padding:14px;
+    cursor:pointer; color:#fff; display:flex; flex-direction:column; gap:6px;
+    transition:transform .08s, border-color .15s;
+  }
+  .choice-btn:active{transform:scale(.98); border-color:var(--purple);}
+  .choice-btn .cl{font-weight:700; font-size:15px;}
+  .choice-btn .ce{display:flex; flex-wrap:wrap; gap:8px; font-size:11px;}
+  .ev-list{display:flex; flex-direction:column; gap:8px; max-height:46vh; overflow-y:auto; margin-top:6px;}
+  .ev-line{
+    font-size:13px; line-height:1.4; color:rgba(255,255,255,.7);
+    padding:9px 11px; background:var(--surface2); border-radius:10px;
+  }
 
   /* ── Game Over ── */
   #over{padding:32px; flex-direction:column; align-items:center; text-align:center; justify-content:center;}
@@ -329,6 +347,90 @@ const EVENTS = [
   {d:"Got a compliment from a stranger. You're glowing!",         stress:-5, happiness:10, looks:3},
 ];
 
+/* Choice-based life events ("dilemmas"). Some choices are risky gambles. */
+const DILEMMAS = [
+  {id:'startup', emoji:'💸', title:'Startup Pitch',
+   desc:"An old friend needs $1,000 to fund their startup. They swear it'll 10x.",
+   choices:[
+     {label:'Invest $1,000', gamble:{p:0.45,
+        win:{cash:2500, happiness:12, result:"The startup took off — your $1,000 became $2,500!"},
+        lose:{cash:-1000, stress:14, result:"It folded in months. Your $1,000 is gone."}}},
+     {label:'Politely decline', happiness:-2, result:"You pass. No risk, no reward."},
+   ]},
+  {id:'overtime', emoji:'⏰', title:'Overtime Offer', requiresJob:true,
+   desc:"Your boss offers a big weekend project for extra pay.",
+   choices:[
+     {label:'Grind the weekend', cash:900, stress:15, health:-5, result:"Exhausting, but the $900 bonus helps."},
+     {label:'Protect your time', happiness:6, stress:-6, result:"You recharge instead. Worth it."},
+   ]},
+  {id:'wallet', emoji:'👛', title:'Lost Wallet',
+   desc:"You find a wallet on the street with $200 cash inside.",
+   choices:[
+     {label:'Keep the cash', cash:200, happiness:-8, stress:5, result:"You pocket it, but the guilt lingers."},
+     {label:'Return it', happiness:14, result:"The owner is overjoyed. You feel great."},
+   ]},
+  {id:'trip', emoji:'✈️', title:'Weekend Getaway',
+   desc:"Friends invite you on a spontaneous $350 weekend trip.",
+   choices:[
+     {label:'Go for it', cash:-350, happiness:20, stress:-15, health:3, result:"Unforgettable weekend. Money well spent."},
+     {label:'Stay home & save', happiness:-3, result:"You save the cash but feel a little FOMO."},
+   ]},
+  {id:'pet', emoji:'🐶', title:'Adopt a Pet?',
+   desc:"A shelter puppy needs a home. Adoption fee is $150.",
+   choices:[
+     {label:'Adopt the pup', cash:-150, happiness:18, stress:5, result:"Your new best friend moves in. Pure joy."},
+     {label:'Not right now', happiness:-2, result:"The timing isn't right. Maybe someday."},
+   ]},
+  {id:'charity', emoji:'🎗️', title:'Charity Drive',
+   desc:"A local charity is fundraising in your neighborhood.",
+   choices:[
+     {label:'Donate $100', cash:-100, happiness:12, stress:-3, result:"Giving back feels good."},
+     {label:'Walk past', happiness:-3, result:"You keep your cash and your guilt."},
+   ]},
+  {id:'course', emoji:'🎓', title:'Night Class',
+   desc:"A $400 course could level up your career skills.",
+   choices:[
+     {label:'Enroll ($400)', gamble:{p:0.6,
+        win:{cash:200, happiness:10, result:"You aced it and landed a $600 raise — net win!"},
+        lose:{cash:-400, stress:8, result:"You finished it, but no payoff yet. Pricey lesson."}}},
+     {label:'Skip it', stress:-2, result:"You stick with what you know."},
+   ]},
+  {id:'trainer', emoji:'🏋️', title:'Personal Trainer',
+   desc:"A trainer offers a 1-month transformation package for $300.",
+   choices:[
+     {label:'Sign up ($300)', cash:-300, health:15, looks:10, stress:-5, result:"You're in the best shape of your life."},
+     {label:'Pass', happiness:-1, result:"You'll stick to free workouts."},
+   ]},
+  {id:'crypto', emoji:'🪙', title:'Hot Crypto Tip',
+   desc:"A coworker swears a new coin is about to moon. $500 to get in.",
+   choices:[
+     {label:'Ape in $500', gamble:{p:0.4,
+        win:{cash:1500, happiness:10, result:"It mooned! Your $500 turned into $2,000."},
+        lose:{cash:-500, stress:15, happiness:-8, result:"It rugged. Your $500 vanished overnight."}}},
+     {label:'Stay out', stress:-2, result:"You keep your money and your sanity."},
+   ]},
+  {id:'family', emoji:'👪', title:'Family Emergency',
+   desc:"A close relative urgently needs $600 to cover a crisis.",
+   choices:[
+     {label:'Help them out', cash:-600, happiness:8, stress:5, result:"They're deeply grateful. Family first."},
+     {label:"Can't afford it", happiness:-10, stress:8, result:"You couldn't help. The guilt weighs on you."},
+   ]},
+  {id:'promotion', emoji:'📈', title:'Stretch Assignment', requiresJob:true,
+   desc:"A high-visibility project could fast-track your career — or burn you out.",
+   choices:[
+     {label:'Take the shot', stress:18, gamble:{p:0.55,
+        win:{cash:1000, happiness:8, result:"You crushed it — a $1,000 bonus and a promotion!"},
+        lose:{stress:6, happiness:-5, result:"It fizzled out. A lot of stress for little reward."}}},
+     {label:'Play it safe', stress:-5, result:"You keep your current workload steady."},
+   ]},
+  {id:'splurge', emoji:'🛒', title:'Big Sale',
+   desc:"There's a huge sale on something you've wanted for ages ($250).",
+   choices:[
+     {label:'Treat yourself', cash:-250, happiness:14, looks:4, result:"Retail therapy hits the spot."},
+     {label:'Resist', happiness:-2, stress:2, result:"You stay disciplined. Your wallet thanks you."},
+   ]},
+];
+
 /* ════════════════════════════════════════════
    STATE
    ════════════════════════════════════════════ */
@@ -341,6 +443,7 @@ function initialState(){
     job:null,
     log:["🌅 You're 18 and officially on your own. $500 in your pocket, $5k in debt, and a whole life ahead. Choose wisely."],
     used:new Set(),
+    lastDilemma:-99, lastDilemmaId:null,
   };
 }
 
@@ -383,6 +486,16 @@ function applyJob(job){
 }
 
 function endMonth(){
+  const logs = processMonth();
+  render();
+  const o = checkOver();
+  if(o.dead || o.bankrupt){ gameOver(false, o.dead); return; }
+  if(o.won){ gameOver(true); return; }
+  showRecap(logs);               // end-of-month pop-up
+}
+
+// Advances one month, mutates S, returns this month's event lines.
+function processMonth(){
   const logs = [];
   S.totalMonths++;
 
@@ -426,7 +539,7 @@ function endMonth(){
     S.health    += (e.health||0);
     S.looks     += (e.looks||0);
     if(S.cash < 0){ S.debt += -S.cash; S.cash = 0; }
-    logs.push(`🎲 EVENT: ${e.d}`);
+    logs.push(`🎲 ${e.d}`);
   }
 
   S.happiness = clamp(S.happiness);
@@ -438,18 +551,108 @@ function endMonth(){
   S.energy = S.maxEnergy;
   S.used   = new Set();
   S.log    = logs.concat(S.log);
+  return logs;
+}
 
-  // win / loss check
-  const dead     = S.health <= 0;
-  const bankrupt = S.debt >= 100000 && S.cash <= 0;
-  const won      = yr() >= 65 && nw() >= 250000 && S.happiness >= 50;
+function checkOver(){
+  return {
+    dead:     S.health <= 0,
+    bankrupt: S.debt >= 100000 && S.cash <= 0,
+    won:      yr() >= 65 && nw() >= 250000 && S.happiness >= 50,
+  };
+}
 
+/* ── End-of-month recap pop-up ── */
+function showRecap(logs){
+  const items = logs.map(l => `<div class="ev-line">${l}</div>`).join('');
+  openModal(`
+    <h3>📅 Month ${S.totalMonths} · Age ${yr()}y ${mo()}m</h3>
+    <div class="ev-list">${items}</div>
+    <div class="modal-actions"><button class="mb-ok" id="_recapOk">Continue →</button></div>
+  `, true);
+  document.getElementById('_recapOk').onclick = () => { closeModal(); afterRecap(); };
+}
+
+// After the recap, sometimes present a choose-your-path dilemma.
+function afterRecap(){
+  const due  = (S.totalMonths - S.lastDilemma) >= 3 || Math.random() < 0.4;
+  const pool = DILEMMAS.filter(d => (!d.requiresJob || S.job) && d.id !== S.lastDilemmaId);
+  if(due && pool.length){
+    const d = pool[Math.floor(Math.random() * pool.length)];
+    S.lastDilemma   = S.totalMonths;
+    S.lastDilemmaId = d.id;
+    showDilemma(d);
+  } else {
+    finishTurn();
+  }
+}
+
+/* ── Choice-based life event pop-up ── */
+let _pendingDilemma = null;
+function showDilemma(d){
+  _pendingDilemma = d;
+  const btns = d.choices.map((c, i) => `
+    <button class="choice-btn" onclick="chooseDilemma(${i})">
+      <span class="cl">${c.label}</span>
+      <span class="ce">${choicePreview(c)}</span>
+    </button>`).join('');
+  openModal(`
+    <div class="dilemma-emoji">${d.emoji}</div>
+    <h3 style="text-align:center">${d.title}</h3>
+    <p style="text-align:center">${d.desc}</p>
+    <div class="choice-list">${btns}</div>
+  `, true);
+}
+
+function chooseDilemma(i){
+  const c = _pendingDilemma.choices[i];
+  applyEffects(c);                 // base effects (e.g. guaranteed stress)
+  let res = null;
+  if(c.gamble){
+    res = (Math.random() < c.gamble.p) ? c.gamble.win : c.gamble.lose;
+    applyEffects(res);             // randomized outcome
+  }
+  closeModal();
+  showResult((res && res.result) || c.result || 'Done.');
+}
+
+function showResult(msg){
   render();
-  if(dead || bankrupt) return gameOver(false, dead);
-  if(won)              return gameOver(true);
+  openModal(`
+    <div class="dilemma-emoji">🤔</div>
+    <p style="text-align:center">${msg}</p>
+    <div class="modal-actions"><button class="mb-ok" id="_resOk">OK</button></div>
+  `, true);
+  document.getElementById('_resOk').onclick = () => { closeModal(); finishTurn(); };
+}
 
-  const ev = S.log.find(l => l.startsWith('🎲'));
-  if(ev) toast(ev, 3200);
+// Apply a set of stat/cash effects with overdraft + clamping; log its result line.
+function applyEffects(e){
+  S.cash += e.cash || 0;
+  if(S.cash < 0){ S.debt += -S.cash; S.cash = 0; }
+  S.happiness = clamp(S.happiness + (e.happiness||0));
+  S.health    = clamp(S.health    + (e.health||0));
+  S.stress    = clamp(S.stress    + (e.stress||0));
+  S.looks     = clamp(S.looks     + (e.looks||0));
+  if(e.result) S.log.unshift(`🤔 ${e.result}`);
+}
+
+function finishTurn(){
+  render();
+  const o = checkOver();
+  if(o.dead || o.bankrupt){ gameOver(false, o.dead); return; }
+  if(o.won){ gameOver(true); return; }
+}
+
+function choicePreview(c){
+  const p = [];
+  if(c.cash)      p.push(chip((c.cash>0?'+':'')+'$'+Math.abs(c.cash), c.cash>0));
+  if(c.happiness) p.push(chip(signed(c.happiness)+' 😊', c.happiness>0));
+  if(c.health)    p.push(chip(signed(c.health)+' ❤️', c.health>0));
+  if(c.stress)    p.push(chip(signed(c.stress)+' 😰', c.stress<0));
+  if(c.looks)     p.push(chip(signed(c.looks)+' ✨', c.looks>0));
+  if(c.gamble)    p.push('<span class="eff" style="color:var(--amber)">🎲 Risky</span>');
+  return p.join('') || '<span class="eff" style="color:rgba(255,255,255,.4)">No immediate effect</span>';
 }
 
 /* ════════════════════════════════════════════
@@ -650,19 +853,28 @@ function confirmQuit(){
     'Quit', () => applyJob(null), true
   );
 }
+let _modalLocked = false;
+function openModal(html, locked){
+  document.getElementById('modal').innerHTML = html;
+  _modalLocked = !!locked;
+  document.getElementById('modal-bg').classList.add('show');
+}
 function modal(title, body, okText, onOk, danger){
-  document.getElementById('modal').innerHTML = `
+  openModal(`
     <h3>${title}</h3><p>${body}</p>
     <div class="modal-actions">
       <button class="mb-cancel" onclick="closeModal()">Cancel</button>
       <button class="mb-ok${danger?' danger':''}" id="_mok">${okText}</button>
-    </div>`;
+    </div>`, false);
   document.getElementById('_mok').onclick = () => { closeModal(); onOk(); };
-  document.getElementById('modal-bg').classList.add('show');
 }
-function closeModal(){ document.getElementById('modal-bg').classList.remove('show'); }
+function closeModal(){
+  _modalLocked = false;
+  document.getElementById('modal-bg').classList.remove('show');
+}
+// Backdrop tap closes confirm dialogs, but not locked event pop-ups.
 document.getElementById('modal-bg').addEventListener('click', e => {
-  if(e.target.id === 'modal-bg') closeModal();
+  if(e.target.id === 'modal-bg' && !_modalLocked) closeModal();
 });
 </script>
 </body>
