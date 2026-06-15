@@ -10,6 +10,7 @@ agencies (Phase 1–3), productizing into a vertical AI screening agent (Phase 4
 | `90-day-plan.md` | The full 90-day execution plan |
 | `screener/` | **Shortlist** — demo tool: AI candidate screening for tech staffing |
 | `landing/index.html` | Portfolio landing page selling fixed-scope tool builds |
+| `studio/` | **Roster** (working title) — separate project: an AI management team for independent music artists. See `studio/README.md` |
 
 ## Running the demo tool (Shortlist)
 

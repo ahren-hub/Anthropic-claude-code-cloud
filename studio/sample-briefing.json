@@ -1,0 +1,128 @@
+{
+  "greeting": "Morning, Nyla — coffee's on. Your Berlin listeners just overtook LA overnight, so let's talk about it.",
+  "headline": "Lean into the Germany spike before it cools — one targeted post and one curator pitch this week could turn a blip into a base.",
+  "analytics_insight": {
+    "metric": "Spotify monthly listeners (geographic split)",
+    "observation": "Berlin moved into your #1 city this week, up 38% in 14 days, while your US numbers stayed flat. That kind of organic regional pull usually means a playlist add or a sync you weren't tracking — your sound is landing with the European late-night R&B crowd.",
+    "action": "Find the source: check Spotify for Artists 'Discovered On' this morning and screenshot the playlist driving it — we'll pitch its sister playlists."
+  },
+  "today_tasks": [
+    {
+      "task": "Pull your 'Discovered On' playlists and send the top 3 to your PR agent",
+      "why": "We can't pitch the Berlin momentum without knowing what's already carrying it.",
+      "agent": "PR",
+      "est_minutes": 10
+    },
+    {
+      "task": "Film one 9-second vertical clip of the 'Slow Hours' bridge in low light",
+      "why": "That bridge is your most-replayed 30 seconds and it matches the late-night mood your new listeners came for.",
+      "agent": "Content Creator",
+      "est_minutes": 20
+    },
+    {
+      "task": "Approve or tweak the two pitches in your PR queue",
+      "why": "Nothing goes out without your okay, and the Berlin window won't stay open.",
+      "agent": "PR",
+      "est_minutes": 8
+    },
+    {
+      "task": "Reply to 5 comments on last week's Reel in your own voice",
+      "why": "Your engagement rate dips when you go quiet for 3+ days, and the algorithm noticed.",
+      "agent": "Brand Manager",
+      "est_minutes": 12
+    }
+  ],
+  "week_plan": [
+    {
+      "day": "Monday",
+      "focus": "Read the momentum",
+      "items": ["Pull Berlin playlist sources", "Film 'Slow Hours' bridge clip", "Approve PR pitches"]
+    },
+    {
+      "day": "Tuesday",
+      "focus": "Ship the clip",
+      "items": ["Post the 'Slow Hours' Reel at 9pm CET to hit Berlin primetime", "Send approved curator pitches"]
+    },
+    {
+      "day": "Wednesday",
+      "focus": "Engage",
+      "items": ["Reply to comments within the first 2 hours", "Story poll: 'Slow Hours' vs 'Cold Glass' as next single"]
+    },
+    {
+      "day": "Thursday",
+      "focus": "Behind the scenes",
+      "items": ["Carousel on the meaning behind 'Slow Hours'", "DM any curator who added the track a thank-you"]
+    },
+    {
+      "day": "Friday",
+      "focus": "New-music-day energy",
+      "items": ["Tease next single's hook (audio only, no visuals yet)", "Post to Threads where your replies do best"]
+    },
+    {
+      "day": "Saturday",
+      "focus": "Rest + reshare",
+      "items": ["Reshare the best-performing clip of the week to Stories"]
+    },
+    {
+      "day": "Sunday",
+      "focus": "Calibrate",
+      "items": ["10-min weekly check-in: what landed, what didn't, what changed"]
+    }
+  ],
+  "brand_note": {
+    "insight": "Your whole identity is intimacy at 2am — sparse production, one voice, no shouting. The Berlin audience confirms that lane is real and ownable.",
+    "guidance": "Keep your grid in that world: low light, single light source, muted blues and warm amber. Resist the urge to post a hype 'numbers are up!' graphic — it breaks the spell. Let the work stay quiet and confident; that restraint IS the brand."
+  },
+  "content_calendar": [
+    {
+      "day": "Tuesday",
+      "platform": "Instagram",
+      "type": "Reel",
+      "hook": "the part everyone rewinds —",
+      "caption": "i wrote this bridge at 3am and almost cut it. glad i didn't. 'Slow Hours' out now. which line hits hardest?",
+      "hashtags": ["rnbmusic", "latenightvibes", "indieartist", "neosoul", "newmusic", "bedroomrnb", "berlinmusic"],
+      "visual_direction": "Phone on a surface, low warm lamp, you lip-syncing only the bridge. No cuts. Let it be still — your stillness is the aesthetic."
+    },
+    {
+      "day": "Wednesday",
+      "platform": "TikTok",
+      "type": "Short",
+      "hook": "POV: it's 2am in Berlin and this comes on",
+      "caption": "apparently y'all in Germany found me first 🥹 'Slow Hours' is for the late ones. #fyp",
+      "hashtags": ["fyp", "rnbtiktok", "berlin", "latenight", "indieartist", "spotify"],
+      "visual_direction": "Same clip recut vertical with a soft text overlay. Geo-leaning caption to ride the Berlin wave you already have."
+    },
+    {
+      "day": "Thursday",
+      "platform": "Instagram",
+      "type": "Carousel",
+      "hook": "what 'Slow Hours' is actually about",
+      "caption": "swipe for the story behind it. some of these lines are about a 4am drive i still think about. thank you for listening this closely.",
+      "hashtags": ["songwriter", "rnb", "indiemusic", "lyrics", "neosoul", "musicstorytelling"],
+      "visual_direction": "4-5 slides: a lyric per slide over your existing photo set from the cover shoot. Reuse assets — no new shoot needed."
+    },
+    {
+      "day": "Friday",
+      "platform": "Threads",
+      "type": "Text + audio",
+      "hook": "should the next one be slower or colder?",
+      "caption": "sitting on two demos. one's a slow burn, one's got a colder edge. genuinely torn — what do you want next?",
+      "hashtags": ["newmusic", "rnb", "indieartist"],
+      "visual_direction": "Text post with a 12-second audio snippet of the next single's hook. Threads is where your replies convert — ask a real question."
+    }
+  ],
+  "pr_opportunities": [
+    {
+      "target": "Curators of mid-size late-night/'bedroom R&B' Spotify playlists (5k–50k followers) in the German market",
+      "type": "Playlist",
+      "why_fit": "Your Berlin spike means these editors' audiences are already primed for your sound — you're not cold-pitching, you're showing up where you're proven to work.",
+      "draft_pitch": "Hi — I run an independent R&B project called Nyla. 'Slow Hours' has been quietly climbing in Berlin this month and I noticed your playlist lives in exactly that late-night lane. No pressure at all, but I think it'd sit naturally between the slower cuts you feature. Here's a private link — thank you for listening either way."
+    },
+    {
+      "target": "A small but tastemaking neo-soul/R&B blog or newsletter that covers emerging artists",
+      "type": "Blog",
+      "why_fit": "Blogs at this tier love a 'discovered abroad first' angle — your Germany story is a genuine hook, not manufactured.",
+      "draft_pitch": "Hey — quick one. I'm an indie R&B artist and something strange happened: my track 'Slow Hours' took off in Berlin before it did at home. Thought the 'found in Germany first' angle might be a fun emerging-artist story for your readers. Track + a couple lines about how it happened attached if useful. Appreciate your time."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "roster-studio",
+  "version": "0.1.0",
+  "description": "An AI management team for independent music artists — Morning Coffee briefings from a Brand Manager, PR, Content Creator, and Executive Assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["music", "artist", "ai", "management", "indie"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1"
+  },
+  "type": "module"
+}

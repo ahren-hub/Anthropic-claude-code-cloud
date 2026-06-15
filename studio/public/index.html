@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roster — your AI artist team</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◐</span>
+      <span class="wordmark">Roster</span>
+      <span class="tag">the whole label, in an app</span>
+    </div>
+    <button id="resetBtn" class="ghost-btn hidden">Start over</button>
+  </header>
+
+  <main id="app">
+    <!-- ONBOARDING -->
+    <section id="onboarding" class="screen">
+      <div class="onboard-intro">
+        <h1>Let's build your team.</h1>
+        <p class="sub">
+          Tell us who you are as an artist. The more specific you are, the more your team's
+          advice is unmistakably <em>yours</em> — not generic. This is round one of onboarding.
+        </p>
+      </div>
+
+      <form id="profileForm" class="card form-card">
+        <div class="grid-2">
+          <label>Artist name <span class="req">*</span>
+            <input name="name" placeholder="e.g. Nyla" required />
+          </label>
+          <label>Genre <span class="req">*</span>
+            <input name="genre" placeholder="e.g. late-night R&B / neo-soul" required />
+          </label>
+        </div>
+
+        <label>Your sound &amp; influences
+          <input name="influences" placeholder="e.g. sparse, intimate, SZA × Sade × Steve Lacy" />
+        </label>
+
+        <div class="grid-2">
+          <label>Stage / following
+            <input name="following" placeholder="e.g. 12k IG, 4k monthly Spotify" />
+          </label>
+          <label>Top platform
+            <input name="platform" placeholder="e.g. Instagram + Spotify" />
+          </label>
+        </div>
+
+        <label>Who is your audience?
+          <input name="audience" placeholder="e.g. 18-28, late-night listeners, US + Europe" />
+        </label>
+
+        <label>Your brand in one line — the vibe, and who you're <em>not</em>
+          <input name="brand" placeholder="e.g. intimacy at 2am — quiet, confident, never hype" />
+        </label>
+
+        <div class="grid-2">
+          <label>Most recent / upcoming release
+            <input name="release" placeholder="e.g. single 'Slow Hours', out now" />
+          </label>
+          <label>Goal for the next 6 months
+            <input name="goal" placeholder="e.g. 25k monthly listeners, first sync placement" />
+          </label>
+        </div>
+
+        <label>Anything your team should know? (the meaning behind your work, what's been hard, what you want)
+          <textarea name="notes" rows="3" placeholder="Talk to your team like they're real. They're listening."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" id="fillSample" class="ghost-btn">Use sample artist</button>
+          <button type="submit" class="primary-btn">Brew my Morning Coffee →</button>
+        </div>
+        <p class="disclaimer">Honest expectation: meaningful growth takes 3–6 months of consistency. Your team plays the long game.</p>
+      </form>
+    </section>
+
+    <!-- LOADING -->
+    <section id="loading" class="screen hidden">
+      <div class="brewing">
+        <div class="cup">◐</div>
+        <p id="brewMsg">Your team is reviewing your week…</p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="screen hidden">
+      <div id="demoBanner" class="demo-banner hidden">
+        Demo mode — showing a sample briefing. Set <code>ANTHROPIC_API_KEY</code> for a live, personalized one.
+      </div>
+
+      <div class="coffee-head">
+        <p class="eyebrow">☕ Morning Coffee · <span id="todayDate"></span></p>
+        <h1 id="greeting"></h1>
+        <p id="headline" class="headline"></p>
+      </div>
+
+      <div class="dash-grid">
+        <!-- Analytics -->
+        <section class="card analytics">
+          <div class="card-head"><span class="agent-chip ea">Analytics</span></div>
+          <h3 id="anMetric"></h3>
+          <p id="anObservation"></p>
+          <p class="action"><strong>Move:</strong> <span id="anAction"></span></p>
+        </section>
+
+        <!-- Brand note -->
+        <section class="card brand-note">
+          <div class="card-head"><span class="agent-chip brand">Brand Manager</span></div>
+          <p id="brandInsight" class="insight"></p>
+          <p id="brandGuidance"></p>
+        </section>
+
+        <!-- Today's tasks -->
+        <section class="card tasks span-2">
+          <div class="card-head"><span class="agent-chip ea">Executive Assistant</span><h2>Today</h2></div>
+          <ul id="taskList" class="task-list"></ul>
+        </section>
+
+        <!-- Content calendar -->
+        <section class="card content span-2">
+          <div class="card-head"><span class="agent-chip content">Content Creator</span><h2>This week's content — approve to schedule</h2></div>
+          <p class="micro">Nothing posts without your okay. Approve, skip, or tweak each one.</p>
+          <div id="calendar" class="calendar"></div>
+        </section>
+
+        <!-- PR -->
+        <section class="card pr span-2">
+          <div class="card-head"><span class="agent-chip pr">PR</span><h2>Outreach — approve before anything sends</h2></div>
+          <p class="micro">These pitches are realistic for your size. We send only what you approve.</p>
+          <div id="prList" class="pr-list"></div>
+        </section>
+
+        <!-- Week plan -->
+        <section class="card week span-2">
+          <div class="card-head"><span class="agent-chip ea">Executive Assistant</span><h2>The week ahead</h2></div>
+          <div id="weekPlan" class="week-grid"></div>
+        </section>
+      </div>
+
+      <footer class="dash-foot">
+        <button id="approveAll" class="primary-btn">Looks good — lock in the week</button>
+        <span id="approveCount" class="approve-count"></span>
+      </footer>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
