@@ -11,871 +11,1280 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0A0E1A; --surface:#151929; --surface2:#1E2340; --border:#252940;
-    --purple:#7C3AED; --purple-light:#BFA0FF; --green:#10B981; --red:#EF4444;
-    --amber:#F59E0B; --cyan:#06B6D4; --violet:#8B5CF6;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  html,body{height:100%;}
-  body{
-    background:var(--bg); color:#fff;
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    overflow:hidden; user-select:none; -webkit-user-select:none;
-  }
-  /* Rajdhani display font — matches GoogleFonts.rajdhani in the Flutter app */
-  #start h1, .age-text, .btn, .section-label, #over h1{
-    font-family:'Rajdhani','Inter',sans-serif;
-  }
-  #app{
-    max-width:480px; margin:0 auto; height:100%;
-    height:100dvh; display:flex; flex-direction:column;
-    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-  }
-  .screen{flex:1; display:flex; flex-direction:column; min-height:0;}
-  .hidden{display:none !important;}
+:root{
+  --bg:#0A0E1A;--surface:#151929;--surface2:#1E2340;--border:#252940;
+  --purple:#7C3AED;--purple-light:#BFA0FF;--green:#10B981;--red:#EF4444;
+  --amber:#F59E0B;--cyan:#06B6D4;--violet:#8B5CF6;--blue:#3B82F6;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{background:var(--bg);color:#fff;font-family:'Inter',-apple-system,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;}
+#start h1,.age-text,.btn,.section-label,#over h1,.path-name{font-family:'Rajdhani','Inter',sans-serif;}
+#app{max-width:480px;margin:0 auto;height:100%;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);}
+.screen{flex:1;display:flex;flex-direction:column;min-height:0;}
+.hidden{display:none!important;}
 
-  /* ── Start screen ── matches Flutter Spacer(flex:2) / Spacer(flex:3) layout */
-  #start{padding:32px; flex-direction:column;}
-  #start .logo-emoji{font-size:80px; text-align:center;}
-  #start h1{
-    font-size:46px; font-weight:700; color:var(--purple);
-    letter-spacing:6px; line-height:1; text-align:center;
-    margin-top:24px;
-  }
-  #start .tagline{color:rgba(255,255,255,.38); font-size:16px; margin-top:10px; text-align:center;}
-  .features{margin-top:48px;}
-  .feature{display:flex; align-items:center; gap:12px; margin-bottom:12px; color:rgba(255,255,255,.54); font-size:15px;}
-  .feature .fe{font-size:20px;}
+/* ── Start ── */
+#start{padding:32px;flex-direction:column;align-items:center;text-align:center;}
+#start .logo-emoji{font-size:80px;}
+#start h1{font-size:44px;font-weight:700;color:var(--purple);letter-spacing:6px;line-height:1;margin-top:20px;}
+#start .tagline{color:rgba(255,255,255,.38);font-size:16px;margin-top:10px;}
+.features{margin-top:40px;text-align:left;width:100%;max-width:300px;}
+.feature{display:flex;align-items:center;gap:12px;margin-bottom:12px;color:rgba(255,255,255,.54);font-size:15px;}
+.feature .fe{font-size:20px;}
 
-  /* ── Buttons ── */
-  .btn{
-    width:100%; border:none; border-radius:14px; background:var(--purple);
-    color:#fff; padding:17px; font-size:19px; font-weight:700; letter-spacing:2px;
-    cursor:pointer; transition:transform .08s, filter .15s;
-    margin-bottom:16px;
-  }
-  .btn:active{transform:scale(.97); filter:brightness(1.1);}
-  .btn-ghost{
-    background:transparent; border:none; color:var(--red);
-    font-size:15px; font-weight:600; padding:10px; cursor:pointer;
-    display:flex; align-items:center; gap:8px; width:100%;
-  }
+/* ── Buttons ── */
+.btn{width:100%;border:none;border-radius:14px;background:var(--purple);color:#fff;padding:17px;font-size:19px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:transform .08s,filter .15s;margin-bottom:0;}
+.btn:active{transform:scale(.97);filter:brightness(1.1);}
+.btn-ghost{background:transparent;border:none;color:var(--red);font-size:15px;font-weight:600;padding:10px;cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;}
+.btn-small{border:none;border-radius:10px;background:rgba(124,58,237,.2);color:var(--purple-light);padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-small:active{filter:brightness(1.2);}
 
-  /* ── Game header ── */
-  header{padding:16px 20px 8px; display:flex; align-items:center; justify-content:space-between;}
-  .age-text{font-size:22px; font-weight:700; letter-spacing:1px;}
-  .job-label{color:rgba(255,255,255,.54); font-size:13px; margin-top:2px;}
-  .energy-pill{
-    display:flex; align-items:center; gap:6px; padding:8px 14px;
-    border-radius:20px; font-weight:700; font-size:14px; border:1px solid;
-  }
+/* ── Character creation ── */
+#create{padding:20px;flex-direction:column;overflow-y:auto;}
+.char-reveal{text-align:center;margin-bottom:20px;padding:20px;background:var(--surface);border-radius:16px;border:1px solid var(--border);}
+.char-emoji-big{font-size:64px;margin-bottom:12px;}
+.char-name-big{font-size:28px;font-weight:800;color:#fff;}
+.gender-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;}
+.gender-tag{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;}
+.gender-male{background:rgba(59,130,246,.2);color:#60A5FA;}
+.gender-female{background:rgba(236,72,153,.2);color:#F472B6;}
+.gender-nonbinary{background:rgba(124,58,237,.2);color:var(--purple-light);}
+.path-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.path-card{background:var(--surface2);border:2px solid var(--border);border-radius:16px;padding:16px;cursor:pointer;transition:border-color .15s,transform .08s;}
+.path-card:active{transform:scale(.98);}
+.path-card.selected{border-color:var(--purple);}
+.path-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.path-emoji{font-size:28px;}
+.path-name{font-size:18px;font-weight:700;}
+.path-tagline{font-size:13px;color:rgba(255,255,255,.54);line-height:1.4;margin-bottom:10px;}
+.path-pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.path-pros,.path-cons{font-size:11px;line-height:1.6;}
+.path-pros{color:var(--green);}
+.path-cons{color:rgba(255,255,255,.38);}
+.pc-label{font-weight:800;font-size:10px;letter-spacing:1px;margin-bottom:2px;}
 
-  /* ── Financial strip ── */
-  .fin-strip{
-    margin:4px 20px; padding:10px 16px; background:var(--surface);
-    border:1px solid var(--border); border-radius:12px;
-    display:flex; justify-content:space-between;
-  }
-  .fin-stat{text-align:center; flex:1;}
-  .fin-stat .lbl{color:rgba(255,255,255,.38); font-size:11px;}
-  .fin-stat .val{font-weight:700; font-size:15px; margin-top:3px;}
+/* ── Game header ── */
+header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:space-between;}
+.header-left .name-line{font-size:15px;font-weight:700;color:#fff;}
+.age-text{font-size:13px;color:rgba(255,255,255,.54);margin-top:1px;}
+.path-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:8px;font-size:11px;font-weight:700;margin-left:6px;}
+.energy-pill{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;font-weight:700;font-size:14px;border:1px solid;}
 
-  /* ── Tabs ── */
-  .tabbar{
-    margin:8px 20px 0; background:var(--surface); border-radius:12px;
-    display:flex; padding:4px; gap:4px;
-  }
-  .tab{
-    flex:1; text-align:center; padding:10px 4px; border-radius:9px;
-    font-weight:700; font-size:13px; color:rgba(255,255,255,.38); cursor:pointer;
-    transition:background .15s,color .15s;
-  }
-  .tab.active{background:var(--purple); color:#fff;}
+/* ── Financial strip ── */
+.fin-strip{margin:4px 20px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;justify-content:space-between;}
+.fin-stat{text-align:center;flex:1;}
+.fin-stat .lbl{color:rgba(255,255,255,.38);font-size:11px;}
+.fin-stat .val{font-weight:700;font-size:15px;margin-top:3px;}
 
-  .tab-content{flex:1; overflow-y:auto; padding:16px 20px 8px; -webkit-overflow-scrolling:touch;}
-  .section-label{font-size:13px; font-weight:700; color:rgba(255,255,255,.38); letter-spacing:2px; margin:16px 0 10px; display:block;}
-  .section-label:first-child{margin-top:0;}
+/* ── Tabs ── */
+.tabbar{margin:8px 20px 0;background:var(--surface);border-radius:12px;display:flex;padding:3px;gap:3px;}
+.tab{flex:1;text-align:center;padding:9px 2px;border-radius:9px;font-weight:700;font-size:11px;color:rgba(255,255,255,.38);cursor:pointer;transition:background .15s,color .15s;}
+.tab.active{background:var(--purple);color:#fff;}
+.tab-content{flex:1;overflow-y:auto;padding:14px 20px 8px;-webkit-overflow-scrolling:touch;}
+.section-label{font-size:12px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:2px;margin:14px 0 8px;display:block;}
+.section-label:first-child{margin-top:0;}
 
-  /* ── Stat bars ── */
-  .stats-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px;}
-  .stat{margin-bottom:12px;}
-  .stat:last-child{margin-bottom:0;}
-  .stat-top{display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:6px;}
-  .stat-top .name{color:rgba(255,255,255,.7);}
-  .stat-track{height:8px; background:rgba(255,255,255,.1); border-radius:4px; overflow:hidden;}
-  .stat-fill{height:100%; border-radius:4px; transition:width .4s ease;}
+/* ── Stat bars ── */
+.stats-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;}
+.stat{margin-bottom:12px;}
+.stat:last-child{margin-bottom:0;}
+.stat-top{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px;}
+.stat-top .name{color:rgba(255,255,255,.7);}
+.stat-track{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;}
+.stat-fill{height:100%;border-radius:4px;transition:width .4s ease;}
 
-  /* ── Activity grid ── */
-  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  .card{
-    background:var(--surface2); border:1px solid rgba(124,58,237,.4);
-    border-radius:16px; padding:14px; cursor:pointer; transition:transform .08s;
-    display:flex; flex-direction:column;
-  }
-  .card:active{transform:scale(.97);}
-  .card.locked{background:#1A1E2E; border-color:rgba(255,255,255,.1); cursor:default;}
-  .card-top{display:flex; align-items:center; justify-content:space-between;}
-  .card-emoji{font-size:26px;}
-  .e-cost{
-    padding:3px 8px; border-radius:8px; font-size:12px; font-weight:700;
-    background:rgba(124,58,237,.2); color:var(--purple-light);
-  }
-  .card.locked .e-cost{background:rgba(255,255,255,.1); color:rgba(255,255,255,.3);}
-  .card-name{font-size:15px; font-weight:700; margin-top:10px;}
-  .card.locked .card-name{color:rgba(255,255,255,.3);}
-  .card-desc{font-size:12px; color:rgba(255,255,255,.54); margin-top:4px; line-height:1.3;}
-  .card.locked .card-desc{color:rgba(255,255,255,.2);}
-  .card-effects{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
-  .eff{font-size:11px;}
-  .eff.pos{color:var(--green);} .eff.neg{color:var(--red);}
-  .card.locked .eff{color:rgba(255,255,255,.2);}
+/* ── Path status card ── */
+.path-status{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;}
+.path-status-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.path-status-title{font-weight:700;font-size:15px;}
+.path-progress{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:6px;}
+.path-progress-fill{height:100%;border-radius:3px;}
+.path-status-detail{font-size:12px;color:rgba(255,255,255,.54);margin-top:4px;}
 
-  /* ── Jobs ── */
-  .job-tile{
-    display:flex; align-items:center; gap:12px; background:var(--surface);
-    border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:10px; cursor:pointer;
-  }
-  .job-tile:active{transform:scale(.99);}
-  .job-tile.current{background:rgba(124,58,237,.1); border-color:rgba(124,58,237,.5); cursor:default;}
-  .job-emoji{font-size:28px; flex-shrink:0;}
-  .job-info{flex:1; min-width:0;}
-  .job-title{font-weight:700; font-size:15px;}
-  .job-title.dimmed{color:rgba(255,255,255,.54);}
-  .job-desc{color:rgba(255,255,255,.38); font-size:12px; margin-top:3px;}
-  .job-meta{display:flex; gap:10px; margin-top:5px; color:rgba(255,255,255,.38); font-size:11px;}
-  .job-salary{color:var(--green); font-weight:700; font-size:14px; flex-shrink:0;}
-  .current-badge{color:var(--purple); font-size:11px; font-weight:700; letter-spacing:1px;}
+/* ── Activity grid ── */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card{background:var(--surface2);border:1px solid rgba(124,58,237,.4);border-radius:16px;padding:14px;cursor:pointer;transition:transform .08s;display:flex;flex-direction:column;}
+.card:active{transform:scale(.97);}
+.card.locked{background:#1A1E2E;border-color:rgba(255,255,255,.1);cursor:default;}
+.card-top{display:flex;align-items:center;justify-content:space-between;}
+.card-emoji{font-size:26px;}
+.e-cost{padding:3px 8px;border-radius:8px;font-size:12px;font-weight:700;background:rgba(124,58,237,.2);color:var(--purple-light);}
+.card.locked .e-cost{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);}
+.card-name{font-size:15px;font-weight:700;margin-top:10px;}
+.card.locked .card-name{color:rgba(255,255,255,.3);}
+.card-desc{font-size:12px;color:rgba(255,255,255,.54);margin-top:4px;line-height:1.3;}
+.card.locked .card-desc{color:rgba(255,255,255,.2);}
+.card-effects{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.eff{font-size:11px;}
+.eff.pos{color:var(--green);}.eff.neg{color:var(--red);}
+.card-path-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:6px;display:inline-block;}
 
-  /* ── Current job card (mirrors Flutter's _buildCurrentJobCard) ── */
-  .cur-job-card{
-    background:#1A2140; border:1px solid rgba(124,58,237,.4);
-    border-radius:16px; padding:16px; margin-bottom:10px;
-  }
-  .cur-job-card .top-row{display:flex; align-items:center; gap:12px;}
-  .cur-job-card .title-col{flex:1; min-width:0;}
-  .cur-job-card .title-col h3{font-size:17px; font-weight:700; color:#fff;}
-  .cur-job-card .title-col .badge{font-size:11px; color:var(--purple); font-weight:700; letter-spacing:1px;}
-  .cur-job-card .right-col{text-align:right; flex-shrink:0;}
-  .cur-job-card .right-col .salary{color:var(--green); font-weight:700; font-size:15px;}
-  .cur-job-card .right-col .energy{color:rgba(255,255,255,.38); font-size:12px; margin-top:2px;}
-  .cur-job-card .desc-text{color:rgba(255,255,255,.54); font-size:13px; margin-top:10px;}
+/* ── Career / Jobs ── */
+.job-tile{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;}
+.job-tile:active{transform:scale(.99);}
+.job-tile.current{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.5);cursor:default;}
+.job-emoji{font-size:28px;flex-shrink:0;}
+.job-info{flex:1;min-width:0;}
+.job-title{font-weight:700;font-size:15px;}
+.job-title.dimmed{color:rgba(255,255,255,.54);}
+.job-desc{color:rgba(255,255,255,.38);font-size:12px;margin-top:3px;}
+.job-meta{display:flex;gap:10px;margin-top:5px;color:rgba(255,255,255,.38);font-size:11px;}
+.job-salary{color:var(--green);font-weight:700;font-size:14px;flex-shrink:0;}
+.cur-job-card{background:#1A2140;border:1px solid rgba(124,58,237,.4);border-radius:16px;padding:16px;margin-bottom:10px;}
+.cur-job-top{display:flex;align-items:center;gap:12px;}
+.cur-job-right{text-align:right;flex-shrink:0;}
+.cur-job-salary{color:var(--green);font-weight:700;font-size:15px;}
+.cur-job-energy{color:rgba(255,255,255,.38);font-size:12px;margin-top:2px;}
+.cur-job-badge{font-size:11px;color:var(--purple);font-weight:700;letter-spacing:1px;}
+.cur-job-desc{color:rgba(255,255,255,.54);font-size:13px;margin-top:10px;}
 
-  /* ── Journal ── */
-  .log-item{padding:10px 0; border-bottom:1px solid rgba(255,255,255,.1); font-size:13px; line-height:1.4; color:rgba(255,255,255,.38);}
-  .log-item:first-child{color:rgba(255,255,255,.7);}
-  .log-item:last-child{border-bottom:none;}
+/* ── Social tab ── */
+.social-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;}
+.social-card-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.social-card-emoji{font-size:28px;}
+.social-card-title{font-weight:700;font-size:15px;}
+.social-card-sub{font-size:12px;color:rgba(255,255,255,.54);margin-top:2px;}
+.friend-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.friend-row:last-child{border-bottom:none;}
+.friend-name{flex:1;font-size:14px;font-weight:600;}
+.closeness-bar{height:6px;width:60px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;}
+.closeness-fill{height:100%;background:var(--purple);border-radius:3px;}
+.closeness-label{font-size:11px;color:rgba(255,255,255,.38);width:42px;text-align:right;}
+.rel-stage{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;}
+.rel-single{background:rgba(255,255,255,.1);color:rgba(255,255,255,.38);}
+.rel-dating{background:rgba(236,72,153,.15);color:#F472B6;}
+.rel-committed{background:rgba(239,68,68,.15);color:var(--red);}
+.rel-married{background:rgba(245,158,11,.15);color:var(--amber);}
+.pet-tag{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:rgba(255,255,255,.7);}
+.heat-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:6px;}
+.heat-fill{height:100%;border-radius:3px;background:var(--red);}
 
-  /* ── Footer ── */
-  .footer{padding:12px 20px 20px; flex-shrink:0;}
+/* ── Journal ── */
+.log-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;line-height:1.4;color:rgba(255,255,255,.38);}
+.log-item:first-child{color:rgba(255,255,255,.7);}
+.log-item:last-child{border-bottom:none;}
 
-  /* ── Toast (matches Flutter SnackBar floating) ── */
-  #toast{
-    position:fixed; left:50%; bottom:100px; transform:translateX(-50%) translateY(20px);
-    background:#252940; color:rgba(255,255,255,.7); padding:12px 18px; border-radius:12px;
-    font-size:13px; max-width:88%; text-align:center; opacity:0; pointer-events:none;
-    transition:opacity .25s, transform .25s; z-index:50; box-shadow:0 8px 24px rgba(0,0,0,.4);
-  }
-  #toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+/* ── Footer ── */
+.footer{padding:12px 20px 20px;flex-shrink:0;}
 
-  /* ── Modal (matches Flutter AlertDialog) ── */
-  #modal-bg{
-    position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex;
-    align-items:center; justify-content:center; padding:32px; z-index:60;
-    opacity:0; pointer-events:none; transition:opacity .2s;
-  }
-  #modal-bg.show{opacity:1; pointer-events:auto;}
-  .modal{background:var(--surface); border-radius:16px; padding:22px; width:100%; max-width:340px; max-height:86vh; overflow-y:auto;}
-  .modal h3{font-size:17px; margin-bottom:12px;}
-  .modal p{color:rgba(255,255,255,.54); font-size:14px; line-height:1.5; white-space:pre-line;}
-  .modal-actions{display:flex; gap:10px; margin-top:20px;}
-  .modal-actions button{flex:1; padding:12px; border-radius:10px; border:none; font-weight:700; font-size:14px; cursor:pointer;}
-  .mb-cancel{background:transparent; color:rgba(255,255,255,.38);}
-  .mb-ok{background:var(--purple); color:#fff;}
-  .mb-ok.danger{background:var(--red);}
+/* ── Toast ── */
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#252940;color:rgba(255,255,255,.7);padding:12px 18px;border-radius:12px;font-size:13px;max-width:88%;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* ── Life-event dilemma + recap popups ── */
-  .dilemma-emoji{font-size:48px; text-align:center; margin-bottom:8px;}
-  .choice-list{display:flex; flex-direction:column; gap:10px; margin-top:18px;}
-  .choice-btn{
-    width:100%; text-align:left; background:var(--surface2);
-    border:1px solid rgba(124,58,237,.4); border-radius:12px; padding:14px;
-    cursor:pointer; color:#fff; display:flex; flex-direction:column; gap:6px;
-    transition:transform .08s, border-color .15s;
-  }
-  .choice-btn:active{transform:scale(.98); border-color:var(--purple);}
-  .choice-btn .cl{font-weight:700; font-size:15px;}
-  .choice-btn .ce{display:flex; flex-wrap:wrap; gap:8px; font-size:11px;}
-  .ev-list{display:flex; flex-direction:column; gap:8px; max-height:46vh; overflow-y:auto; margin-top:6px;}
-  .ev-line{
-    font-size:13px; line-height:1.4; color:rgba(255,255,255,.7);
-    padding:9px 11px; background:var(--surface2); border-radius:10px;
-  }
+/* ── Modal ── */
+#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:24px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;}
+#modal-bg.show{opacity:1;pointer-events:auto;}
+.modal{background:var(--surface);border-radius:16px;padding:22px;width:100%;max-width:340px;max-height:88vh;overflow-y:auto;}
+.modal h3{font-size:17px;margin-bottom:12px;}
+.modal p{color:rgba(255,255,255,.54);font-size:14px;line-height:1.5;white-space:pre-line;}
+.modal-actions{display:flex;gap:10px;margin-top:18px;}
+.modal-actions button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:700;font-size:14px;cursor:pointer;}
+.mb-cancel{background:transparent;color:rgba(255,255,255,.38);}
+.mb-ok{background:var(--purple);color:#fff;}
+.mb-ok.danger{background:var(--red);}
+.dilemma-emoji{font-size:48px;text-align:center;margin-bottom:8px;}
+.choice-list{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+.choice-btn{width:100%;text-align:left;background:var(--surface2);border:1px solid rgba(124,58,237,.4);border-radius:12px;padding:14px;cursor:pointer;color:#fff;display:flex;flex-direction:column;gap:6px;transition:transform .08s;}
+.choice-btn:active{transform:scale(.98);}
+.choice-btn .cl{font-weight:700;font-size:15px;}
+.choice-btn .ce{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;}
+.ev-list{display:flex;flex-direction:column;gap:8px;max-height:44vh;overflow-y:auto;margin-top:8px;}
+.ev-line{font-size:13px;line-height:1.4;color:rgba(255,255,255,.7);padding:9px 11px;background:var(--surface2);border-radius:10px;}
 
-  /* ── Game Over ── */
-  #over{padding:32px; flex-direction:column; align-items:center; text-align:center; justify-content:center;}
-  #over .over-emoji{font-size:80px;}
-  #over h1{font-size:38px; font-weight:700; letter-spacing:4px; margin-top:20px;}
-  #over .over-sub{color:rgba(255,255,255,.54); font-size:16px; margin-top:12px; line-height:1.4; max-width:300px;}
-  .over-stats{width:100%; max-width:320px; margin:36px 0;}
-  .over-row{display:flex; justify-content:space-between; padding:7px 0; font-size:16px;}
-  .over-row .l{color:rgba(255,255,255,.54);}
-  .over-row .v{font-weight:700;}
+/* ── Game over ── */
+#over{padding:32px;flex-direction:column;align-items:center;text-align:center;justify-content:center;}
+#over .over-emoji{font-size:80px;}
+#over h1{font-size:38px;font-weight:700;letter-spacing:4px;margin-top:20px;}
+#over .over-sub{color:rgba(255,255,255,.54);font-size:16px;margin-top:12px;line-height:1.4;max-width:300px;}
+.over-stats{width:100%;max-width:320px;margin:28px 0;}
+.over-row{display:flex;justify-content:space-between;padding:7px 0;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07);}
+.over-row:last-child{border-bottom:none;}
+.over-row .l{color:rgba(255,255,255,.54);}
+.over-row .v{font-weight:700;}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ── START SCREEN ── -->
-  <section id="start" class="screen">
-    <!-- Spacer(flex:2) -->
-    <div style="flex:2"></div>
-    <div class="logo-emoji">🌟</div>
-    <h1>VIRTUAL LIFE</h1>
-    <div class="tagline">Your choices define your story.</div>
-    <div class="features">
-      <div class="feature"><span class="fe">💼</span><span>Pick a career and climb the ladder</span></div>
-      <div class="feature"><span class="fe">🎲</span><span>Face random life events</span></div>
-      <div class="feature"><span class="fe">⚖️</span><span>Balance money, health &amp; happiness</span></div>
-      <div class="feature"><span class="fe">🏆</span><span>Retire wealthy and fulfilled by 65</span></div>
+<!-- ── START ── -->
+<section id="start" class="screen">
+  <div style="flex:2"></div>
+  <div class="logo-emoji" style="font-size:80px;text-align:center">🌟</div>
+  <h1>VIRTUAL LIFE</h1>
+  <div class="tagline">Your choices define your story.</div>
+  <div class="features">
+    <div class="feature"><span class="fe">🎓💼🕵️</span><span>College, Business, or Criminal</span></div>
+    <div class="feature"><span class="fe">❤️</span><span>Friends, relationships & family</span></div>
+    <div class="feature"><span class="fe">🎲</span><span>Life events & real choices</span></div>
+    <div class="feature"><span class="fe">🏆</span><span>Retire happy and wealthy by 65</span></div>
+  </div>
+  <div style="flex:3"></div>
+  <button class="btn" onclick="showCreate()">BEGIN YOUR LIFE</button>
+</section>
+
+<!-- ── CHARACTER CREATION ── -->
+<section id="create" class="screen hidden">
+  <div class="char-reveal">
+    <div class="char-emoji-big" id="createEmoji">👤</div>
+    <div class="char-name-big" id="createName">—</div>
+    <div class="gender-row">
+      <span class="gender-tag" id="createGenderTag">—</span>
+      <button class="btn-small" onclick="rerollChar()">🎲 Reroll</button>
     </div>
-    <!-- Spacer(flex:3) -->
-    <div style="flex:3"></div>
-    <button class="btn" onclick="startGame()">BEGIN YOUR LIFE</button>
-  </section>
+  </div>
+  <span class="section-label">CHOOSE YOUR PATH</span>
+  <div class="path-cards" id="pathCards"></div>
+  <button class="btn" id="beginBtn" onclick="beginGame()" style="opacity:.4;pointer-events:none">CHOOSE A PATH FIRST</button>
+</section>
 
-  <!-- ── GAME SCREEN ── -->
-  <section id="game" class="screen hidden">
-
-    <header>
-      <div>
-        <div class="age-text" id="age">AGE 18y 0m</div>
-        <div class="job-label" id="jobLabel">💼 Unemployed</div>
-      </div>
-      <div class="energy-pill" id="energyPill">⚡ <span id="energyVal">100/100</span></div>
-    </header>
-
-    <div class="fin-strip">
-      <div class="fin-stat"><div class="lbl">Cash</div><div class="val" id="cash" style="color:var(--green)">$500</div></div>
-      <div class="fin-stat"><div class="lbl">Debt</div><div class="val" id="debt">$5000</div></div>
-      <div class="fin-stat"><div class="lbl">Net Worth</div><div class="val" id="networth">-$4500</div></div>
+<!-- ── GAME ── -->
+<section id="game" class="screen hidden">
+  <header>
+    <div class="header-left">
+      <div class="name-line"><span id="hName">Jordan</span><span class="path-badge" id="hPathBadge">🎓 College</span></div>
+      <div class="age-text" id="age">Age 18y 0m</div>
     </div>
+    <div class="energy-pill" id="energyPill">⚡ <span id="energyVal">100/100</span></div>
+  </header>
+  <div class="fin-strip">
+    <div class="fin-stat"><div class="lbl">Cash</div><div class="val" id="cash" style="color:var(--green)">$500</div></div>
+    <div class="fin-stat"><div class="lbl">Debt</div><div class="val" id="debt">$5000</div></div>
+    <div class="fin-stat"><div class="lbl">Net Worth</div><div class="val" id="networth">-$4500</div></div>
+  </div>
+  <div class="tabbar">
+    <div class="tab active" data-tab="life" onclick="switchTab('life')">🌱 Life</div>
+    <div class="tab" data-tab="career" onclick="switchTab('career')">💼 Career</div>
+    <div class="tab" data-tab="social" onclick="switchTab('social')">👥 Social</div>
+    <div class="tab" data-tab="journal" onclick="switchTab('journal')">📜 Journal</div>
+  </div>
+  <div class="tab-content" id="tab-life"></div>
+  <div class="tab-content hidden" id="tab-career"></div>
+  <div class="tab-content hidden" id="tab-social"></div>
+  <div class="tab-content hidden" id="tab-journal"></div>
+  <div class="footer"><button class="btn" onclick="endMonth()">END MONTH →</button></div>
+</section>
 
-    <div class="tabbar">
-      <div class="tab active" data-tab="life" onclick="switchTab('life')">🌱 Life</div>
-      <div class="tab" data-tab="career" onclick="switchTab('career')">💼 Career</div>
-      <div class="tab" data-tab="journal" onclick="switchTab('journal')">📜 Journal</div>
-    </div>
-
-    <!-- Life tab -->
-    <div class="tab-content" id="tab-life">
-      <div class="stats-card" id="statsCard"></div>
-      <span class="section-label">THIS MONTH'S ACTIVITIES</span>
-      <div class="grid" id="activityGrid"></div>
-      <div style="height:8px"></div>
-    </div>
-
-    <!-- Career tab -->
-    <div class="tab-content hidden" id="tab-career"></div>
-
-    <!-- Journal tab -->
-    <div class="tab-content hidden" id="tab-journal"></div>
-
-    <div class="footer">
-      <button class="btn" style="margin-bottom:0" onclick="endMonth()">END MONTH →</button>
-    </div>
-  </section>
-
-  <!-- ── GAME OVER SCREEN ── -->
-  <section id="over" class="screen hidden">
-    <div class="over-emoji" id="overEmoji">🏆</div>
-    <h1 id="overTitle">GAME OVER</h1>
-    <div class="over-sub" id="overSub"></div>
-    <div class="over-stats" id="overStats"></div>
-    <button class="btn" style="max-width:320px" onclick="startGame()">PLAY AGAIN</button>
-  </section>
+<!-- ── GAME OVER ── -->
+<section id="over" class="screen hidden">
+  <div class="over-emoji" id="overEmoji">🏆</div>
+  <h1 id="overTitle">GAME OVER</h1>
+  <div class="over-sub" id="overSub"></div>
+  <div class="over-stats" id="overStats"></div>
+  <button class="btn" style="max-width:320px" onclick="showCreate()">PLAY AGAIN</button>
+</section>
 
 </div>
-
 <div id="toast"></div>
 <div id="modal-bg"><div class="modal" id="modal"></div></div>
 
 <script>
-/* ════════════════════════════════════════════
-   GAME DATA  —  mirrors game_engine.dart exactly
-   ════════════════════════════════════════════ */
-const RENT_COST = 1200, BASE_LIVING = 400, DEBT_RATE = 0.05;
+/* ═══════════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════════ */
+const RENT=1200, LIVING=400, DEBT_RATE=0.05;
 
-const ACTIVITIES = [
-  {id:'exercise',    name:'Exercise',       emoji:'🏃', desc:'Free workout — run, pushups, yoga. Solid returns.',           energy:20, health:8,  looks:3, stress:-8,  multi:true},
-  {id:'gym',         name:'Hit the Gym',    emoji:'💪', desc:'Premium gym session. Costs $60 but serious gains.',           energy:25, cash:-60,  health:14, looks:6, stress:-5},
-  {id:'meditate',    name:'Meditate',       emoji:'🧘', desc:'Quiet your mind. Best stress reducer per energy.',            energy:10, stress:-15, happiness:5, multi:true},
-  {id:'night_out',   name:'Night Out',      emoji:'🎉', desc:'Hit the town. Great vibes, costs money and sleep.',           energy:20, cash:-100, happiness:20, stress:-10},
-  {id:'date',        name:'Date Night',     emoji:'💘', desc:'Wine, dine, and connect. Great for the soul.',                energy:15, cash:-80,  happiness:15, stress:-8},
-  {id:'side_hustle', name:'Side Hustle',    emoji:'💻', desc:'Grind for extra cash. Stressful but profitable.',             energy:35, cash:600,  stress:18, happiness:-5, multi:true},
-  {id:'therapy',     name:'Therapy',        emoji:'🛋️', desc:'Talk it out. Expensive but genuinely heals.',                 energy:10, cash:-200, stress:-20, happiness:10},
-  {id:'volunteer',   name:'Volunteer',      emoji:'🤝', desc:'Give back to the community. Warms your soul.',               energy:20, happiness:12, stress:-5},
-  {id:'netflix',     name:'Binge TV',       emoji:'📺', desc:'Veg out on the couch. Low effort, low reward.',               energy:5,  happiness:8, stress:-5, multi:true},
-  {id:'study',       name:'Study / Upskill',emoji:'📚', desc:'Invest in yourself. Raises your job ceiling.',                energy:30, stress:5, happiness:-3, health:-2, multi:true},
-  {id:'cook',        name:'Cook at Home',   emoji:'🍳', desc:'Skip takeout. Saves $150 and boosts health.',                 energy:10, cash:150, health:5, happiness:5},
-  {id:'self_care',   name:'Self Care',      emoji:'✨', desc:'Skincare, grooming, glow-up. Worth every penny.',             energy:10, cash:-50, looks:8, happiness:5, stress:-5},
+const MALE_NAMES=['Aiden','Brandon','Carlos','Derek','Ethan','Felix','Gabriel','Hector','Ivan','Jordan','Kevin','Liam','Marcus','Nathan','Oscar','Patrick','Quincy','Ryan','Samuel','Tyler','Victor','Wesley'];
+const FEMALE_NAMES=['Ava','Brianna','Chloe','Diana','Elena','Faith','Grace','Hailey','Isabel','Jasmine','Kylie','Luna','Maya','Nadia','Olivia','Paige','Quinn','Riley','Sofia','Taylor','Uma','Violet'];
+const NB_NAMES=['Alex','Avery','Blake','Cameron','Casey','Dakota','Drew','Ellis','Finley','Harper','Jamie','Kendall','Logan','Morgan','Parker','Reese','Sage','Skyler','Rowan','River'];
+const ALL_NAMES=[...MALE_NAMES,...FEMALE_NAMES,...NB_NAMES];
+const PET_TYPES=[{e:'🐶',t:'Dog',n:['Buddy','Max','Charlie','Bella','Luna','Daisy','Rocky']},
+                 {e:'🐱',t:'Cat',n:['Whiskers','Shadow','Mittens','Oliver','Luna','Simba','Nala']},
+                 {e:'🐰',t:'Rabbit',n:['Thumper','Coco','Biscuit','Oreo','Pepper']},
+                 {e:'🐹',t:'Hamster',n:['Peanut','Nibbles','Mochi','Bean','Hazel']},
+                 {e:'🐟',t:'Fish',n:['Bubbles','Nemo','Splash','Finn','Goldie']}];
+
+const PATHS={
+  college:{emoji:'🎓',name:'College',color:'#3B82F6',
+    desc:'Invest 4 years to unlock high-paying careers and lifelong connections.',
+    pros:['Unlocks professional jobs','Network & opportunities','+20 happiness on graduation'],
+    cons:['$20k student debt to start','4 years before premium jobs','Monthly loan payments $300/mo'],
+    startCash:800,startDebt:20000},
+  business:{emoji:'💼',name:'Business',color:'#10B981',
+    desc:'Be your own boss. Grow a small venture into an empire — or watch it burn.',
+    pros:['Passive income from day 1','Unlimited earning potential','No boss'],
+    cons:['Income unpredictable','Business can fail','Stress managing everything'],
+    startCash:2000,startDebt:5000},
+  criminal:{emoji:'🕵️',name:'The Life',color:'#EF4444',
+    desc:'Fast cash, no questions asked. But heat builds up — and cops never sleep.',
+    pros:['High cash immediately','No 9-to-5','Power & street respect'],
+    cons:['Heat level climbs','Risk of arrest','Hard to go legit later'],
+    startCash:1500,startDebt:2000},
+};
+
+const BASE_ACTIVITIES=[
+  {id:'exercise',name:'Exercise',emoji:'🏃',desc:'Free workout. Run, pushups, yoga.',energy:20,health:8,looks:3,stress:-8,multi:true},
+  {id:'gym',name:'Hit the Gym',emoji:'💪',desc:'Premium session. $60, serious gains.',energy:25,cash:-60,health:14,looks:6,stress:-5},
+  {id:'meditate',name:'Meditate',emoji:'🧘',desc:'Clear your head. Best stress reducer.',energy:10,stress:-15,happiness:5,multi:true},
+  {id:'night_out',name:'Night Out',emoji:'🎉',desc:'Hit the town. Costs money and sleep.',energy:20,cash:-100,happiness:20,stress:-10},
+  {id:'therapy',name:'Therapy',emoji:'🛋️',desc:'Talk it out. Expensive but it heals.',energy:10,cash:-200,stress:-20,happiness:10},
+  {id:'volunteer',name:'Volunteer',emoji:'🤝',desc:'Give back. Warms the soul.',energy:20,happiness:12,stress:-5},
+  {id:'netflix',name:'Binge TV',emoji:'📺',desc:'Veg out. Low effort, moderate payoff.',energy:5,happiness:8,stress:-5,multi:true},
+  {id:'cook',name:'Cook at Home',emoji:'🍳',desc:'Skip takeout. Saves $150, good health.',energy:10,cash:150,health:5,happiness:5},
+  {id:'self_care',name:'Self Care',emoji:'✨',desc:'Glow-up routine. Looks & mood boost.',energy:10,cash:-50,looks:8,happiness:5,stress:-5},
+  {id:'side_hustle',name:'Side Hustle',emoji:'💻',desc:'Grind for $600. Stressful but worth it.',energy:35,cash:600,stress:18,happiness:-5,multi:true},
+  {id:'date_night',name:'Date Night',emoji:'💘',desc:'Quality time with your partner.',energy:15,cash:-80,happiness:18,stress:-10,requiresRel:true},
+  {id:'walk_pet',name:'Walk the Pet',emoji:'🐾',desc:"Your pet needs you. Pure happiness.",energy:10,happiness:12,stress:-8,requiresPet:true},
+  {id:'hang_friends',name:'Hang w/ Friends',emoji:'👫',desc:'Good times with good people.',energy:15,cash:-50,happiness:15,stress:-10,requiresFriends:true},
+  {id:'family_call',name:'Family Call',emoji:'📞',desc:'Check in with family. Grounds you.',energy:5,happiness:8,stress:-5},
+];
+const PATH_ACTIVITIES={
+  college:[
+    {id:'attend_class',name:'Attend Class',emoji:'📖',desc:'Build credits toward your degree.',energy:25,stress:6,happiness:-2,special:'credits'},
+    {id:'study',name:'Pull All-Nighter',emoji:'☕',desc:'Cram hard. GPA up, health down.',energy:30,stress:12,health:-5,special:'gpa',multi:true},
+  ],
+  business:[
+    {id:'manage_biz',name:'Manage Business',emoji:'📋',desc:'Put in the work. Revenue goes up.',energy:30,stress:10,special:'biz_revenue',multi:true},
+    {id:'pitch_clients',name:'Pitch Clients',emoji:'🤝b',desc:'Drum up new customers. Risky.',energy:25,stress:8,special:'biz_pitch'},
+  ],
+  criminal:[
+    {id:'run_hustle',name:'Run the Hustle',emoji:'💰',desc:'Move product. $800 cash, +15 heat.',energy:30,cash:800,stress:12,special:'heat_up',multi:true},
+    {id:'lay_low',name:'Lay Low',emoji:'🕶️',desc:'Stay off radar. -$200, -20 heat.',energy:15,cash:-200,stress:-10,special:'heat_down'},
+  ],
+};
+
+const EVENTS=[
+  {d:"Your phone screen shattered. Repair cost: $150.",cash:-150,stress:8},
+  {d:"Spontaneous road trip with friends — memories made!",cash:-200,stress:-15,happiness:20},
+  {d:"A crypto bet actually paid out! Earned $800.",cash:800,stress:-5,happiness:10},
+  {d:"Old flame texted out of nowhere. Emotional spiral.",stress:20,happiness:-10},
+  {d:"Got a surprise freelance gig! Earned $400.",cash:400,stress:10,happiness:5},
+  {d:"Got sick. Doctor visit cost $300.",cash:-300,stress:10,happiness:-5,health:-8},
+  {d:"Found $50 in an old jacket. Small wins!",cash:50,happiness:5},
+  {d:"Friend drama blew up. Stressful but free.",stress:18,happiness:-8},
+  {d:"Impulse bought something online at 2am. $250 gone.",cash:-250,stress:-5,happiness:5},
+  {d:"A stranger complimented you. You're glowing!",stress:-5,happiness:10,looks:3},
+  {d:"Your car needed repairs. $400 out of pocket.",cash:-400,stress:12},
+  {d:"Got a parking ticket. $80 down the drain.",cash:-80,stress:5},
+  {d:"A relative sent you $200 for your birthday!",cash:200,happiness:8},
+  {d:"Power outage wiped your fridge. $120 in groceries gone.",cash:-120,stress:6},
+  {d:"You nailed a job interview practice — confidence soaring.",happiness:8,stress:-5},
 ];
 
-const JOBS = [
-  {id:'barista',      title:'Barista',               emoji:'☕',   salary:2200,  energy:30, stress:10, desc:'Make coffee, make friends. Low stress, decent tips.'},
-  {id:'retail',       title:'Retail Associate',       emoji:'🛍️',  salary:2500,  energy:30, stress:15, desc:'Help customers all day. The holiday rush is brutal.'},
-  {id:'delivery',     title:'Delivery Driver',        emoji:'🚗',   salary:3000,  energy:35, stress:12, desc:'Hit the road. Decent pay, flexible hours.'},
-  {id:'admin',        title:'Office Admin',           emoji:'🗂️',  salary:3500,  energy:25, stress:12, desc:'Keep the office running. Stable and bearable.'},
-  {id:'teacher',      title:'Teacher',                emoji:'🎓',   salary:3200,  energy:30, stress:10, desc:'Shape the future. Not rich but deeply fulfilling.'},
-  {id:'nurse',        title:'Nurse',                  emoji:'🏥',   salary:4800,  energy:40, stress:22, desc:'Save lives. Demanding but incredibly meaningful.'},
-  {id:'marketer',     title:'Marketing Specialist',   emoji:'📣',   salary:5000,  energy:30, stress:15, desc:'Sell the dream. Creative and surprisingly corporate.'},
-  {id:'developer',    title:'Software Developer',     emoji:'👩‍💻', salary:7500,  energy:35, stress:20, desc:'Build apps and cry. High pay, high burnout potential.'},
-  {id:'manager',      title:'Manager',                emoji:'📊',   salary:6500,  energy:35, stress:25, desc:'Lead the team. More money, more problems.'},
-  {id:'entrepreneur', title:'Entrepreneur',           emoji:'🚀',   salary:12000, energy:50, stress:35, desc:'Go all in. Massive upside. Crushing pressure.'},
-];
-
-const EVENTS = [
-  {d:"Your phone screen shattered. Repair cost: $150.",           cash:-150, stress:8},
-  {d:"Spontaneous road trip with friends — memories made!",       cash:-200, stress:-15, happiness:20},
-  {d:"A wild crypto bet actually paid out! Earned $800.",         cash:800,  stress:-5,  happiness:10},
-  {d:"Old flame texted out of nowhere. Emotional spiral ensued.", stress:20, happiness:-10},
-  {d:"Got a surprise freelance gig! Earned $400.",                cash:400,  stress:10,  happiness:5},
-  {d:"Got sick and needed a doctor. Cost $300.",                  cash:-300, stress:10,  happiness:-5, health:-8},
-  {d:"Found $50 in an old jacket. Small wins!",                   cash:50,   happiness:5},
-  {d:"Friend drama blew up. Stressful but at least it's free.",   stress:18, happiness:-8},
-  {d:"Impulse bought something online at 2am. There goes $250.",  cash:-250, stress:-5,  happiness:5},
-  {d:"Got a compliment from a stranger. You're glowing!",         stress:-5, happiness:10, looks:3},
-];
-
-/* Choice-based life events ("dilemmas"). Some choices are risky gambles. */
-const DILEMMAS = [
-  {id:'startup', emoji:'💸', title:'Startup Pitch',
+const DILEMMAS=[
+  // General
+  {id:'startup',emoji:'💸',title:'Startup Pitch',
    desc:"An old friend needs $1,000 to fund their startup. They swear it'll 10x.",
    choices:[
-     {label:'Invest $1,000', gamble:{p:0.45,
-        win:{cash:2500, happiness:12, result:"The startup took off — your $1,000 became $2,500!"},
-        lose:{cash:-1000, stress:14, result:"It folded in months. Your $1,000 is gone."}}},
-     {label:'Politely decline', happiness:-2, result:"You pass. No risk, no reward."},
+     {label:'Invest $1,000',gamble:{p:.45,win:{cash:2500,happiness:12,result:"The startup took off — $1,000 became $2,500!"},lose:{cash:-1000,stress:14,result:"It folded. Your $1,000 is gone."}}},
+     {label:'Politely decline',effects:{happiness:-2},result:"You pass. No risk, no reward."},
    ]},
-  {id:'overtime', emoji:'⏰', title:'Overtime Offer', requiresJob:true,
-   desc:"Your boss offers a big weekend project for extra pay.",
+  {id:'overtime',emoji:'⏰',title:'Overtime Offer',requiresJob:true,
+   desc:"Your boss offers a weekend project for extra pay.",
    choices:[
-     {label:'Grind the weekend', cash:900, stress:15, health:-5, result:"Exhausting, but the $900 bonus helps."},
-     {label:'Protect your time', happiness:6, stress:-6, result:"You recharge instead. Worth it."},
+     {label:'Grind the weekend',effects:{cash:900,stress:15,health:-5},result:"Exhausting, but the $900 helps."},
+     {label:'Protect your time',effects:{happiness:6,stress:-6},result:"You recharge instead."},
    ]},
-  {id:'wallet', emoji:'👛', title:'Lost Wallet',
-   desc:"You find a wallet on the street with $200 cash inside.",
+  {id:'wallet',emoji:'👛',title:'Lost Wallet',
+   desc:"You find a wallet with $200 cash inside.",
    choices:[
-     {label:'Keep the cash', cash:200, happiness:-8, stress:5, result:"You pocket it, but the guilt lingers."},
-     {label:'Return it', happiness:14, result:"The owner is overjoyed. You feel great."},
+     {label:'Keep the cash',effects:{cash:200,happiness:-8,stress:5},result:"You pocket it, but guilt lingers."},
+     {label:'Return it',effects:{happiness:14},result:"The owner is overjoyed. You feel great."},
    ]},
-  {id:'trip', emoji:'✈️', title:'Weekend Getaway',
+  {id:'trip',emoji:'✈️',title:'Weekend Getaway',
    desc:"Friends invite you on a spontaneous $350 weekend trip.",
    choices:[
-     {label:'Go for it', cash:-350, happiness:20, stress:-15, health:3, result:"Unforgettable weekend. Money well spent."},
-     {label:'Stay home & save', happiness:-3, result:"You save the cash but feel a little FOMO."},
+     {label:'Go for it',effects:{cash:-350,happiness:20,stress:-15,health:3},result:"Unforgettable weekend. Money well spent."},
+     {label:'Stay home & save',effects:{happiness:-3},result:"You save the cash but feel FOMO."},
    ]},
-  {id:'pet', emoji:'🐶', title:'Adopt a Pet?',
-   desc:"A shelter puppy needs a home. Adoption fee is $150.",
-   choices:[
-     {label:'Adopt the pup', cash:-150, happiness:18, stress:5, result:"Your new best friend moves in. Pure joy."},
-     {label:'Not right now', happiness:-2, result:"The timing isn't right. Maybe someday."},
-   ]},
-  {id:'charity', emoji:'🎗️', title:'Charity Drive',
+  {id:'charity',emoji:'🎗️',title:'Charity Drive',
    desc:"A local charity is fundraising in your neighborhood.",
    choices:[
-     {label:'Donate $100', cash:-100, happiness:12, stress:-3, result:"Giving back feels good."},
-     {label:'Walk past', happiness:-3, result:"You keep your cash and your guilt."},
+     {label:'Donate $100',effects:{cash:-100,happiness:12,stress:-3},result:"Giving back feels good."},
+     {label:'Walk past',effects:{happiness:-3},result:"You keep your cash and your guilt."},
    ]},
-  {id:'course', emoji:'🎓', title:'Night Class',
-   desc:"A $400 course could level up your career skills.",
-   choices:[
-     {label:'Enroll ($400)', gamble:{p:0.6,
-        win:{cash:200, happiness:10, result:"You aced it and landed a $600 raise — net win!"},
-        lose:{cash:-400, stress:8, result:"You finished it, but no payoff yet. Pricey lesson."}}},
-     {label:'Skip it', stress:-2, result:"You stick with what you know."},
-   ]},
-  {id:'trainer', emoji:'🏋️', title:'Personal Trainer',
+  {id:'trainer',emoji:'🏋️',title:'Personal Trainer',
    desc:"A trainer offers a 1-month transformation package for $300.",
    choices:[
-     {label:'Sign up ($300)', cash:-300, health:15, looks:10, stress:-5, result:"You're in the best shape of your life."},
-     {label:'Pass', happiness:-1, result:"You'll stick to free workouts."},
+     {label:'Sign up ($300)',effects:{cash:-300,health:15,looks:10,stress:-5},result:"Best shape of your life."},
+     {label:'Pass',effects:{happiness:-1},result:"You'll stick to free workouts."},
    ]},
-  {id:'crypto', emoji:'🪙', title:'Hot Crypto Tip',
-   desc:"A coworker swears a new coin is about to moon. $500 to get in.",
+  {id:'crypto',emoji:'🪙',title:'Hot Crypto Tip',
+   desc:"A coworker swears a coin is about to moon. $500 to get in.",
    choices:[
-     {label:'Ape in $500', gamble:{p:0.4,
-        win:{cash:1500, happiness:10, result:"It mooned! Your $500 turned into $2,000."},
-        lose:{cash:-500, stress:15, happiness:-8, result:"It rugged. Your $500 vanished overnight."}}},
-     {label:'Stay out', stress:-2, result:"You keep your money and your sanity."},
+     {label:'Ape in $500',gamble:{p:.4,win:{cash:1500,happiness:10,result:"It mooned! $500 → $2,000."},lose:{cash:-500,stress:15,happiness:-8,result:"It rugged. $500 gone overnight."}}},
+     {label:'Stay out',effects:{stress:-2},result:"You keep your money and sanity."},
    ]},
-  {id:'family', emoji:'👪', title:'Family Emergency',
-   desc:"A close relative urgently needs $600 to cover a crisis.",
+  {id:'splurge',emoji:'🛒',title:'Big Sale',
+   desc:"A huge sale on something you've wanted for ages ($250).",
    choices:[
-     {label:'Help them out', cash:-600, happiness:8, stress:5, result:"They're deeply grateful. Family first."},
-     {label:"Can't afford it", happiness:-10, stress:8, result:"You couldn't help. The guilt weighs on you."},
+     {label:'Treat yourself',effects:{cash:-250,happiness:14,looks:4},result:"Retail therapy hits the spot."},
+     {label:'Resist',effects:{happiness:-2,stress:2},result:"You stay disciplined."},
    ]},
-  {id:'promotion', emoji:'📈', title:'Stretch Assignment', requiresJob:true,
-   desc:"A high-visibility project could fast-track your career — or burn you out.",
+  // Social dilemmas
+  {id:'meet_someone',emoji:'💕',title:'Someone Caught Your Eye',
+   noRel:true,
+   desc:"You keep running into the same charming person. They're clearly interested.",
    choices:[
-     {label:'Take the shot', stress:18, gamble:{p:0.55,
-        win:{cash:1000, happiness:8, result:"You crushed it — a $1,000 bonus and a promotion!"},
-        lose:{stress:6, happiness:-5, result:"It fizzled out. A lot of stress for little reward."}}},
-     {label:'Play it safe', stress:-5, result:"You keep your current workload steady."},
+     {label:'Ask them out',social:{type:'start_dating'},result:"You worked up the courage — and they said yes!"},
+     {label:'Keep it casual',effects:{happiness:-3},result:"You stay friendly. Maybe another time."},
    ]},
-  {id:'splurge', emoji:'🛒', title:'Big Sale',
-   desc:"There's a huge sale on something you've wanted for ages ($250).",
+  {id:'move_in',emoji:'🏠',title:'Big Step',
+   requiresRel:'dating',minRelMonths:6,
+   desc:"Your partner suggests moving in together.",
    choices:[
-     {label:'Treat yourself', cash:-250, happiness:14, looks:4, result:"Retail therapy hits the spot."},
-     {label:'Resist', happiness:-2, stress:2, result:"You stay disciplined. Your wallet thanks you."},
+     {label:'Move in together',social:{type:'commit'},effects:{happiness:12,stress:5},result:"A new chapter begins together."},
+     {label:'Not quite yet',effects:{happiness:-5,stress:-3},result:"They're a little disappointed."},
+   ]},
+  {id:'proposal',emoji:'💍',title:'The Proposal',
+   requiresRel:'committed',minRelMonths:12,
+   desc:"You've been together long enough. It's time for a next step.",
+   choices:[
+     {label:'Pop the question!',social:{type:'married'},effects:{happiness:25},result:"They said YES! You're engaged!"},
+     {label:'Not ready yet',effects:{happiness:-8,stress:5},result:"The conversation was awkward."},
+   ]},
+  {id:'baby',emoji:'👶',title:'Baby on the Way?',
+   requiresRel:'married',
+   desc:"You and your partner have been talking about starting a family.",
+   choices:[
+     {label:"We're ready!",social:{type:'baby'},effects:{happiness:20,stress:15},result:"Your family is growing! (+$500/mo expenses)"},
+     {label:'Not the right time',effects:{happiness:-5,stress:5},result:"A difficult but honest conversation."},
+   ]},
+  {id:'adopt_pet',emoji:'🐾',title:'A New Best Friend?',
+   noPet:true,
+   desc:"A shelter visit left you thinking about one particular animal all day.",
+   choices:[
+     {label:'Adopt them!',social:{type:'adopt_pet'},effects:{happiness:18,cash:-150},result:"You have a new best friend!"},
+     {label:'Walk away',effects:{happiness:-4},result:"Hard to leave empty-handed."},
+   ]},
+  {id:'pet_emergency',emoji:'🚨',title:'Pet Emergency',
+   requiresPet:true,
+   desc:"Your pet seems sick. The vet says it'll cost $400 to treat.",
+   choices:[
+     {label:'Pay the vet',effects:{cash:-400,happiness:5},result:"Your pet recovers. Huge relief."},
+     {label:'Hope they recover',effects:{stress:15},result:"Fingers crossed... tense few weeks."},
+   ]},
+  {id:'friend_money',emoji:'👥',title:'Friend Needs a Loan',
+   requiresFriends:true,
+   desc:"Your closest friend is in a tight spot and needs to borrow $300.",
+   choices:[
+     {label:'Lend them $300',effects:{cash:-300},social:{type:'friend_closeness',v:15},result:"They're grateful. You grow closer."},
+     {label:"Can't do it",social:{type:'friend_closeness',v:-10},result:"They understand, but it stings."},
+   ]},
+  {id:'family_help',emoji:'👪',title:'Family Crisis',
+   desc:"Your family is going through a rough patch and reaching out.",
+   choices:[
+     {label:'Send $400',effects:{cash:-400,happiness:8,stress:5},social:{type:'family_rel',v:15},result:"Family first. They're grateful."},
+     {label:"Can't right now",effects:{happiness:-5},social:{type:'family_rel',v:-10},result:"It stings not being able to help."},
+   ]},
+  {id:'new_friend',emoji:'😊',title:'Making a New Friend',
+   desc:"You hit it off with someone at a social event. Could be a real friendship.",
+   choices:[
+     {label:'Exchange numbers',social:{type:'new_friend'},effects:{happiness:10},result:"A new friendship begins!"},
+     {label:'Keep it brief',effects:{happiness:-2},result:"You stay in your comfort zone."},
+   ]},
+  // College-specific
+  {id:'exam_cheat',emoji:'📝',title:'Tempting Shortcut',requiresPath:'college',
+   desc:"Someone's selling answers to tomorrow's big exam. $150.",
+   choices:[
+     {label:'Buy the answers',gamble:{p:.4,win:{happiness:8,result:"You aced it. Nobody suspected a thing."},lose:{stress:25,happiness:-15,result:"You got caught. Academic probation."}}},
+     {label:'Study honestly',effects:{stress:10},result:"You grind through it the right way."},
+   ]},
+  {id:'scholarship',emoji:'🏅',title:'Scholarship Offer',requiresPath:'college',
+   desc:"You qualify for a $2,000 academic scholarship. Application takes energy.",
+   choices:[
+     {label:'Apply (30 energy)',effects:{cash:2000,stress:8},result:"You got it! $2,000 in your account."},
+     {label:'Skip it',effects:{happiness:-2},result:"Maybe next semester."},
+   ]},
+  {id:'drop_out',emoji:'🚪',title:'Drop Out?',requiresPath:'college',
+   desc:"College is grinding you down. A real job offer just landed in your inbox.",
+   choices:[
+     {label:'Drop out & take the job',social:{type:'drop_out'},effects:{cash:500,stress:-15},result:"You leave campus and start earning immediately."},
+     {label:'Stick it out',effects:{stress:8,happiness:-3},result:"You stay enrolled. It'll be worth it."},
+   ]},
+  // Business-specific
+  {id:'investor',emoji:'💼',title:'Investor Knocking',requiresPath:'business',
+   desc:"An investor offers $5,000 for 30% of your business.",
+   choices:[
+     {label:'Take the deal',social:{type:'biz_invest'},effects:{cash:5000},result:"Funded! Your business gets a major boost."},
+     {label:'Stay independent',effects:{happiness:5},result:"Full control, on your own terms."},
+   ]},
+  {id:'biz_crisis',emoji:'📉',title:'Business Trouble',requiresPath:'business',
+   desc:"Sales are down. Cut costs or double down?",
+   choices:[
+     {label:'Cut costs aggressively',social:{type:'biz_cut'},effects:{stress:10},result:"Painful but the business stabilizes."},
+     {label:'Double down on marketing',gamble:{p:.5,win:{happiness:10,result:"Bold bet paid off — revenue spikes!"},lose:{cash:-500,stress:15,result:"The campaign flopped. $500 down."}}},
+   ]},
+  // Criminal-specific
+  {id:'go_legit',emoji:'🕊️',title:'A Way Out',requiresPath:'criminal',
+   desc:"A community leader offers you a clean slate and a legit $2,500/mo job.",
+   choices:[
+     {label:'Take the exit',social:{type:'go_legit'},effects:{happiness:15,stress:-20},result:"You walk away from the life. New chapter."},
+     {label:'Stay in the game',social:{type:'heat_down_big'},result:"You're not done yet."},
+   ]},
+  {id:'bigger_score',emoji:'💎',title:'The Big Score',requiresPath:'criminal',
+   desc:"A one-time job could pay $5,000 — but the risks are massive.",
+   choices:[
+     {label:'Go for it',gamble:{p:.4,win:{cash:5000,happiness:8,result:"You pulled it off. $5,000 richer."},lose:{cash:-500,stress:30,health:-10,result:"It went sideways. You barely got away."}}},
+     {label:'Pass',effects:{stress:-5},result:"Some scores aren't worth it."},
+   ]},
+  {id:'setup',emoji:'🚔',title:'Someone Snitched',requiresPath:'criminal',
+   desc:"Word is someone in your circle talked to the cops about you.",
+   choices:[
+     {label:'Disappear for a month',effects:{cash:-600,stress:20},social:{type:'heat_down_big'},result:"You go dark. Heat drops significantly."},
+     {label:'Brazen it out',effects:{stress:25},social:{type:'heat_up_big'},result:"You keep operating. Heat climbs fast."},
    ]},
 ];
 
-/* ════════════════════════════════════════════
-   STATE
-   ════════════════════════════════════════════ */
-let S;
+const JOBS_BASE=[
+  {id:'barista',title:'Barista',emoji:'☕',salary:2200,energy:30,stress:10,desc:'Make coffee, make friends. Low stress.',locked:false},
+  {id:'retail',title:'Retail Associate',emoji:'🛍️',salary:2500,energy:30,stress:15,desc:'Help customers all day. Holiday rush is brutal.',locked:false},
+  {id:'delivery',title:'Delivery Driver',emoji:'🚗',salary:3000,energy:35,stress:12,desc:'Hit the road. Decent pay, flexible hours.',locked:false},
+  {id:'admin',title:'Office Admin',emoji:'🗂️',salary:3500,energy:25,stress:12,desc:'Keep the office running. Stable.',locked:false},
+  {id:'teacher',title:'Teacher',emoji:'🎓',salary:3200,energy:30,stress:10,desc:'Shape the future. Not rich but fulfilling.',locked:false},
+  {id:'nurse',title:'Nurse',emoji:'🏥',salary:4800,energy:40,stress:22,desc:'Save lives. Demanding but meaningful.',locked:false},
+  {id:'marketer',title:'Marketing Specialist',emoji:'📣',salary:5000,energy:30,stress:15,desc:'Sell the dream.',locked:false},
+  {id:'developer',title:'Software Developer',emoji:'👩‍💻',salary:7500,energy:35,stress:20,desc:'Build apps and cry. High pay.',locked:false},
+  {id:'manager',title:'Manager',emoji:'📊',salary:6500,energy:35,stress:25,desc:'More money, more problems.',locked:false},
+  {id:'entrepreneur',title:'Entrepreneur',emoji:'🚀',salary:12000,energy:50,stress:35,desc:'Go all in. Massive upside, crushing pressure.',locked:false},
+  {id:'doctor',title:'Doctor',emoji:'🩺',salary:10000,energy:40,stress:25,desc:'Years of school paid off.',locked:true,requiresDegree:true},
+  {id:'lawyer',title:'Lawyer',emoji:'⚖️',salary:9000,energy:35,stress:28,desc:'Fight for justice. Billable hours grind.',locked:true,requiresDegree:true},
+  {id:'engineer',title:'Engineer',emoji:'🔧',salary:8500,energy:35,stress:20,desc:'Build things that last.',locked:true,requiresDegree:true},
+];
 
-function initialState(){
-  return {
-    totalMonths:0, cash:500, debt:5000, maxEnergy:100, energy:100,
-    happiness:60, health:80, stress:20, looks:60,
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+let S, pendingChar={name:'',gender:'',emoji:''}, selectedPath=null;
+
+function pickName(g){
+  if(g==='male')return MALE_NAMES[~~(Math.random()*MALE_NAMES.length)];
+  if(g==='female')return FEMALE_NAMES[~~(Math.random()*FEMALE_NAMES.length)];
+  return NB_NAMES[~~(Math.random()*NB_NAMES.length)];
+}
+function pickPartnerName(g){
+  const pool=g==='male'?FEMALE_NAMES:g==='female'?MALE_NAMES:NB_NAMES;
+  return pool[~~(Math.random()*pool.length)];
+}
+function pickFriendName(exclude){
+  const pool=ALL_NAMES.filter(n=>n!==exclude&&(!S||!S.friends.find(f=>f.name===n)));
+  return pool[~~(Math.random()*pool.length)]||'Chris';
+}
+function pickPet(){
+  const t=PET_TYPES[~~(Math.random()*PET_TYPES.length)];
+  return{emoji:t.e,type:t.t,name:t.n[~~(Math.random()*t.n.length)],happiness:70,cost:t.t==='Dog'?60:t.t==='Cat'?40:t.t==='Fish'?10:30};
+}
+function genBizName(name){
+  const types=['Food Cart','Design Studio','Tech Services','Cleaning Co.','Photography','Tutoring Co.','Delivery Co.'];
+  return`${name}'s ${types[~~(Math.random()*types.length)]}`;
+}
+
+function initialState(name,gender,path){
+  const pc=PATHS[path];
+  const emoji=gender==='male'?'👨':gender==='female'?'👩':'🧑';
+  return{
+    name,gender,emoji,path,
+    pronouns:gender==='male'?{s:'He',o:'him',p:'his'}:gender==='female'?{s:'She',o:'her',p:'her'}:{s:'They',o:'them',p:'their'},
+    totalMonths:0,cash:pc.startCash,debt:pc.startDebt,
+    maxEnergy:100,energy:100,
+    happiness:60,health:80,stress:20,looks:60,
     job:null,
-    log:["🌅 You're 18 and officially on your own. $500 in your pocket, $5k in debt, and a whole life ahead. Choose wisely."],
+    log:[`🌅 ${name} is 18 and officially on ${gender==='male'?'his':gender==='female'?'her':'their'} own. The game starts now.`],
     used:new Set(),
-    lastDilemma:-99, lastDilemmaId:null,
+    lastDilemma:-99,lastDilemmaId:null,
+    // social
+    friends:[],
+    relationship:null,
+    pet:null,
+    children:0,
+    familyRel:65,
+    // path
+    college:path==='college'?{credits:0,gpa:3.0,graduated:false}:null,
+    business:path==='business'?{revenue:800,health:60,name:genBizName(name)}:null,
+    criminal:path==='criminal'?{heat:0,busted:false}:null,
   };
 }
 
-const clamp  = v => Math.max(0, Math.min(100, v));
-const yr     = () => 18 + Math.floor(S.totalMonths / 12);
-const mo     = () => S.totalMonths % 12;
-const nw     = () => S.cash - S.debt;
+// Fix the log line more cleanly
+function fixInitialLog(s){
+  const pc=PATHS[s.path];
+  const pr=s.pronouns;
+  const cashDesc=s.path==='college'?`$800 cash and $20k in student loans`:s.path==='business'?`$2,000 saved and a small business idea`:`$1,500 in the pocket and zero fear`;
+  s.log=[`🌅 ${s.name} is 18 and officially on ${pr.o==='him'?'his':pr.o==='her'?'her':'their'} own. ${cashDesc}. The game starts now.`];
+  return s;
+}
 
-/* ════════════════════════════════════════════
-   ACTIONS
-   ════════════════════════════════════════════ */
-function startGame(){
-  S = initialState();
+/* ═══════════════════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════════════════ */
+function show(id){['start','create','game','over'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));}
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===t));
+  ['life','career','social','journal'].forEach(el=>document.getElementById('tab-'+el).classList.toggle('hidden',el!==t));
+}
+
+function showCreate(){
+  selectedPath=null;
+  document.getElementById('beginBtn').style.opacity='.4';
+  document.getElementById('beginBtn').style.pointerEvents='none';
+  document.getElementById('beginBtn').textContent='CHOOSE A PATH FIRST';
+  rerollChar();
+  renderPathCards();
+  show('create');
+}
+
+function rerollChar(){
+  const g=['male','female','nonbinary'][~~(Math.random()*3)];
+  const n=pickName(g);
+  const e=g==='male'?'👨':g==='female'?'👩':'🧑';
+  pendingChar={name:n,gender:g,emoji:e};
+  document.getElementById('createEmoji').textContent=e;
+  document.getElementById('createName').textContent=n;
+  const tag=document.getElementById('createGenderTag');
+  tag.textContent=g==='male'?'Male ♂':g==='female'?'Female ♀':'Non-binary ⚧';
+  tag.className='gender-tag '+(g==='male'?'gender-male':g==='female'?'gender-female':'gender-nonbinary');
+}
+
+function renderPathCards(){
+  document.getElementById('pathCards').innerHTML=Object.entries(PATHS).map(([id,p])=>`
+    <div class="path-card" id="pc-${id}" onclick="selectPath('${id}')">
+      <div class="path-top">
+        <span class="path-emoji">${p.emoji}</span>
+        <div><div class="path-name" style="color:${p.color}">${p.name}</div></div>
+      </div>
+      <div class="path-tagline">${p.desc}</div>
+      <div class="path-pros-cons">
+        <div class="path-pros"><div class="pc-label">PROS</div>${p.pros.map(x=>`✓ ${x}`).join('<br>')}</div>
+        <div class="path-cons"><div class="pc-label">CONS</div>${p.cons.map(x=>`✗ ${x}`).join('<br>')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function selectPath(id){
+  selectedPath=id;
+  document.querySelectorAll('.path-card').forEach(c=>c.classList.toggle('selected',c.id===`pc-${id}`));
+  const btn=document.getElementById('beginBtn');
+  btn.textContent=`BEGIN AS ${PATHS[id].emoji} ${PATHS[id].name.toUpperCase()}`;
+  btn.style.opacity='1';
+  btn.style.pointerEvents='auto';
+}
+
+function beginGame(){
+  if(!selectedPath)return;
+  S=fixInitialLog(initialState(pendingChar.name,pendingChar.gender,selectedPath));
   show('game');
   switchTab('life');
   render();
 }
 
+/* ═══════════════════════════════════════════════════════
+   ACTIVITIES
+═══════════════════════════════════════════════════════ */
+function getActivities(){
+  const path_acts=PATH_ACTIVITIES[S.path]||[];
+  return[...path_acts,...BASE_ACTIVITIES];
+}
+
 function doActivity(idx){
-  const a = ACTIVITIES[idx];
-  if(S.energy < a.energy){ toast('Not enough energy this month!'); return; }
-  if(!a.multi && S.used.has(a.id)){ toast('Already done this month.'); return; }
-  S.energy -= a.energy;
-  S.cash    += (a.cash||0);
-  if(S.cash < 0){ S.debt += -S.cash; S.cash = 0; }
-  S.happiness = clamp(S.happiness + (a.happiness||0));
-  S.health    = clamp(S.health    + (a.health||0));
-  S.stress    = clamp(S.stress    + (a.stress||0));
-  S.looks     = clamp(S.looks     + (a.looks||0));
-  if(!a.multi) S.used.add(a.id);
+  const all=getActivities();
+  const a=all[idx];
+  if(!a)return;
+  if(S.energy<a.energy){toast('Not enough energy!');return;}
+  if(!a.multi&&S.used.has(a.id)){toast('Already done this month.');return;}
+  if(a.requiresRel&&!S.relationship){toast('You need to be in a relationship first.');return;}
+  if(a.requiresPet&&!S.pet){toast('You need a pet first.');return;}
+  if(a.requiresFriends&&S.friends.length===0){toast('Make some friends first!');return;}
+  S.energy-=a.energy;
+  S.cash+=(a.cash||0);
+  if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
+  S.happiness=clamp(S.happiness+(a.happiness||0));
+  S.health=clamp(S.health+(a.health||0));
+  S.stress=clamp(S.stress+(a.stress||0));
+  S.looks=clamp(S.looks+(a.looks||0));
+  // special effects
+  if(a.special==='credits'&&S.college){S.college.credits+=1;toast(`📖 +1 credit (${S.college.credits}/48)`);}
+  if(a.special==='gpa'&&S.college){S.college.gpa=Math.min(4.0,S.college.gpa+0.1);toast(`📚 GPA up to ${S.college.gpa.toFixed(1)}`);}
+  if(a.special==='biz_revenue'&&S.business){S.business.revenue=Math.min(5000,S.business.revenue+200);toast(`📈 Revenue now $${S.business.revenue}/mo`);}
+  if(a.special==='biz_pitch'&&S.business){
+    if(Math.random()<0.55){S.business.revenue=Math.min(5000,S.business.revenue+400);toast('🤝 New clients! Revenue +$400');}
+    else toast('😬 Pitch fell flat. Keep trying.');
+  }
+  if(a.special==='heat_up'&&S.criminal){S.criminal.heat=Math.min(100,S.criminal.heat+15);if(S.criminal.heat>80)toast('🚨 HEAT IS CRITICAL — Lay Low!');}
+  if(a.special==='heat_down'&&S.criminal){S.criminal.heat=Math.max(0,S.criminal.heat-20);toast(`🕶️ Heat down to ${S.criminal.heat}`);}
+  // social boosts
+  if(a.id==='date_night'&&S.relationship){S.relationship.months+=0.5;applyRelBonus();}
+  if(a.id==='hang_friends'&&S.friends.length>0){S.friends[0].closeness=Math.min(100,S.friends[0].closeness+10);}
+  if(a.id==='walk_pet'&&S.pet){S.pet.happiness=Math.min(100,S.pet.happiness+15);}
+  if(!a.multi)S.used.add(a.id);
   render();
 }
 
+function applyRelBonus(){
+  if(!S.relationship)return;
+  const stage=S.relationship.stage;
+  const bonus=stage==='married'?5:stage==='committed'?3:2;
+  S.happiness=clamp(S.happiness+bonus);
+}
+
+/* ═══════════════════════════════════════════════════════
+   JOBS
+═══════════════════════════════════════════════════════ */
+function getJobs(){
+  return JOBS_BASE.filter(j=>{
+    if(j.requiresDegree)return S.college&&S.college.graduated;
+    return true;
+  });
+}
 function applyJob(job){
-  S.job = job;
-  S.log.unshift(job
-    ? `💼 You started a new job as a ${job.emoji} ${job.title} ($${job.salary}/mo).`
-    : '🚶 You quit your job. Hope you have savings...');
+  S.job=job;
+  S.log.unshift(job?`💼 Started a new job as a ${job.emoji} ${job.title} ($${job.salary}/mo).`:'🚶 Quit the job. Hope there\'s savings...');
   render();
 }
+
+/* ═══════════════════════════════════════════════════════
+   END MONTH
+═══════════════════════════════════════════════════════ */
+const clamp=v=>Math.max(0,Math.min(100,v));
+const yr=()=>18+Math.floor(S.totalMonths/12);
+const mo=()=>S.totalMonths%12;
+const nw=()=>S.cash-S.debt;
 
 function endMonth(){
-  const logs = processMonth();
+  const logs=processMonth();
   render();
-  const o = checkOver();
-  if(o.dead || o.bankrupt){ gameOver(false, o.dead); return; }
-  if(o.won){ gameOver(true); return; }
-  showRecap(logs);               // end-of-month pop-up
+  const o=checkOver();
+  if(o.end)return;
+  showRecap(logs);
 }
 
-// Advances one month, mutates S, returns this month's event lines.
 function processMonth(){
-  const logs = [];
+  const logs=[];
   S.totalMonths++;
 
   // bills
-  const bills = RENT_COST + BASE_LIVING;
-  S.cash -= bills;
-  logs.push(`🏠 Paid $${bills} in rent & living expenses.`);
+  S.cash-=(RENT+LIVING);
+  logs.push(`🏠 Paid $${RENT+LIVING} in rent & living expenses.`);
 
   // salary
-  if(S.job){
-    S.cash += S.job.salary;
-    logs.push(`💵 Earned $${S.job.salary} as ${S.job.emoji} ${S.job.title}.`);
-  } else {
-    logs.push('⚠️ No job — no income this month.');
+  if(S.job){S.cash+=S.job.salary;logs.push(`💵 Earned $${S.job.salary} as ${S.job.emoji} ${S.job.title}.`);}
+  else logs.push('⚠️ No job — no income this month.');
+
+  // path income / effects
+  if(S.path==='business'&&S.business){
+    // natural revenue drift
+    S.business.revenue=Math.max(0,S.business.revenue+Math.round((Math.random()-.4)*200));
+    S.cash+=S.business.revenue;
+    logs.push(`💼 ${S.business.name} brought in $${S.business.revenue} this month.`);
+    // business health
+    S.business.health=Math.max(0,Math.min(100,S.business.health+(Math.random()<.3?-10:5)));
+    if(S.business.health<20){logs.push('📉 Business is in serious trouble!');}
+  }
+  if(S.path==='college'&&S.college&&!S.college.graduated){
+    // student loan interest ($0 while studying, payment after grad added separately)
+    S.debt+=Math.round(S.debt*.01); // 1% monthly interest on student loans
+    logs.push(`📚 Student loan interest accrued. Total debt $${Math.round(S.debt)}.`);
+    // check graduation
+    if(S.college.credits>=48){
+      S.college.graduated=true;
+      S.happiness=clamp(S.happiness+20);
+      logs.push('🎓 YOU GRADUATED! +20 happiness. Professional jobs now unlocked!');
+    }
+  }
+  if(S.path==='criminal'&&S.criminal){
+    // heat naturally drops a little
+    S.criminal.heat=Math.max(0,S.criminal.heat-5);
+    // arrest risk if heat > 70
+    if(S.criminal.heat>70&&Math.random()<.3){
+      S.cash=Math.max(0,S.cash-1500);
+      S.stress=clamp(S.stress+30);
+      S.health=clamp(S.health-10);
+      S.criminal.heat=Math.max(0,S.criminal.heat-30);
+      logs.push('🚔 ARRESTED! Lost $1,500, paid bail. Heat dropped but damage is done.');
+    }
   }
 
   // debt interest
-  if(S.debt > 0){
-    const interest = Math.round(S.debt * DEBT_RATE);
-    S.debt += interest;
-    logs.push(`📈 Accrued $${interest} in interest on your debt.`);
+  if(S.debt>0&&S.path!=='college'){// college handles its own
+    const i=Math.round(S.debt*DEBT_RATE);
+    S.debt+=i;
+    logs.push(`📈 Accrued $${i} in interest on debt.`);
+  }
+
+  // children cost
+  if(S.children>0){
+    const cost=S.children*500;
+    S.cash-=cost;
+    logs.push(`👶 Child expenses: $${cost} this month.`);
+  }
+
+  // pet cost
+  if(S.pet){
+    S.cash-=S.pet.cost;
+    S.pet.happiness=Math.max(30,S.pet.happiness-5);
+    logs.push(`${S.pet.emoji} ${S.pet.name} cost $${S.pet.cost} this month.`);
   }
 
   // overdraft
-  if(S.cash < 0){
-    S.debt += -S.cash; S.cash = 0;
-    logs.push('⚠️ Overdraft! Expenses converted to high-interest debt.');
+  if(S.cash<0){S.debt+=-S.cash;S.cash=0;logs.push('⚠️ Overdraft! Expenses added to debt.');}
+
+  // relationship duration
+  if(S.relationship){
+    S.relationship.months++;
+    if(S.relationship.stage==='married')S.happiness=clamp(S.happiness+2);
+    else if(S.relationship.stage==='committed')S.happiness=clamp(S.happiness+1);
+    // random relationship event
+    if(Math.random()<.1){
+      const relEvents=['You and your partner had a lovely evening together.',`${S.relationship.name} surprised you with a thoughtful gift.`,'A minor disagreement but you worked it out.'];
+      const ev=relEvents[~~(Math.random()*relEvents.length)];
+      const isGood=!ev.includes('disagreement');
+      S.happiness=clamp(S.happiness+(isGood?5:-3));
+      logs.push(`❤️ ${ev}`);
+    }
+  } else {
+    S.happiness=clamp(S.happiness-1); // single tax
   }
 
-  // stat evolution
-  if(S.job) S.stress += S.job.stress; else S.happiness -= 5;
-  if(S.stress > 70){ S.health -= 4; S.happiness -= 5; logs.push('🚨 Severe burnout is damaging your health and happiness.'); }
-  S.happiness -= 2; S.looks -= 0.5;
+  // family
+  S.familyRel=Math.max(0,Math.min(100,S.familyRel+(Math.random()<.15?-3:1)));
 
-  // random event (40%)
-  if(Math.random() <= 0.40){
-    const e = EVENTS[Math.floor(Math.random() * EVENTS.length)];
-    S.cash      += (e.cash||0);
-    S.stress    += (e.stress||0);
-    S.happiness += (e.happiness||0);
-    S.health    += (e.health||0);
-    S.looks     += (e.looks||0);
-    if(S.cash < 0){ S.debt += -S.cash; S.cash = 0; }
+  // stat decay
+  if(S.job)S.stress=clamp(S.stress+S.job.stress);else S.happiness=clamp(S.happiness-5);
+  if(S.stress>70){S.health=clamp(S.health-4);S.happiness=clamp(S.happiness-5);logs.push('🚨 Severe burnout is hurting your health.');}
+  S.happiness=clamp(S.happiness-2);
+  S.looks=clamp(S.looks-.5);
+
+  // random event (35%)
+  if(Math.random()<=.35){
+    const e=EVENTS[~~(Math.random()*EVENTS.length)];
+    S.cash+=(e.cash||0);S.stress=clamp(S.stress+(e.stress||0));
+    S.happiness=clamp(S.happiness+(e.happiness||0));S.health=clamp(S.health+(e.health||0));
+    S.looks=clamp(S.looks+(e.looks||0));
+    if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
     logs.push(`🎲 ${e.d}`);
   }
 
-  S.happiness = clamp(S.happiness);
-  S.health    = clamp(S.health);
-  S.stress    = clamp(S.stress);
-  S.looks     = clamp(S.looks);
-
-  // reset month
-  S.energy = S.maxEnergy;
-  S.used   = new Set();
-  S.log    = logs.concat(S.log);
+  // reset
+  S.energy=S.maxEnergy;S.used=new Set();
+  S.log=logs.concat(S.log);
   return logs;
 }
 
 function checkOver(){
-  return {
-    dead:     S.health <= 0,
-    bankrupt: S.debt >= 100000 && S.cash <= 0,
-    won:      yr() >= 65 && nw() >= 250000 && S.happiness >= 50,
-  };
+  const dead=S.health<=0;
+  const bankrupt=S.debt>=100000&&S.cash<=0;
+  const won=yr()>=65&&nw()>=250000&&S.happiness>=50;
+  if(dead||bankrupt){gameOver(false,dead);return{end:true};}
+  if(won){gameOver(true);return{end:true};}
+  return{end:false};
 }
 
-/* ── End-of-month recap pop-up ── */
+/* ═══════════════════════════════════════════════════════
+   POPUPS
+═══════════════════════════════════════════════════════ */
 function showRecap(logs){
-  const items = logs.map(l => `<div class="ev-line">${l}</div>`).join('');
   openModal(`
     <h3>📅 Month ${S.totalMonths} · Age ${yr()}y ${mo()}m</h3>
-    <div class="ev-list">${items}</div>
-    <div class="modal-actions"><button class="mb-ok" id="_recapOk">Continue →</button></div>
-  `, true);
-  document.getElementById('_recapOk').onclick = () => { closeModal(); afterRecap(); };
+    <div class="ev-list">${logs.map(l=>`<div class="ev-line">${l}</div>`).join('')}</div>
+    <div class="modal-actions"><button class="mb-ok" id="_rok">Continue →</button></div>`,true);
+  document.getElementById('_rok').onclick=()=>{closeModal();afterRecap();};
 }
 
-// After the recap, sometimes present a choose-your-path dilemma.
 function afterRecap(){
-  const due  = (S.totalMonths - S.lastDilemma) >= 3 || Math.random() < 0.4;
-  const pool = DILEMMAS.filter(d => (!d.requiresJob || S.job) && d.id !== S.lastDilemmaId);
-  if(due && pool.length){
-    const d = pool[Math.floor(Math.random() * pool.length)];
-    S.lastDilemma   = S.totalMonths;
-    S.lastDilemmaId = d.id;
-    showDilemma(d);
-  } else {
-    finishTurn();
-  }
+  const d=pickDilemma();
+  if(d)showDilemma(d);
 }
 
-/* ── Choice-based life event pop-up ── */
-let _pendingDilemma = null;
+function pickDilemma(){
+  const due=(S.totalMonths-S.lastDilemma)>=3||Math.random()<.4;
+  if(!due)return null;
+  const pool=DILEMMAS.filter(d=>{
+    if(d.id===S.lastDilemmaId)return false;
+    if(d.requiresJob&&!S.job)return false;
+    if(d.requiresPath&&d.requiresPath!==S.path)return false;
+    if(d.requiresRel&&(!S.relationship||S.relationship.stage!==d.requiresRel))return false;
+    if(d.minRelMonths&&(!S.relationship||S.relationship.months<d.minRelMonths))return false;
+    if(d.requiresFriends&&S.friends.length===0)return false;
+    if(d.requiresPet&&!S.pet)return false;
+    if(d.noRel&&S.relationship)return false;
+    if(d.noPet&&S.pet)return false;
+    return true;
+  });
+  if(!pool.length)return null;
+  const d=pool[~~(Math.random()*pool.length)];
+  S.lastDilemma=S.totalMonths;S.lastDilemmaId=d.id;
+  return d;
+}
+
+let _activeDilemma=null;
 function showDilemma(d){
-  _pendingDilemma = d;
-  const btns = d.choices.map((c, i) => `
-    <button class="choice-btn" onclick="chooseDilemma(${i})">
+  _activeDilemma=d;
+  const btns=d.choices.map((c,i)=>`
+    <button class="choice-btn" onclick="chooseOption(${i})">
       <span class="cl">${c.label}</span>
-      <span class="ce">${choicePreview(c)}</span>
+      <span class="ce">${previewChoice(c)}</span>
     </button>`).join('');
-  openModal(`
-    <div class="dilemma-emoji">${d.emoji}</div>
+  openModal(`<div class="dilemma-emoji">${d.emoji}</div>
     <h3 style="text-align:center">${d.title}</h3>
     <p style="text-align:center">${d.desc}</p>
-    <div class="choice-list">${btns}</div>
-  `, true);
+    <div class="choice-list">${btns}</div>`,true);
 }
 
-function chooseDilemma(i){
-  const c = _pendingDilemma.choices[i];
-  applyEffects(c);                 // base effects (e.g. guaranteed stress)
-  let res = null;
+function chooseOption(i){
+  const c=_activeDilemma.choices[i];
+  applyEffects(c.effects||{});
+  let resultMsg=c.result||'Done.';
   if(c.gamble){
-    res = (Math.random() < c.gamble.p) ? c.gamble.win : c.gamble.lose;
-    applyEffects(res);             // randomized outcome
+    const won=Math.random()<c.gamble.p;
+    const outcome=won?c.gamble.win:c.gamble.lose;
+    applyEffects(outcome);
+    resultMsg=outcome.result||resultMsg;
   }
+  if(c.social)applySocial(c.social,c);
   closeModal();
-  showResult((res && res.result) || c.result || 'Done.');
+  render();
+  showResult(resultMsg);
+}
+
+function applyEffects(e){
+  if(!e)return;
+  S.cash+=(e.cash||0);if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
+  S.happiness=clamp(S.happiness+(e.happiness||0));
+  S.health=clamp(S.health+(e.health||0));
+  S.stress=clamp(S.stress+(e.stress||0));
+  S.looks=clamp(S.looks+(e.looks||0));
+  if(e.result)S.log.unshift(`🤔 ${e.result}`);
+}
+
+function applySocial(soc,choice){
+  if(soc.type==='start_dating'){
+    const pName=pickPartnerName(S.gender);
+    S.relationship={name:pName,stage:'dating',months:0};
+    S.log.unshift(`💕 You started dating ${pName}!`);
+  }
+  if(soc.type==='commit'&&S.relationship){S.relationship.stage='committed';S.log.unshift(`❤️ You and ${S.relationship.name} are now officially committed.`);}
+  if(soc.type==='married'&&S.relationship){S.relationship.stage='married';S.log.unshift(`💍 You and ${S.relationship.name} are married!`);}
+  if(soc.type==='baby'){S.children++;S.log.unshift(`👶 Baby #${S.children} is on the way!`);}
+  if(soc.type==='new_friend'){const n=pickFriendName(S.name);S.friends.push({name:n,closeness:40});S.log.unshift(`👫 New friend: ${n}!`);}
+  if(soc.type==='friend_closeness'&&S.friends.length>0){S.friends[0].closeness=Math.max(0,Math.min(100,S.friends[0].closeness+(soc.v||0)));}
+  if(soc.type==='family_rel'){S.familyRel=Math.max(0,Math.min(100,S.familyRel+(soc.v||0)));}
+  if(soc.type==='adopt_pet'){S.pet=pickPet();S.log.unshift(`${S.pet.emoji} Adopted ${S.pet.name} the ${S.pet.type}!`);}
+  if(soc.type==='biz_invest'&&S.business){S.business.revenue=Math.min(5000,S.business.revenue+600);S.log.unshift('💼 Investor boosted business revenue by $600/mo!');}
+  if(soc.type==='biz_cut'&&S.business){S.business.revenue=Math.max(200,S.business.revenue-200);S.business.health=Math.min(100,S.business.health+20);}
+  if(soc.type==='go_legit'&&S.criminal){
+    S.criminal.heat=0;
+    const legitJob=JOBS_BASE.find(j=>j.id==='admin');
+    if(legitJob&&!S.job){S.job=legitJob;S.log.unshift('🕊️ You went legit. New job as Office Admin.');}
+  }
+  if(soc.type==='heat_down_big'&&S.criminal){S.criminal.heat=Math.max(0,S.criminal.heat-35);}
+  if(soc.type==='heat_up_big'&&S.criminal){S.criminal.heat=Math.min(100,S.criminal.heat+25);}
+  if(soc.type==='drop_out'){
+    S.college=null;S.path='dropped_out';
+    const job=JOBS_BASE.find(j=>j.id==='retail');
+    if(job&&!S.job){S.job=job;S.log.unshift('🚪 You dropped out and took a retail job.');}
+  }
 }
 
 function showResult(msg){
-  render();
-  openModal(`
-    <div class="dilemma-emoji">🤔</div>
+  openModal(`<div class="dilemma-emoji">🤔</div>
     <p style="text-align:center">${msg}</p>
-    <div class="modal-actions"><button class="mb-ok" id="_resOk">OK</button></div>
-  `, true);
-  document.getElementById('_resOk').onclick = () => { closeModal(); finishTurn(); };
+    <div class="modal-actions"><button class="mb-ok" id="_resOk">OK</button></div>`,true);
+  document.getElementById('_resOk').onclick=()=>{closeModal();render();const o=checkOver();};
 }
 
-// Apply a set of stat/cash effects with overdraft + clamping; log its result line.
-function applyEffects(e){
-  S.cash += e.cash || 0;
-  if(S.cash < 0){ S.debt += -S.cash; S.cash = 0; }
-  S.happiness = clamp(S.happiness + (e.happiness||0));
-  S.health    = clamp(S.health    + (e.health||0));
-  S.stress    = clamp(S.stress    + (e.stress||0));
-  S.looks     = clamp(S.looks     + (e.looks||0));
-  if(e.result) S.log.unshift(`🤔 ${e.result}`);
+function previewChoice(c){
+  const parts=[];
+  const e=c.effects||{};
+  if(e.cash)parts.push(chip((e.cash>0?'+':'')+`$${Math.abs(e.cash)}`,e.cash>0));
+  if(e.happiness)parts.push(chip(signed(e.happiness)+' 😊',e.happiness>0));
+  if(e.health)parts.push(chip(signed(e.health)+' ❤️',e.health>0));
+  if(e.stress)parts.push(chip(signed(e.stress)+' 😰',e.stress<0));
+  if(e.looks)parts.push(chip(signed(e.looks)+' ✨',e.looks>0));
+  if(c.gamble)parts.push('<span class="eff" style="color:var(--amber)">🎲 Risky</span>');
+  if(c.social){
+    const socialLabels={start_dating:'💕 Start dating',commit:'❤️ Get committed',married:'💍 Get married',baby:'👶 Baby',new_friend:'👫 New friend',adopt_pet:'🐾 Adopt pet',go_legit:'🕊️ Go legit'};
+    const lbl=socialLabels[c.social.type];
+    if(lbl)parts.push(`<span class="eff pos">${lbl}</span>`);
+  }
+  return parts.join('')||'<span style="color:rgba(255,255,255,.3);font-size:11px">No immediate effect</span>';
 }
 
-function finishTurn(){
-  render();
-  const o = checkOver();
-  if(o.dead || o.bankrupt){ gameOver(false, o.dead); return; }
-  if(o.won){ gameOver(true); return; }
-}
-
-function choicePreview(c){
-  const p = [];
-  if(c.cash)      p.push(chip((c.cash>0?'+':'')+'$'+Math.abs(c.cash), c.cash>0));
-  if(c.happiness) p.push(chip(signed(c.happiness)+' 😊', c.happiness>0));
-  if(c.health)    p.push(chip(signed(c.health)+' ❤️', c.health>0));
-  if(c.stress)    p.push(chip(signed(c.stress)+' 😰', c.stress<0));
-  if(c.looks)     p.push(chip(signed(c.looks)+' ✨', c.looks>0));
-  if(c.gamble)    p.push('<span class="eff" style="color:var(--amber)">🎲 Risky</span>');
-  return p.join('') || '<span class="eff" style="color:rgba(255,255,255,.4)">No immediate effect</span>';
-}
-
-/* ════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    GAME OVER
-   ════════════════════════════════════════════ */
-function gameOver(didWin, dead){
-  document.getElementById('overEmoji').textContent    = didWin ? '🏆' : (dead ? '💀' : '💸');
-  document.getElementById('overTitle').textContent    = didWin ? 'LIFE WELL LIVED' : 'GAME OVER';
-  document.getElementById('overTitle').style.color   = didWin ? 'var(--amber)' : 'var(--red)';
-  document.getElementById('overSub').textContent     = didWin
-    ? 'You reached retirement with wealth and happiness.'
-    : (dead ? 'Your health reached zero. Take better care of yourself.'
-            : 'You went bankrupt. Money problems spiral fast.');
-  const worth = nw();
-  document.getElementById('overStats').innerHTML = [
-    oRow('Age',       `${yr()}y ${mo()}m`),
-    oRow('Net Worth', moneyFmt(worth), worth >= 0 ? 'var(--green)' : 'var(--red)'),
-    oRow('Happiness', Math.round(S.happiness) + '/100'),
-    oRow('Health',    Math.round(S.health) + '/100'),
-    oRow('Looks',     Math.round(S.looks) + '/100'),
+═══════════════════════════════════════════════════════ */
+function gameOver(didWin,dead){
+  document.getElementById('overEmoji').textContent=didWin?'🏆':(dead?'💀':'💸');
+  document.getElementById('overTitle').textContent=didWin?'LIFE WELL LIVED':'GAME OVER';
+  document.getElementById('overTitle').style.color=didWin?'var(--amber)':'var(--red)';
+  document.getElementById('overSub').textContent=didWin
+    ?`${S.name} reached retirement with wealth and happiness. An incredible life.`
+    :(dead?`${S.name}'s health reached zero. Rest easy.`:`${S.name} went bankrupt. Money problems spiral fast.`);
+  const worth=nw();
+  const relStr=S.relationship?`${S.relationship.stage==='married'?'💍 Married':'❤️ In a relationship'} with ${S.relationship.name}`:'💔 Single';
+  const petStr=S.pet?`${S.pet.emoji} ${S.pet.name} the ${S.pet.type}`:'No pet';
+  document.getElementById('overStats').innerHTML=[
+    oRow('Age',`${yr()}y ${mo()}m`),
+    oRow('Net Worth',moneyFmt(worth),worth>=0?'var(--green)':'var(--red)'),
+    oRow('Happiness',Math.round(S.happiness)+'/100'),
+    oRow('Health',Math.round(S.health)+'/100'),
+    oRow('Friends',S.friends.length+''),
+    oRow('Relationship',relStr),
+    oRow('Children',S.children+''),
+    oRow('Pet',petStr),
   ].join('');
   show('over');
 }
-const oRow = (l,v,c='#fff') =>
-  `<div class="over-row"><span class="l">${l}</span><span class="v" style="color:${c}">${v}</span></div>`;
+const oRow=(l,v,c='#fff')=>`<div class="over-row"><span class="l">${l}</span><span class="v" style="color:${c}">${v}</span></div>`;
 
-/* ════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    RENDER
-   ════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function render(){
   // header
-  document.getElementById('age').textContent      = `AGE ${yr()}y ${mo()}m`;
-  document.getElementById('jobLabel').textContent = S.job ? `${S.job.emoji} ${S.job.title}` : '💼 Unemployed';
+  document.getElementById('hName').textContent=S.name;
+  const pb=document.getElementById('hPathBadge');
+  const pc=PATHS[S.path]||{emoji:'',name:S.path,color:'rgba(255,255,255,.3)'};
+  pb.textContent=`${pc.emoji} ${pc.name}`;
+  pb.style.background=pc.color+'22';pb.style.color=pc.color;
+  document.getElementById('age').textContent=`Age ${yr()}y ${mo()}m`;
 
-  // energy pill (green → amber → red as in Flutter)
-  const frac = S.energy / S.maxEnergy;
-  const ec   = frac > 0.5 ? '#10B981' : frac > 0.25 ? '#F59E0B' : '#EF4444';
-  const pill = document.getElementById('energyPill');
-  pill.style.color       = ec;
-  pill.style.borderColor = ec;
-  pill.style.background  = ec + '26'; // ~15% alpha
-  document.getElementById('energyVal').textContent = `${S.energy}/${S.maxEnergy}`;
+  // energy
+  const frac=S.energy/S.maxEnergy;
+  const ec=frac>.5?'#10B981':frac>.25?'#F59E0B':'#EF4444';
+  const pill=document.getElementById('energyPill');
+  pill.style.color=ec;pill.style.borderColor=ec;pill.style.background=ec+'26';
+  document.getElementById('energyVal').textContent=`${S.energy}/${S.maxEnergy}`;
 
-  // finances — no commas, matches Flutter's toStringAsFixed(0)
-  document.getElementById('cash').textContent     = moneyFmt(S.cash);
-  const debtEl = document.getElementById('debt');
-  debtEl.textContent   = moneyFmt(S.debt);
-  debtEl.style.color   = S.debt > 0 ? 'var(--red)' : 'rgba(255,255,255,.38)';
-  const nwEl = document.getElementById('networth');
-  const worth = nw();
-  nwEl.textContent   = moneyFmt(worth);
-  nwEl.style.color   = worth >= 0 ? 'var(--green)' : 'var(--red)';
+  // finances
+  document.getElementById('cash').textContent=moneyFmt(S.cash);
+  const debtEl=document.getElementById('debt');
+  debtEl.textContent=moneyFmt(S.debt);debtEl.style.color=S.debt>0?'var(--red)':'rgba(255,255,255,.38)';
+  const worth=nw();
+  const nwEl=document.getElementById('networth');
+  nwEl.textContent=moneyFmt(worth);nwEl.style.color=worth>=0?'var(--green)':'var(--red)';
 
-  renderStats();
-  renderActivities();
+  renderLife();
   renderCareer();
+  renderSocial();
   renderJournal();
 }
 
-function renderStats(){
-  const bar = (name, emoji, val, color) => `
-    <div class="stat">
-      <div class="stat-top">
-        <span class="name">${emoji} ${name}</span>
-        <span style="color:${color}">${Math.round(val)}</span>
+function renderLife(){
+  const all=getActivities();
+  const statsHtml=`<div class="stats-card">
+    ${statBar('Happiness','😊',S.happiness,'var(--amber)')}
+    ${statBar('Health','❤️',S.health,'var(--red)')}
+    ${statBar('Stress','😰',S.stress,'var(--violet)')}
+    ${statBar('Looks','✨',S.looks,'var(--cyan)')}
+  </div>`;
+
+  let pathHtml='';
+  if(S.path==='college'&&S.college){
+    const pct=Math.round((S.college.credits/48)*100);
+    pathHtml=`<div class="path-status">
+      <div class="path-status-top"><span style="font-size:22px">🎓</span>
+        <div><div class="path-status-title">${S.college.graduated?'Degree Earned!':'College Progress'}</div>
+        <div class="path-status-detail">Credits: ${S.college.credits}/48 · GPA: ${S.college.gpa.toFixed(1)}</div></div>
       </div>
-      <div class="stat-track">
-        <div class="stat-fill" style="width:${val}%;background:${color}"></div>
-      </div>
+      <div class="path-progress"><div class="path-progress-fill" style="width:${pct}%;background:var(--blue)"></div></div>
     </div>`;
-  document.getElementById('statsCard').innerHTML =
-    bar('Happiness', '😊', S.happiness, 'var(--amber)') +
-    bar('Health',    '❤️',  S.health,    'var(--red)')   +
-    bar('Stress',    '😰', S.stress,    'var(--violet)')+
-    bar('Looks',     '✨', S.looks,     'var(--cyan)');
-}
-
-function renderActivities(){
-  document.getElementById('activityGrid').innerHTML = ACTIVITIES.map((a, i) => {
-    const canAfford = S.energy >= a.energy;
-    const used      = !a.multi && S.used.has(a.id);
-    const locked    = !canAfford || used;
-    return `<div class="card${locked?' locked':''}" ${locked ? '' : `onclick="doActivity(${i})"`}>
-      <div class="card-top">
-        <span class="card-emoji">${a.emoji}</span>
-        <span class="e-cost">⚡ ${a.energy}</span>
+  } else if(S.path==='business'&&S.business){
+    pathHtml=`<div class="path-status">
+      <div class="path-status-top"><span style="font-size:22px">💼</span>
+        <div><div class="path-status-title">${S.business.name}</div>
+        <div class="path-status-detail">Revenue: $${S.business.revenue}/mo · Health: ${S.business.health}%</div></div>
       </div>
-      <div class="card-name">${a.name}</div>
-      <div class="card-desc">${used ? 'Done this month' : a.desc}</div>
-      <div class="card-effects">${fxChips(a, locked)}</div>
+      <div class="path-progress"><div class="path-progress-fill" style="width:${S.business.health}%;background:var(--green)"></div></div>
     </div>`;
-  }).join('');
-}
-
-function fxChips(a, locked){
-  if(locked) return '';
-  let out = '';
-  if(a.cash)      out += chip((a.cash>0?'+':'')+`$${Math.abs(a.cash)}`, a.cash>0);
-  if(a.happiness) out += chip(signed(a.happiness)+' 😊', a.happiness>0);
-  if(a.health)    out += chip(signed(a.health)+' ❤️', a.health>0);
-  if(a.stress)    out += chip(signed(a.stress)+' 😰', a.stress<0);
-  if(a.looks)     out += chip(signed(a.looks)+' ✨', a.looks>0);
-  return out;
-}
-const chip   = (t, good) => `<span class="eff ${good?'pos':'neg'}">${t}</span>`;
-const signed = n => (n > 0 ? '+' : '') + n;
-
-function renderCareer(){
-  let html = '';
-
-  // Current job card — mirrors Flutter's _buildCurrentJobCard()
-  if(S.job){
-    html += `
-      <div class="cur-job-card">
-        <div class="top-row">
-          <span class="job-emoji">${S.job.emoji}</span>
-          <div class="title-col">
-            <h3>${S.job.title}</h3>
-            <div class="badge">CURRENT JOB</div>
-          </div>
-          <div class="right-col">
-            <div class="salary">$${S.job.salary}/mo</div>
-            <div class="energy">⚡ ${S.job.energy} energy</div>
-          </div>
-        </div>
-        <div class="desc-text">${S.job.desc}</div>
+  } else if(S.path==='criminal'&&S.criminal){
+    const heatColor=S.criminal.heat>70?'var(--red)':S.criminal.heat>40?'var(--amber)':'var(--green)';
+    pathHtml=`<div class="path-status">
+      <div class="path-status-top"><span style="font-size:22px">🕵️</span>
+        <div><div class="path-status-title">Heat Level</div>
+        <div class="path-status-detail" style="color:${heatColor}">${S.criminal.heat}/100 ${S.criminal.heat>70?'🚨 CRITICAL':S.criminal.heat>40?'⚠️ Watch Out':'✅ Safe'}</div></div>
       </div>
-      <button class="btn-ghost" onclick="confirmQuit()">
-        <span style="font-size:16px">↩</span> Quit current job
-      </button>`;
+      <div class="heat-bar"><div class="heat-fill" style="width:${S.criminal.heat}%"></div></div>
+    </div>`;
   }
 
-  html += `<span class="section-label" style="margin-top:${S.job?'16px':'0'}">JOB BOARD</span>`;
+  const gridHtml=`<div class="grid">${all.map((a,i)=>{
+    const canAfford=S.energy>=a.energy;
+    const usedAlready=!a.multi&&S.used.has(a.id);
+    const noRel=a.requiresRel&&!S.relationship;
+    const noPet=a.requiresPet&&!S.pet;
+    const noFriends=a.requiresFriends&&S.friends.length===0;
+    const locked=!canAfford||usedAlready||noRel||noPet||noFriends;
+    const lockMsg=usedAlready?'Done this month':noRel?'Need a partner':noPet?'Need a pet':noFriends?'Need friends first':'';
+    const isPathAct=PATH_ACTIVITIES[S.path]&&PATH_ACTIVITIES[S.path].find(p=>p.id===a.id);
+    return`<div class="card${locked?' locked':''}" ${locked?'':`onclick="doActivity(${i})"`}>
+      <div class="card-top"><span class="card-emoji">${a.emoji}</span><span class="e-cost">⚡${a.energy}</span></div>
+      <div class="card-name">${a.name}</div>
+      <div class="card-desc">${lockMsg||a.desc}</div>
+      <div class="card-effects">${locked?'':fxChips(a)}</div>
+      ${isPathAct?`<span class="card-path-badge" style="background:${pc.color}22;color:${pc.color}">${pc.emoji} ${pc.name}</span>`:''}
+    </div>`;
+  }).join('')}</div>`;
 
-  html += JOBS.map((j, i) => {
-    const cur = S.job && S.job.id === j.id;
-    return `<div class="job-tile${cur?' current':''}" ${cur ? '' : `onclick="confirmHire(${i})"`}>
+  document.getElementById('tab-life').innerHTML=statsHtml+pathHtml+'<span class="section-label">THIS MONTH\'S ACTIVITIES</span>'+gridHtml+'<div style="height:8px"></div>';
+  // re-ref pc
+  const pc2=PATHS[S.path]||{color:'var(--purple)',emoji:'',name:''};
+  document.querySelectorAll('.card-path-badge').forEach(el=>{el.style.background=pc2.color+'22';el.style.color=pc2.color;});
+}
+
+function statBar(name,emoji,val,color){
+  return`<div class="stat">
+    <div class="stat-top"><span class="name">${emoji} ${name}</span><span style="color:${color}">${Math.round(val)}</span></div>
+    <div class="stat-track"><div class="stat-fill" style="width:${val}%;background:${color}"></div></div>
+  </div>`;
+}
+
+function renderCareer(){
+  let html='';
+  if(S.job){
+    html+=`<div class="cur-job-card">
+      <div class="cur-job-top">
+        <span class="job-emoji">${S.job.emoji}</span>
+        <div style="flex:1"><div style="font-weight:700;font-size:17px">${S.job.title}</div><div class="cur-job-badge">CURRENT JOB</div></div>
+        <div class="cur-job-right"><div class="cur-job-salary">$${S.job.salary}/mo</div><div class="cur-job-energy">⚡${S.job.energy}</div></div>
+      </div>
+      <div class="cur-job-desc">${S.job.desc}</div>
+    </div>
+    <button class="btn-ghost" onclick="confirmQuit()">↩ Quit current job</button>`;
+  }
+  if(S.path==='business'&&S.business){
+    html+=`<div class="cur-job-card" style="margin-top:10px">
+      <div class="cur-job-top">
+        <span class="job-emoji">💼</span>
+        <div style="flex:1"><div style="font-weight:700;font-size:17px">${S.business.name}</div><div class="cur-job-badge">YOUR BUSINESS</div></div>
+        <div class="cur-job-right"><div class="cur-job-salary">$${S.business.revenue}/mo</div><div class="cur-job-energy">📊 ${S.business.health}% health</div></div>
+      </div>
+    </div>`;
+  }
+  html+=`<span class="section-label" style="margin-top:14px">JOB BOARD</span>`;
+  html+=getJobs().map((j,i)=>{
+    const cur=S.job&&S.job.id===j.id;
+    return`<div class="job-tile${cur?' current':''}" ${cur?'':`onclick="confirmHire(${JOBS_BASE.indexOf(j)})"`}>
       <span class="job-emoji">${j.emoji}</span>
       <div class="job-info">
         <div class="job-title${cur?' dimmed':''}">${j.title}</div>
         <div class="job-desc">${j.desc}</div>
-        <div class="job-meta"><span>⚡ ${j.energy}</span><span>😰 +${j.stress}/mo</span></div>
+        <div class="job-meta"><span>⚡${j.energy}</span><span>😰+${j.stress}/mo</span></div>
       </div>
       <div class="job-salary">$${j.salary}</div>
     </div>`;
   }).join('');
+  document.getElementById('tab-career').innerHTML=html;
+}
 
-  document.getElementById('tab-career').innerHTML = html;
+function renderSocial(){
+  // Relationship
+  let relHtml='';
+  if(S.relationship){
+    const r=S.relationship;
+    const stageEmoji={dating:'💕',committed:'❤️',married:'💍'}[r.stage]||'💕';
+    const stageLabel={dating:'Dating',committed:'Committed',married:'Married'}[r.stage]||r.stage;
+    relHtml=`<div class="social-card">
+      <div class="social-card-top">
+        <span class="social-card-emoji">${stageEmoji}</span>
+        <div><div class="social-card-title">${r.name}</div>
+        <div class="social-card-sub"><span class="rel-stage rel-${r.stage}">${stageLabel}</span> · ${r.months} month${r.months!==1?'s':''}</div></div>
+      </div>
+    </div>`;
+  } else {
+    relHtml=`<div class="social-card" style="opacity:.5">
+      <div class="social-card-top">
+        <span class="social-card-emoji">💔</span>
+        <div><div class="social-card-title">Single</div><div class="social-card-sub">Get out there — someone special might appear.</div></div>
+      </div>
+    </div>`;
+  }
+
+  // Friends
+  let friendsHtml='';
+  if(S.friends.length){
+    friendsHtml=S.friends.map(f=>{
+      const label=f.closeness>75?'Best friend':f.closeness>50?'Good friend':f.closeness>25?'Friend':'Acquaintance';
+      return`<div class="friend-row">
+        <span style="font-size:20px">👤</span>
+        <div class="friend-name">${f.name}<br><span style="font-size:11px;color:rgba(255,255,255,.38)">${label}</span></div>
+        <div class="closeness-bar"><div class="closeness-fill" style="width:${f.closeness}%"></div></div>
+        <span class="closeness-label">${f.closeness}%</span>
+      </div>`;
+    }).join('');
+  } else {
+    friendsHtml=`<div style="color:rgba(255,255,255,.3);font-size:13px;padding:8px 0">No friends yet. Go out, meet people!</div>`;
+  }
+
+  // Pet
+  let petHtml=S.pet
+    ?`<div class="social-card-top">
+        <span class="social-card-emoji">${S.pet.emoji}</span>
+        <div><div class="social-card-title">${S.pet.name} <span style="font-size:12px;color:rgba(255,255,255,.38)">${S.pet.type}</span></div>
+        <div class="social-card-sub">Happiness: ${S.pet.happiness}% · Costs $${S.pet.cost}/mo</div></div>
+      </div>`
+    :`<span style="color:rgba(255,255,255,.3);font-size:13px">No pet yet. An adoption event may appear someday.</span>`;
+
+  // Family
+  const famDesc=S.familyRel>75?'Very close':S.familyRel>50?'Close':S.familyRel>25?'Distant':'Strained';
+  const famColor=S.familyRel>60?'var(--green)':S.familyRel>30?'var(--amber)':'var(--red)';
+
+  document.getElementById('tab-social').innerHTML=`
+    <span class="section-label">RELATIONSHIP</span>${relHtml}
+    <span class="section-label">FRIENDS (${S.friends.length})</span>
+    <div class="social-card">${friendsHtml}</div>
+    <span class="section-label">PET</span>
+    <div class="social-card">${petHtml}</div>
+    <span class="section-label">FAMILY</span>
+    <div class="social-card">
+      <div class="social-card-top">
+        <span class="social-card-emoji">👪</span>
+        <div><div class="social-card-title">Family Relationship</div>
+        <div class="social-card-sub" style="color:${famColor}">${S.familyRel>75?'Very close — always there':S.familyRel>50?'Close — regular contact':S.familyRel>25?'Distant — occasional calls':'Strained — things are tense'}</div></div>
+      </div>
+      ${S.children>0?`<div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.54)">👶 ${S.children} child${S.children>1?'ren':''}</div>`:''}
+    </div>
+    <div style="height:8px"></div>`;
 }
 
 function renderJournal(){
-  document.getElementById('tab-journal').innerHTML =
-    S.log.map(l => `<div class="log-item">${l}</div>`).join('');
+  document.getElementById('tab-journal').innerHTML=S.log.map(l=>`<div class="log-item">${l}</div>`).join('');
 }
 
-/* ════════════════════════════════════════════
-   UI HELPERS
-   ════════════════════════════════════════════ */
-function show(id){
-  ['start','game','over'].forEach(s =>
-    document.getElementById(s).classList.toggle('hidden', s !== id));
+/* ═══════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════ */
+function fxChips(a){
+  let out='';
+  if(a.cash)out+=chip((a.cash>0?'+':'')+`$${Math.abs(a.cash)}`,a.cash>0);
+  if(a.happiness)out+=chip(signed(a.happiness)+' 😊',a.happiness>0);
+  if(a.health)out+=chip(signed(a.health)+' ❤️',a.health>0);
+  if(a.stress)out+=chip(signed(a.stress)+' 😰',a.stress<0);
+  if(a.looks)out+=chip(signed(a.looks)+' ✨',a.looks>0);
+  if(a.special){const labels={credits:'📖 Credits',gpa:'📚 GPA',biz_revenue:'📈 Revenue',biz_pitch:'🤝 Pitch',heat_up:'🌡️ Heat+',heat_down:'🕶️ Heat-'};if(labels[a.special])out+=`<span class="eff pos">${labels[a.special]}</span>`;}
+  return out;
 }
+const chip=(t,good)=>`<span class="eff ${good?'pos':'neg'}">${t}</span>`;
+const signed=n=>(n>0?'+':'')+n;
+const moneyFmt=n=>(n<0?'-$':'$')+Math.abs(Math.round(n));
 
-function switchTab(tab){
-  document.querySelectorAll('.tab').forEach(t =>
-    t.classList.toggle('active', t.dataset.tab === tab));
-  ['life','career','journal'].forEach(t =>
-    document.getElementById('tab-'+t).classList.toggle('hidden', t !== tab));
-}
-
-let _toastTimer;
-function toast(msg, dur=1600){
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.classList.remove('show'), dur);
-}
-
-// No commas — matches Flutter's toStringAsFixed(0)
-function moneyFmt(n){
-  const abs = Math.abs(Math.round(n));
-  return (n < 0 ? '-$' : '$') + abs;
-}
-
-function confirmHire(idx){
-  const j = JOBS[idx];
-  modal(
-    `${j.emoji} Apply for ${j.title}?`,
-    `Salary: $${j.salary}/mo\nEnergy cost: ${j.energy}/month\nMonthly stress: +${j.stress}`,
-    'Accept Job', () => applyJob(j), false
-  );
-}
-function confirmQuit(){
-  modal(
-    'Quit your job?',
-    "You'll lose your salary next month. Make sure you can cover bills.",
-    'Quit', () => applyJob(null), true
-  );
-}
-let _modalLocked = false;
-function openModal(html, locked){
-  document.getElementById('modal').innerHTML = html;
-  _modalLocked = !!locked;
+let _modalLocked=false;
+function openModal(html,locked){
+  document.getElementById('modal').innerHTML=html;
+  _modalLocked=!!locked;
   document.getElementById('modal-bg').classList.add('show');
 }
-function modal(title, body, okText, onOk, danger){
-  openModal(`
-    <h3>${title}</h3><p>${body}</p>
+function modal(title,body,okText,onOk,danger){
+  openModal(`<h3>${title}</h3><p>${body}</p>
     <div class="modal-actions">
       <button class="mb-cancel" onclick="closeModal()">Cancel</button>
       <button class="mb-ok${danger?' danger':''}" id="_mok">${okText}</button>
-    </div>`, false);
-  document.getElementById('_mok').onclick = () => { closeModal(); onOk(); };
+    </div>`,false);
+  document.getElementById('_mok').onclick=()=>{closeModal();onOk();};
 }
-function closeModal(){
-  _modalLocked = false;
-  document.getElementById('modal-bg').classList.remove('show');
+function closeModal(){_modalLocked=false;document.getElementById('modal-bg').classList.remove('show');}
+document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target.id==='modal-bg'&&!_modalLocked)closeModal();});
+
+function confirmHire(i){
+  const j=JOBS_BASE[i];if(!j)return;
+  modal(`${j.emoji} Apply for ${j.title}?`,`Salary: $${j.salary}/mo\nEnergy: ${j.energy}/month\nStress: +${j.stress}/mo`,'Accept Job',()=>applyJob(j));
 }
-// Backdrop tap closes confirm dialogs, but not locked event pop-ups.
-document.getElementById('modal-bg').addEventListener('click', e => {
-  if(e.target.id === 'modal-bg' && !_modalLocked) closeModal();
-});
+function confirmQuit(){modal('Quit your job?',"You'll lose your salary next month. Make sure you can cover bills.",'Quit',()=>applyJob(null),true);}
+
+let _toastTimer;
+function toast(msg,dur=2000){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>el.classList.remove('show'),dur);
+}
 </script>
 </body>
 </html>
