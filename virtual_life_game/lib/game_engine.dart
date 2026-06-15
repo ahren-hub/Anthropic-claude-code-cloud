@@ -245,6 +245,121 @@ class GameEngine {
     ),
   ];
 
+  static const List<Dilemma> dilemmas = [
+    Dilemma(
+      id: 'startup', emoji: '💸', title: 'Startup Pitch',
+      description: "An old friend needs \$1,000 to fund their startup. They swear it'll 10x.",
+      choices: [
+        DilemmaChoice(label: 'Invest \$1,000', gamble: Gamble(
+          winChance: 0.45,
+          win: Effects(cash: 2500, happiness: 12, result: "The startup took off — your \$1,000 became \$2,500!"),
+          lose: Effects(cash: -1000, stress: 14, result: "It folded in months. Your \$1,000 is gone."),
+        )),
+        DilemmaChoice(label: 'Politely decline', effects: Effects(happiness: -2, result: "You pass. No risk, no reward.")),
+      ],
+    ),
+    Dilemma(
+      id: 'overtime', emoji: '⏰', title: 'Overtime Offer', requiresJob: true,
+      description: "Your boss offers a big weekend project for extra pay.",
+      choices: [
+        DilemmaChoice(label: 'Grind the weekend', effects: Effects(cash: 900, stress: 15, health: -5, result: "Exhausting, but the \$900 bonus helps.")),
+        DilemmaChoice(label: 'Protect your time', effects: Effects(happiness: 6, stress: -6, result: "You recharge instead. Worth it.")),
+      ],
+    ),
+    Dilemma(
+      id: 'wallet', emoji: '👛', title: 'Lost Wallet',
+      description: "You find a wallet on the street with \$200 cash inside.",
+      choices: [
+        DilemmaChoice(label: 'Keep the cash', effects: Effects(cash: 200, happiness: -8, stress: 5, result: "You pocket it, but the guilt lingers.")),
+        DilemmaChoice(label: 'Return it', effects: Effects(happiness: 14, result: "The owner is overjoyed. You feel great.")),
+      ],
+    ),
+    Dilemma(
+      id: 'trip', emoji: '✈️', title: 'Weekend Getaway',
+      description: "Friends invite you on a spontaneous \$350 weekend trip.",
+      choices: [
+        DilemmaChoice(label: 'Go for it', effects: Effects(cash: -350, happiness: 20, stress: -15, health: 3, result: "Unforgettable weekend. Money well spent.")),
+        DilemmaChoice(label: 'Stay home & save', effects: Effects(happiness: -3, result: "You save the cash but feel a little FOMO.")),
+      ],
+    ),
+    Dilemma(
+      id: 'pet', emoji: '🐶', title: 'Adopt a Pet?',
+      description: "A shelter puppy needs a home. Adoption fee is \$150.",
+      choices: [
+        DilemmaChoice(label: 'Adopt the pup', effects: Effects(cash: -150, happiness: 18, stress: 5, result: "Your new best friend moves in. Pure joy.")),
+        DilemmaChoice(label: 'Not right now', effects: Effects(happiness: -2, result: "The timing isn't right. Maybe someday.")),
+      ],
+    ),
+    Dilemma(
+      id: 'charity', emoji: '🎗️', title: 'Charity Drive',
+      description: "A local charity is fundraising in your neighborhood.",
+      choices: [
+        DilemmaChoice(label: 'Donate \$100', effects: Effects(cash: -100, happiness: 12, stress: -3, result: "Giving back feels good.")),
+        DilemmaChoice(label: 'Walk past', effects: Effects(happiness: -3, result: "You keep your cash and your guilt.")),
+      ],
+    ),
+    Dilemma(
+      id: 'course', emoji: '🎓', title: 'Night Class',
+      description: "A \$400 course could level up your career skills.",
+      choices: [
+        DilemmaChoice(label: 'Enroll (\$400)', gamble: Gamble(
+          winChance: 0.6,
+          win: Effects(cash: 200, happiness: 10, result: "You aced it and landed a \$600 raise — net win!"),
+          lose: Effects(cash: -400, stress: 8, result: "You finished it, but no payoff yet. Pricey lesson."),
+        )),
+        DilemmaChoice(label: 'Skip it', effects: Effects(stress: -2, result: "You stick with what you know.")),
+      ],
+    ),
+    Dilemma(
+      id: 'trainer', emoji: '🏋️', title: 'Personal Trainer',
+      description: "A trainer offers a 1-month transformation package for \$300.",
+      choices: [
+        DilemmaChoice(label: 'Sign up (\$300)', effects: Effects(cash: -300, health: 15, looks: 10, stress: -5, result: "You're in the best shape of your life.")),
+        DilemmaChoice(label: 'Pass', effects: Effects(happiness: -1, result: "You'll stick to free workouts.")),
+      ],
+    ),
+    Dilemma(
+      id: 'crypto', emoji: '🪙', title: 'Hot Crypto Tip',
+      description: "A coworker swears a new coin is about to moon. \$500 to get in.",
+      choices: [
+        DilemmaChoice(label: 'Ape in \$500', gamble: Gamble(
+          winChance: 0.4,
+          win: Effects(cash: 1500, happiness: 10, result: "It mooned! Your \$500 turned into \$2,000."),
+          lose: Effects(cash: -500, stress: 15, happiness: -8, result: "It rugged. Your \$500 vanished overnight."),
+        )),
+        DilemmaChoice(label: 'Stay out', effects: Effects(stress: -2, result: "You keep your money and your sanity.")),
+      ],
+    ),
+    Dilemma(
+      id: 'family', emoji: '👪', title: 'Family Emergency',
+      description: "A close relative urgently needs \$600 to cover a crisis.",
+      choices: [
+        DilemmaChoice(label: 'Help them out', effects: Effects(cash: -600, happiness: 8, stress: 5, result: "They're deeply grateful. Family first.")),
+        DilemmaChoice(label: "Can't afford it", effects: Effects(happiness: -10, stress: 8, result: "You couldn't help. The guilt weighs on you.")),
+      ],
+    ),
+    Dilemma(
+      id: 'promotion', emoji: '📈', title: 'Stretch Assignment', requiresJob: true,
+      description: "A high-visibility project could fast-track your career — or burn you out.",
+      choices: [
+        DilemmaChoice(label: 'Take the shot', effects: Effects(stress: 18), gamble: Gamble(
+          winChance: 0.55,
+          win: Effects(cash: 1000, happiness: 8, result: "You crushed it — a \$1,000 bonus and a promotion!"),
+          lose: Effects(stress: 6, happiness: -5, result: "It fizzled out. A lot of stress for little reward."),
+        )),
+        DilemmaChoice(label: 'Play it safe', effects: Effects(stress: -5, result: "You keep your current workload steady.")),
+      ],
+    ),
+    Dilemma(
+      id: 'splurge', emoji: '🛒', title: 'Big Sale',
+      description: "There's a huge sale on something you've wanted for ages (\$250).",
+      choices: [
+        DilemmaChoice(label: 'Treat yourself', effects: Effects(cash: -250, happiness: 14, looks: 4, result: "Retail therapy hits the spot.")),
+        DilemmaChoice(label: 'Resist', effects: Effects(happiness: -2, stress: 2, result: "You stay disciplined. Your wallet thanks you.")),
+      ],
+    ),
+  ];
+
   GameState applyActivity(GameState current, Activity activity) {
     if (current.remainingEnergy < activity.energyCost) return current;
     if (activity.requiresJob && current.currentJob == null) return current;
@@ -283,6 +398,8 @@ class GameEngine {
       currentJob: current.currentJob,
       logHistory: current.logHistory,
       usedActivitiesThisMonth: newUsed,
+      lastDilemmaMonth: current.lastDilemmaMonth,
+      lastDilemmaId: current.lastDilemmaId,
     );
   }
 
@@ -301,6 +418,8 @@ class GameEngine {
       currentJob: newJob,
       logHistory: [log, ...current.logHistory],
       usedActivitiesThisMonth: current.usedActivitiesThisMonth,
+      lastDilemmaMonth: current.lastDilemmaMonth,
+      lastDilemmaId: current.lastDilemmaId,
     );
   }
 
@@ -373,7 +492,7 @@ class GameEngine {
       nextStress += event.stressImpact;
       nextHappiness += event.happinessImpact;
       nextHealth += event.healthImpact;
-      newLogs.add('🎲 EVENT: ${event.description}');
+      newLogs.add('🎲 ${event.description}');
     }
 
     // Clamp all stats
@@ -396,6 +515,78 @@ class GameEngine {
       ),
       currentJob: current.currentJob,
       logHistory: [...newLogs, ...current.logHistory],
+      lastDilemmaMonth: current.lastDilemmaMonth,
+      lastDilemmaId: current.lastDilemmaId,
+      lastMonthLog: newLogs,
+    );
+  }
+
+  /// Picks a dilemma to surface after a month, or null if none is due.
+  /// One is guaranteed at least every 3 months, plus a 40% chance otherwise.
+  Dilemma? pickDilemma(GameState state) {
+    final rand = Random();
+    final due = (state.totalMonths - state.lastDilemmaMonth) >= 3 ||
+        rand.nextDouble() < 0.4;
+    if (!due) return null;
+    final pool = dilemmas
+        .where((d) =>
+            (!d.requiresJob || state.currentJob != null) &&
+            d.id != state.lastDilemmaId)
+        .toList();
+    if (pool.isEmpty) return null;
+    return pool[rand.nextInt(pool.length)];
+  }
+
+  /// Applies a dilemma choice (base effects + optional random gamble) and
+  /// returns the new state along with the result message to show.
+  GameState applyChoice(GameState state, Dilemma dilemma, DilemmaChoice choice) {
+    final logs = <String>[];
+    GameState s = _applyEffects(state, choice.effects, logs);
+    if (choice.gamble != null) {
+      final won = Random().nextDouble() < choice.gamble!.winChance;
+      s = _applyEffects(s, won ? choice.gamble!.win : choice.gamble!.lose, logs);
+    }
+    return GameState(
+      totalMonths: s.totalMonths,
+      cash: s.cash,
+      debt: s.debt,
+      maxEnergy: s.maxEnergy,
+      remainingEnergy: s.remainingEnergy,
+      stats: s.stats,
+      currentJob: s.currentJob,
+      logHistory: s.logHistory,
+      usedActivitiesThisMonth: s.usedActivitiesThisMonth,
+      lastDilemmaMonth: state.totalMonths,
+      lastDilemmaId: dilemma.id,
+      lastMonthLog: logs,
+    );
+  }
+
+  GameState _applyEffects(GameState s, Effects e, List<String> logs) {
+    double cash = s.cash + e.cash;
+    double debt = s.debt;
+    if (cash < 0) {
+      debt += cash.abs();
+      cash = 0;
+    }
+    if (e.result != null) logs.add('🤔 ${e.result}');
+    return GameState(
+      totalMonths: s.totalMonths,
+      cash: cash,
+      debt: debt,
+      maxEnergy: s.maxEnergy,
+      remainingEnergy: s.remainingEnergy,
+      stats: PlayerStats(
+        happiness: (s.stats.happiness + e.happiness).clamp(0.0, 100.0),
+        health: (s.stats.health + e.health).clamp(0.0, 100.0),
+        stress: (s.stats.stress + e.stress).clamp(0.0, 100.0),
+        looks: (s.stats.looks + e.looks).clamp(0.0, 100.0),
+      ),
+      currentJob: s.currentJob,
+      logHistory: e.result != null ? ['🤔 ${e.result}', ...s.logHistory] : s.logHistory,
+      usedActivitiesThisMonth: s.usedActivitiesThisMonth,
+      lastDilemmaMonth: s.lastDilemmaMonth,
+      lastDilemmaId: s.lastDilemmaId,
     );
   }
 

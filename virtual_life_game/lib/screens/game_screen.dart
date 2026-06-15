@@ -54,45 +54,205 @@ class _GameScreenState extends State<GameScreen>
     setState(() => _state = next);
   }
 
-  void _endMonth() {
+  Future<void> _endMonth() async {
     final next = _engine.advanceMonth(_state);
     setState(() => _state = next);
 
-    if (next.isGameOver) {
+    if (_checkGameOver(next)) return;
+
+    // End-of-month recap pop-up.
+    await _showRecapDialog(next.lastMonthLog);
+    if (!mounted) return;
+
+    // Possibly surface a choose-your-path dilemma.
+    final dilemma = _engine.pickDilemma(_state);
+    if (dilemma != null) {
+      await _showDilemmaDialog(dilemma);
+      if (!mounted) return;
+    }
+
+    _checkGameOver(_state);
+  }
+
+  bool _checkGameOver(GameState s) {
+    if (s.isGameOver) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => GameOverScreen(state: next, didWin: false),
+          builder: (_) => GameOverScreen(state: s, didWin: false),
         ),
       );
-      return;
+      return true;
     }
-
-    if (next.hasWon) {
+    if (s.hasWon) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => GameOverScreen(state: next, didWin: true),
+          builder: (_) => GameOverScreen(state: s, didWin: true),
         ),
       );
-      return;
+      return true;
     }
+    return false;
+  }
 
-    // Show the top event log entry as a snackbar
-    if (next.logHistory.isNotEmpty) {
-      final topLog = next.logHistory
-          .firstWhere((l) => l.startsWith('🎲'), orElse: () => '');
-      if (topLog.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(topLog),
-            duration: const Duration(seconds: 3),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: const Color(0xFF252940),
+  Future<void> _showRecapDialog(List<String> logs) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        backgroundColor: const Color(0xFF151929),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('📅 Month ${_state.totalMonths} · Age ${_state.formattedAge}',
+            style: const TextStyle(color: Colors.white, fontSize: 17)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: logs
+                .map((l) => Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(11),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E2340),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(l,
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 13, height: 1.4)),
+                    ))
+                .toList(),
           ),
-        );
-      }
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF7C3AED)),
+            child: const Text('Continue →'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDilemmaDialog(Dilemma dilemma) async {
+    final choice = await showDialog<DilemmaChoice>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        backgroundColor: const Color(0xFF151929),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(dilemma.emoji, style: const TextStyle(fontSize: 48)),
+              const SizedBox(height: 8),
+              Text(dilemma.title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text(dilemma.description,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white54, fontSize: 14)),
+              const SizedBox(height: 18),
+              ...dilemma.choices.map((c) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _buildChoiceButton(c),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (choice == null || !mounted) return;
+    final after = _engine.applyChoice(_state, dilemma, choice);
+    setState(() => _state = after);
+    await _showResultDialog(after.lastMonthLog.isNotEmpty
+        ? after.lastMonthLog.last.replaceFirst('🤔 ', '')
+        : 'Done.');
+  }
+
+  Widget _buildChoiceButton(DilemmaChoice c) {
+    return GestureDetector(
+      onTap: () => Navigator.pop(context, c),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1E2340),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFF7C3AED).withOpacity(0.4)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(c.label,
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 8, runSpacing: 4, children: _choiceChips(c)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _choiceChips(DilemmaChoice c) {
+    final chips = <Widget>[];
+    final e = c.effects;
+    Widget chip(String t, bool good) => Text(t,
+        style: TextStyle(
+            fontSize: 11,
+            color: good ? const Color(0xFF10B981) : const Color(0xFFEF4444)));
+    if (e.cash != 0) {
+      chips.add(chip('${e.cash > 0 ? '+' : ''}\$${e.cash.abs().toStringAsFixed(0)}', e.cash > 0));
     }
+    if (e.happiness != 0) chips.add(chip('${_sign(e.happiness)} 😊', e.happiness > 0));
+    if (e.health != 0) chips.add(chip('${_sign(e.health)} ❤️', e.health > 0));
+    if (e.stress != 0) chips.add(chip('${_sign(e.stress)} 😰', e.stress < 0));
+    if (e.looks != 0) chips.add(chip('${_sign(e.looks)} ✨', e.looks > 0));
+    if (c.gamble != null) {
+      chips.add(const Text('🎲 Risky',
+          style: TextStyle(fontSize: 11, color: Color(0xFFF59E0B))));
+    }
+    if (chips.isEmpty) {
+      chips.add(Text('No immediate effect',
+          style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.4))));
+    }
+    return chips;
+  }
+
+  String _sign(double n) => (n > 0 ? '+' : '') + n.toStringAsFixed(0);
+
+  Future<void> _showResultDialog(String msg) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        backgroundColor: const Color(0xFF151929),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('🤔', style: TextStyle(fontSize: 48)),
+            const SizedBox(height: 8),
+            Text(msg,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white70, fontSize: 14)),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF7C3AED)),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _applyJobChange(Job? job) {
