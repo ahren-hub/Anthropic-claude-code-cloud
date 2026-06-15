@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0A0E1A">
-<title>Virtual Life</title>
+<title>Lifeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
@@ -211,7 +211,7 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
 <section id="start" class="screen">
   <div style="flex:2"></div>
   <div class="logo-emoji" style="font-size:80px;text-align:center">🌟</div>
-  <h1>VIRTUAL LIFE</h1>
+  <h1>LIFELINE</h1>
   <div class="tagline">Your choices define your story.</div>
   <div class="features">
     <div class="feature"><span class="fe">🎓💼🕵️</span><span>College, Business, or Criminal</span></div>
@@ -343,187 +343,640 @@ const PATH_ACTIVITIES={
   ],
 };
 
-const EVENTS=[
-  {d:"Your phone screen shattered. Repair cost: $150.",cash:-150,stress:8},
-  {d:"Spontaneous road trip with friends — memories made!",cash:-200,stress:-15,happiness:20},
-  {d:"A crypto bet actually paid out! Earned $800.",cash:800,stress:-5,happiness:10},
-  {d:"Old flame texted out of nowhere. Emotional spiral.",stress:20,happiness:-10},
-  {d:"Got a surprise freelance gig! Earned $400.",cash:400,stress:10,happiness:5},
-  {d:"Got sick. Doctor visit cost $300.",cash:-300,stress:10,happiness:-5,health:-8},
-  {d:"Found $50 in an old jacket. Small wins!",cash:50,happiness:5},
-  {d:"Friend drama blew up. Stressful but free.",stress:18,happiness:-8},
-  {d:"Impulse bought something online at 2am. $250 gone.",cash:-250,stress:-5,happiness:5},
-  {d:"A stranger complimented you. You're glowing!",stress:-5,happiness:10,looks:3},
-  {d:"Your car needed repairs. $400 out of pocket.",cash:-400,stress:12},
-  {d:"Got a parking ticket. $80 down the drain.",cash:-80,stress:5},
-  {d:"A relative sent you $200 for your birthday!",cash:200,happiness:8},
-  {d:"Power outage wiped your fridge. $120 in groceries gone.",cash:-120,stress:6},
-  {d:"You nailed a job interview practice — confidence soaring.",happiness:8,stress:-5},
+const ALL_EVENTS=[
+// ── UNIVERSAL ────────────────────────────────────────
+{d:"Your phone screen shattered. Repair cost: $150.",cash:-150,stress:8},
+{d:"Got a surprise freelance gig! Earned $400.",cash:400,stress:10,happiness:5},
+{d:"Got sick. Doctor visit cost $300.",cash:-300,stress:10,happiness:-5,health:-8},
+{d:"Found $50 in an old jacket. Small wins!",cash:50,happiness:5},
+{d:"Impulse bought something online at 2am. $250 gone.",cash:-250,happiness:5},
+{d:"A stranger complimented your energy. You're glowing.",stress:-5,happiness:10,looks:3},
+{d:"Your car needed repairs. $400 out of pocket.",cash:-400,stress:12},
+{d:"Got a parking ticket. $80 down the drain.",cash:-80,stress:5},
+{d:"A relative sent you $200 for your birthday!",cash:200,happiness:8},
+{d:"Power outage wiped your fridge. $120 in groceries gone.",cash:-120,stress:6},
+{d:"Unexpected tax refund hit your account — $600!",cash:600,happiness:12},
+{d:"Your dentist found a cavity. $200 bill.",cash:-200,stress:8,health:-3},
+{d:"Helped a stranger in real need. Felt great.",happiness:12,stress:-5},
+{d:"Caught a sale on something you actually needed. Good deal.",cash:-60,happiness:8,looks:3},
+{d:"Road rage incident left you shaken for hours.",stress:14,happiness:-6},
+{d:"Had a truly stunning sunset moment. Soul reset.",happiness:10,stress:-8},
+{d:"Found $30 in old pants while doing laundry. Still counts.",cash:30,happiness:4},
+{d:"Binge-watched a documentary and felt oddly inspired.",happiness:7,stress:-4},
+{d:"Overslept and missed something important. Chaos ensued.",stress:15,happiness:-8},
+{d:"Someone complimented your outfit unprompted.",happiness:8,looks:3},
+{d:"Your appliance broke down. $200 repair.",cash:-200,stress:10},
+{d:"A new album you loved dropped out of nowhere. Good week.",happiness:9},
+{d:"Cooked at home all week. Saved money and felt good.",cash:120,health:4,happiness:5},
+{d:"A spam call wasted 20 minutes of your day.",stress:5,happiness:-3},
+{d:"Spontaneous long walk. Cleared your head completely.",happiness:8,stress:-10,health:3},
+{d:"Accidentally double-paid a bill. $150 gone until next month.",cash:-150,stress:10},
+{d:"A friend Venmo'd back an old debt you forgot about. $100!",cash:100,happiness:6},
+{d:"Finally deep-cleaned your place. Feels like a new start.",happiness:10,stress:-7},
+{d:"Power surge wiped hours of work. Devastating.",stress:15,happiness:-8},
+{d:"Woke up energized and absolutely crushed the day.",happiness:12,health:3,stress:-8},
+{d:"Tried a new restaurant and it was incredible.",cash:-60,happiness:10},
+{d:"Awful weather all week and it got to you.",happiness:-6,stress:8},
+{d:"Donated old clothes. Felt 10 lbs lighter.",happiness:8,stress:-4},
+{d:"A subscription charged you without warning. $80.",cash:-80,stress:8},
+{d:"Internet went out for two days. Maddening.",stress:12,happiness:-7},
+// ── JOB-SPECIFIC: BARISTA ──────────────────────────────
+{d:"A regular left you a $120 tip. Made your entire week.",cash:120,happiness:15,j:'barista'},
+{d:"You spilled coffee on a customer. Apologizing was excruciating.",stress:18,happiness:-8,j:'barista'},
+{d:"Mastered a new latte art technique. Coworkers were impressed.",happiness:12,looks:3,j:'barista'},
+{d:"Rush hour was relentless — non-stop for 6 hours straight.",stress:16,health:-4,j:'barista'},
+{d:"Covered a sick coworker's shift. Extra $120 but exhausted.",cash:120,stress:12,j:'barista'},
+// ── JOB-SPECIFIC: RETAIL ──────────────────────────────
+{d:"Black Friday hit and it was absolute chaos. You survived.",stress:22,happiness:-10,health:-5,j:'retail'},
+{d:"A customer screamed at you over a return policy. Humiliating.",stress:20,happiness:-10,j:'retail'},
+{d:"Your manager praised you in front of the whole team.",happiness:15,stress:-5,j:'retail'},
+{d:"A shoplifter got away and you had to file the report.",stress:12,j:'retail'},
+{d:"End-of-season inventory took all day but felt oddly satisfying.",happiness:5,stress:6,j:'retail'},
+// ── JOB-SPECIFIC: DELIVERY ──────────────────────────────
+{d:"A customer tipped $40 for battling rain to reach them.",cash:40,happiness:14,j:'delivery'},
+{d:"Minor fender-bender during a delivery. $500 out of pocket.",cash:-500,stress:20,health:-3,j:'delivery'},
+{d:"You beat your all-time delivery record. Fired up.",happiness:12,stress:-4,j:'delivery'},
+{d:"GPS sent you to the completely wrong address. Hour wasted.",stress:14,happiness:-7,j:'delivery'},
+{d:"Brutal weather but you pushed through every single order.",stress:18,health:-4,happiness:5,j:'delivery'},
+// ── JOB-SPECIFIC: ADMIN ──────────────────────────────
+{d:"Office birthday party was surprisingly fun. You needed that.",cash:-20,happiness:14,j:'admin'},
+{d:"Computer crashed mid-project. Two hours of work gone.",stress:16,happiness:-8,j:'admin'},
+{d:"Boss CC'd you on an important email with a compliment.",happiness:12,j:'admin'},
+{d:"Meeting ran 2.5 hours over schedule. Day completely ruined.",stress:18,happiness:-8,j:'admin'},
+{d:"Reorganized the filing system. Boss noticed immediately.",happiness:10,j:'admin'},
+// ── JOB-SPECIFIC: TEACHER ──────────────────────────────
+{d:"A student left you a heartfelt thank-you note. You teared up.",happiness:20,stress:-10,j:'teacher'},
+{d:"A parent complained about your lesson plan. Unfair and stressful.",stress:18,happiness:-10,j:'teacher'},
+{d:"Your class aced the test. All that prep paid off.",happiness:16,j:'teacher'},
+{d:"Field trip was chaotic but the kids had an incredible time.",happiness:14,stress:10,j:'teacher'},
+{d:"Stayed late grading again. Third time this week.",stress:12,health:-5,j:'teacher'},
+// ── JOB-SPECIFIC: NURSE ──────────────────────────────
+{d:"Your patient recovered after a close call. Deeply moving.",happiness:18,stress:-8,j:'nurse'},
+{d:"A 12-hour overnight shift left you completely depleted.",health:-8,stress:22,happiness:-8,j:'nurse'},
+{d:"Break room drama put you in the middle of a coworker fight.",stress:16,happiness:-6,j:'nurse'},
+{d:"Split-second decision saved a critical patient. Incredible.",happiness:22,stress:-10,j:'nurse'},
+{d:"A near-miss error shook you badly. Hard to shake.",stress:25,happiness:-12,health:-3,j:'nurse'},
+// ── JOB-SPECIFIC: DEVELOPER ──────────────────────────────
+{d:"Shipped a feature users loved. Got public praise online.",happiness:18,j:'developer'},
+{d:"3-hour debugging session over a missing semicolon. Maddening.",stress:18,happiness:-8,j:'developer'},
+{d:"Inherited a codebase that looked written in 2003.",stress:15,happiness:-7,j:'developer'},
+{d:"Production went down on Sunday. 4 hours to fix it.",stress:25,happiness:-12,health:-4,j:'developer'},
+{d:"Personal side project picked up 400 users this month.",cash:200,happiness:18,j:'developer'},
+// ── JOB-SPECIFIC: MANAGER ──────────────────────────────
+{d:"Your team delivered the project two days ahead of schedule.",happiness:18,stress:-8,j:'manager'},
+{d:"Your best employee just handed in their resignation.",stress:22,happiness:-12,j:'manager'},
+{d:"Quarterly review went great. Bonus incoming — $800.",cash:800,happiness:18,j:'manager'},
+{d:"Team conflict escalated and you had to step in as mediator.",stress:20,happiness:-8,j:'manager'},
+{d:"Had to let someone go today. Weighed on you all night.",stress:24,happiness:-15,j:'manager'},
+// ── JOB-SPECIFIC: DOCTOR ──────────────────────────────
+{d:"A complex surgery went perfectly. You felt unstoppable.",happiness:20,stress:-5,j:'doctor'},
+{d:"A patient you fought hard for didn't make it.",happiness:-15,stress:25,health:-3,j:'doctor'},
+{d:"Medical conference in the city. Great networking.",happiness:12,cash:-100,j:'doctor'},
+{d:"Malpractice insurance renewal hit. $1,200.",cash:-1200,stress:15,j:'doctor'},
+{d:"Your early diagnosis caught a serious condition. Patient is grateful.",happiness:20,j:'doctor'},
+// ── JOB-SPECIFIC: LAWYER ──────────────────────────────
+{d:"You won a tough case. Opposing counsel shook your hand.",happiness:18,j:'lawyer'},
+{d:"Lost a case you thought was airtight. Demoralizing.",stress:20,happiness:-12,j:'lawyer'},
+{d:"Client refused to pay their bill. $1,500 written off.",cash:-1500,stress:18,j:'lawyer'},
+{d:"Legal research marathon — 14 hours straight, no daylight.",stress:20,health:-5,j:'lawyer'},
+{d:"A referral brought in three new clients this month.",cash:500,happiness:15,j:'lawyer'},
+// ── JOB-SPECIFIC: ENGINEER ──────────────────────────────
+{d:"Your design passed inspection on the first try. Rare.",happiness:15,j:'engineer'},
+{d:"Structural flaw found in review. Stressful week ahead.",stress:20,happiness:-8,j:'engineer'},
+{d:"Equipment delivery delayed two weeks. Project stalled.",stress:15,happiness:-7,j:'engineer'},
+{d:"Client praised your work in front of senior management.",happiness:18,j:'engineer'},
+{d:"Overtime to meet deadline. $400 extra, but completely drained.",cash:400,health:-5,stress:15,j:'engineer'},
+// ── COLLEGE PATH ──────────────────────────────────────
+{d:"Study group cancelled last minute. Crammed alone all night.",stress:15,happiness:-5,st:1},
+{d:"Aced a midterm you barely studied for. Pure luck.",happiness:15,stress:-8,st:1},
+{d:"Professor gave you extra credit for showing initiative.",happiness:12,st:1},
+{d:"Campus food truck week — free samples all afternoon.",cash:20,happiness:10,st:1},
+{d:"Your laptop died during a presentation. Catastrophic.",stress:22,happiness:-12,st:1},
+{d:"Won a $500 mini-scholarship from a club you joined.",cash:500,happiness:15,st:1},
+{d:"Dorm neighbor kept you up until 4am again.",stress:14,health:-5,happiness:-6,st:1},
+{d:"Made a genuine friend in your hardest class.",happiness:16,stress:-8,st:1},
+{d:"Library was a lifesaver during finals week.",stress:-10,happiness:8,st:1},
+{d:"Advisor meeting left you feeling lost about your future.",stress:16,happiness:-8,st:1},
+{d:"Your degree opened a door you never expected.",happiness:15,cash:200,gr:1},
+{d:"Alumni network reached out with a real opportunity.",happiness:12,cash:300,gr:1},
+// ── BUSINESS PATH ──────────────────────────────────────
+{d:"A client left a glowing 5-star review. Confidence up.",happiness:12,p:'business'},
+{d:"Received a cease-and-desist from a competitor. Costly.",cash:-800,stress:22,p:'business'},
+{d:"Your social media post went micro-viral. New customers rolling in.",happiness:15,p:'business'},
+{d:"Business license renewal fee due. $250.",cash:-250,stress:8,p:'business'},
+{d:"Supplier raised prices 15%. Margins just tightened.",stress:14,happiness:-6,p:'business'},
+{d:"Landed a bulk order. $600 straight to your account.",cash:600,happiness:18,p:'business'},
+{d:"Accounting error cost you $350 you can't recover.",cash:-350,stress:15,p:'business'},
+{d:"A business mentor shared advice that changed your perspective.",happiness:12,stress:-8,p:'business'},
+{d:"Month-over-month revenue grew for the third straight month.",happiness:18,stress:-5,p:'business'},
+{d:"Unexpected product return wave. $400 in refunds issued.",cash:-400,stress:15,p:'business'},
+// ── CRIMINAL PATH ──────────────────────────────────────
+{d:"Rival crew tried to move into your territory. Heat climbs.",stress:20,happiness:-8,p:'criminal'},
+{d:"A contact got arrested. You're one step from exposure.",stress:22,happiness:-10,p:'criminal'},
+{d:"Clean run this month. No complications.",cash:200,stress:-8,p:'criminal'},
+{d:"Police stopped and questioned you but had nothing to hold you on.",stress:25,happiness:-12,p:'criminal'},
+{d:"Shipment came in two days early. Extra cash on hand.",cash:400,happiness:10,p:'criminal'},
+{d:"Got robbed by another crew. Lost $600.",cash:-600,stress:20,happiness:-12,p:'criminal'},
+{d:"Laying low paid off — nobody's talking about you this week.",stress:-15,happiness:8,p:'criminal'},
+{d:"Informant may be operating in your circle. Trust nobody.",stress:22,happiness:-10,p:'criminal'},
+{d:"Street reputation grew. People are noticing.",looks:5,happiness:8,p:'criminal'},
+{d:"A close call shook you to your core.",stress:25,health:-8,happiness:-10,p:'criminal'},
+// ── RELATIONSHIP: DATING ──────────────────────────────
+{d:"Your partner surprised you with a romantic dinner at home.",happiness:15,stress:-8,r:'dating'},
+{d:"You two had your first real argument. Worked through it.",stress:12,happiness:-5,r:'dating'},
+{d:"Movie night turned into an all-night conversation. Magical.",happiness:16,r:'dating'},
+{d:"Your partner met your friends for the first time. Went well.",happiness:14,stress:4,r:'dating'},
+{d:"A moment of jealousy crept in. Hard to shake.",stress:12,happiness:-8,r:'dating'},
+{d:"Romantic walk through the city. Simple and perfect.",happiness:14,stress:-10,r:'dating'},
+{d:"Your partner opened up about something deep. You felt trusted.",happiness:16,stress:-5,r:'dating'},
+{d:"Remembered your first date anniversary. Brought flowers.",cash:-40,happiness:18,r:'dating'},
+// ── RELATIONSHIP: COMMITTED ──────────────────────────────
+{d:"You two split the grocery bills this month. Actually saved money.",cash:80,happiness:8,r:'committed'},
+{d:"Had a serious talk about the future. Healthy but heavy.",stress:14,happiness:5,r:'committed'},
+{d:"Your partner's family visited this weekend. Exhausting but okay.",stress:16,happiness:5,r:'committed'},
+{d:"Cozy movie marathon night in. Exactly what you needed.",happiness:16,stress:-12,r:'committed'},
+{d:"Small conflict over habits — both of you handled it maturely.",stress:8,happiness:4,r:'committed'},
+{d:"Your partner got a promotion. You celebrated together all night.",happiness:18,r:'committed'},
+{d:"Double date with another couple. Fun, a little awkward.",cash:-80,happiness:12,r:'committed'},
+{d:"Intimacy deepened this month. You felt truly seen.",happiness:18,stress:-10,r:'committed'},
+// ── RELATIONSHIP: MARRIED ──────────────────────────────
+{d:"You two cooked an elaborate Sunday dinner together.",happiness:16,stress:-8,r:'married'},
+{d:"First big married fight about finances. Resolved but stings.",stress:18,happiness:-8,r:'married'},
+{d:"Spouse surprised you with something thoughtful for no reason.",happiness:20,stress:-10,r:'married'},
+{d:"Anniversary dinner out. Worth every dollar.",cash:-120,happiness:22,r:'married'},
+{d:"Married life brings a quiet stability you didn't expect.",happiness:8,health:3,r:'married'},
+{d:"Spouse got you through a brutal work week without complaint.",happiness:15,stress:-15,r:'married'},
+{d:"Discussed moving to a bigger place. Exciting and scary.",happiness:10,stress:6,r:'married'},
+{d:"In-laws visited for a week. Tense at times, meaningful overall.",stress:18,happiness:5,r:'married'},
+{d:"Marriage feels like a true partnership lately.",happiness:14,stress:-8,r:'married'},
+// ── HAS FRIENDS ──────────────────────────────────────
+{d:"Friends organized a spontaneous game night. Laughed all evening.",cash:-20,happiness:18,stress:-12,fr:1},
+{d:"Your closest friend is going through a rough patch.",stress:10,happiness:-5,fr:1},
+{d:"Group chat was absolutely unhinged today. Couldn't stop laughing.",happiness:14,stress:-6,fr:1},
+{d:"A friend introduced you to someone who became a real contact.",happiness:10,fr:1},
+{d:"Friend drama pulled you into the middle. You didn't ask for this.",stress:18,happiness:-8,fr:1},
+{d:"An old friend reached back out after years. Feels good.",happiness:14,fr:1},
+{d:"Friend group pooled for a group dinner. Your share: $45.",cash:-45,happiness:18,stress:-10,fr:1},
+// ── HAS PET ──────────────────────────────────────────
+{d:"Your pet did something absolutely hilarious today.",happiness:16,stress:-10,pet:1},
+{d:"Your pet seemed off — needed extra care and attention.",stress:8,happiness:-4,pet:1},
+{d:"Took your pet to the park. Pure joy on both ends.",happiness:16,stress:-12,pet:1},
+{d:"Your pet chewed through something expensive. $150 gone.",cash:-150,stress:12,happiness:-5,pet:1},
+{d:"Your pet curled up next to you on a rough day. Helped more than expected.",happiness:18,stress:-14,pet:1},
+{d:"Vet checkup came back clean. Exhaled for the first time in days.",happiness:14,stress:-8,pet:1},
+{d:"Your pet learned a new trick and you couldn't stop showing people.",happiness:16,pet:1},
+// ── HAS CHILDREN ──────────────────────────────────────
+{d:"Your kid drew you a picture and said it was you. Best thing ever.",happiness:22,stress:-5,ki:1},
+{d:"Parent-teacher conference flagged some concerns. You're on it.",stress:16,happiness:-6,ki:1},
+{d:"Your kid had a rough day at school and you talked it through.",happiness:12,stress:8,ki:1},
+{d:"Family board game night. Pure chaos, pure joy.",happiness:20,stress:-8,ki:1},
+{d:"Kid was sick all week. Missed work and handled everything.",cash:-200,stress:22,happiness:-5,ki:1},
+{d:"Watching your kid grow up hits different every single month.",happiness:18,ki:1},
+// ── YOUNG (18–25) ──────────────────────────────────────
+{d:"Quarter-life crisis arrived right on schedule.",stress:18,happiness:-12,mn:18,mx:25},
+{d:"Everyone your age seems to have their life figured out. You don't.",happiness:-10,stress:15,mn:18,mx:25},
+{d:"Made a reckless decision that somehow worked out perfectly.",happiness:16,mn:18,mx:25},
+{d:"FOMO from social media hit hard this week.",happiness:-8,stress:12,mn:18,mx:25},
+{d:"Your energy levels right now are genuinely incredible.",health:5,happiness:10,mn:18,mx:25},
+{d:"Spontaneity paid off in a big way today.",happiness:15,mn:18,mx:25},
+{d:"Youth is not wasted on you. You're living right.",happiness:14,stress:-8,mn:18,mx:25},
+// ── MID-LIFE (26–35) ──────────────────────────────────
+{d:"Starting to actually get the hang of adulthood.",happiness:12,stress:-6,mn:26,mx:35},
+{d:"High school friends are all in wildly different places now.",happiness:-4,stress:8,mn:26,mx:35},
+{d:"Felt genuinely accomplished for the first time in a long while.",happiness:16,mn:26,mx:35},
+{d:"Knees started hurting for no real reason. Concerning.",health:-4,stress:8,mn:26,mx:35},
+{d:"Work-life balance finally clicked. Who knew it was possible.",happiness:15,stress:-12,mn:26,mx:35},
+{d:"Saved more this month than any previous month. Progress.",happiness:14,mn:26,mx:35},
+{d:"Realized your music taste stopped evolving years ago.",happiness:-4,mn:26,mx:35},
+// ── OLDER (36+) ──────────────────────────────────────
+{d:"Annual health check flagged something to watch. Stay on it.",health:-6,stress:16,mn:36},
+{d:"Career peak feels closer than ever. You can see it.",happiness:16,mn:36},
+{d:"Gray hairs appearing in places you didn't expect.",looks:-4,mn:36},
+{d:"Wisdom arrived from an unexpected place. Changed your view.",happiness:14,stress:-6,mn:36},
+{d:"Recovery after workouts is taking noticeably longer.",health:-3,stress:8,mn:36},
+{d:"Looked at old photos and felt strangely emotional.",happiness:10,stress:5,mn:36},
+// ── BROKE / LOW CASH ──────────────────────────────────
+{d:"Bill collectors calling. Humiliating and relentless.",stress:22,happiness:-12,xc:500},
+{d:"Ramen for the fourth night in a row.",health:-4,happiness:-8,xc:300},
+{d:"Couldn't afford to join friends for a night out. Left out.",happiness:-12,stress:10,xc:400},
+{d:"Took a payday advance to cover the gap. High interest, no choice.",cash:200,stress:18,happiness:-10,xc:200},
+{d:"Side gig barely covered rent this month. Exhausting.",stress:18,happiness:-8,xc:600},
+{d:"A friend covered your part at dinner without making it weird.",happiness:12,stress:-5,xc:400},
+{d:"Financial anxiety at 3am. Lay awake counting everything.",stress:22,happiness:-12,health:-3,xc:500},
+{d:"Skipped a doctor appointment because you couldn't afford the copay.",health:-6,stress:12,happiness:-8,xc:300},
+// ── HIGH STRESS ──────────────────────────────────────
+{d:"Stress eating hit harder than usual this week.",health:-5,happiness:-5,ms:65},
+{d:"Couldn't sleep three nights in a row.",health:-8,stress:8,happiness:-8,ms:70},
+{d:"Snapped at someone you care about. Regretted it immediately.",happiness:-12,stress:8,ms:65},
+{d:"Tension headaches every single day this week.",health:-6,stress:8,ms:70},
+{d:"Took a deep breath at the park. Helped more than expected.",stress:-10,happiness:6,ms:60},
+{d:"Your body is sending clear signals to slow down.",health:-6,stress:8,ms:75},
+{d:"Emotional numbness crept in this week.",happiness:-12,ms:70},
+{d:"Finally cried it out. Felt surprisingly better after.",stress:-15,happiness:8,ms:65},
+// ── LOW HEALTH ──────────────────────────────────────
+{d:"Healthy meals are making a real difference.",health:6,happiness:8,xh:50},
+{d:"Walking more everywhere is adding up.",health:5,happiness:6,xh:50},
+{d:"Started a new supplement routine. Feeling something.",health:4,xh:55},
+{d:"Rest day felt more productive than any work day this week.",health:7,stress:-8,xh:50},
+{d:"Skipped junk food for a full week. First time in ages.",health:6,happiness:5,xh:55},
+{d:"Body was screaming for rest. You finally listened.",health:5,stress:-10,xh:45},
+{d:"Can barely keep up with daily tasks anymore. Need more care.",health:-5,stress:14,happiness:-8,xh:40},
+// ── SINGLE ──────────────────────────────────────────
+{d:"Saw an ex on social media. Why do you still look?",happiness:-8,stress:8,nr:1},
+{d:"Solitude felt genuinely refreshing tonight.",happiness:10,stress:-8,nr:1},
+{d:"Matched with someone interesting online.",happiness:10,nr:1},
+{d:"Valentine's Day hit different this year.",happiness:-8,stress:5,nr:1},
+{d:"Freedom has real perks when you think about it.",happiness:12,stress:-6,nr:1},
+{d:"Finally comfortable in your own company.",happiness:14,stress:-10,nr:1},
+{d:"Thought about reaching out to someone. Didn't. Maybe next month.",stress:8,happiness:-5,nr:1},
 ];
 
-const DILEMMAS=[
-  // General
-  {id:'startup',emoji:'💸',title:'Startup Pitch',
-   desc:"An old friend needs $1,000 to fund their startup. They swear it'll 10x.",
-   choices:[
-     {label:'Invest $1,000',gamble:{p:.45,win:{cash:2500,happiness:12,result:"The startup took off — $1,000 became $2,500!"},lose:{cash:-1000,stress:14,result:"It folded. Your $1,000 is gone."}}},
-     {label:'Politely decline',effects:{happiness:-2},result:"You pass. No risk, no reward."},
-   ]},
-  {id:'overtime',emoji:'⏰',title:'Overtime Offer',requiresJob:true,
-   desc:"Your boss offers a weekend project for extra pay.",
-   choices:[
-     {label:'Grind the weekend',effects:{cash:900,stress:15,health:-5},result:"Exhausting, but the $900 helps."},
-     {label:'Protect your time',effects:{happiness:6,stress:-6},result:"You recharge instead."},
-   ]},
-  {id:'wallet',emoji:'👛',title:'Lost Wallet',
-   desc:"You find a wallet with $200 cash inside.",
-   choices:[
-     {label:'Keep the cash',effects:{cash:200,happiness:-8,stress:5},result:"You pocket it, but guilt lingers."},
-     {label:'Return it',effects:{happiness:14},result:"The owner is overjoyed. You feel great."},
-   ]},
-  {id:'trip',emoji:'✈️',title:'Weekend Getaway',
-   desc:"Friends invite you on a spontaneous $350 weekend trip.",
-   choices:[
-     {label:'Go for it',effects:{cash:-350,happiness:20,stress:-15,health:3},result:"Unforgettable weekend. Money well spent."},
-     {label:'Stay home & save',effects:{happiness:-3},result:"You save the cash but feel FOMO."},
-   ]},
-  {id:'charity',emoji:'🎗️',title:'Charity Drive',
-   desc:"A local charity is fundraising in your neighborhood.",
-   choices:[
-     {label:'Donate $100',effects:{cash:-100,happiness:12,stress:-3},result:"Giving back feels good."},
-     {label:'Walk past',effects:{happiness:-3},result:"You keep your cash and your guilt."},
-   ]},
-  {id:'trainer',emoji:'🏋️',title:'Personal Trainer',
-   desc:"A trainer offers a 1-month transformation package for $300.",
-   choices:[
-     {label:'Sign up ($300)',effects:{cash:-300,health:15,looks:10,stress:-5},result:"Best shape of your life."},
-     {label:'Pass',effects:{happiness:-1},result:"You'll stick to free workouts."},
-   ]},
-  {id:'crypto',emoji:'🪙',title:'Hot Crypto Tip',
-   desc:"A coworker swears a coin is about to moon. $500 to get in.",
-   choices:[
-     {label:'Ape in $500',gamble:{p:.4,win:{cash:1500,happiness:10,result:"It mooned! $500 → $2,000."},lose:{cash:-500,stress:15,happiness:-8,result:"It rugged. $500 gone overnight."}}},
-     {label:'Stay out',effects:{stress:-2},result:"You keep your money and sanity."},
-   ]},
-  {id:'splurge',emoji:'🛒',title:'Big Sale',
-   desc:"A huge sale on something you've wanted for ages ($250).",
-   choices:[
-     {label:'Treat yourself',effects:{cash:-250,happiness:14,looks:4},result:"Retail therapy hits the spot."},
-     {label:'Resist',effects:{happiness:-2,stress:2},result:"You stay disciplined."},
-   ]},
-  // Social dilemmas
-  {id:'meet_someone',emoji:'💕',title:'Someone Caught Your Eye',
-   noRel:true,
-   desc:"You keep running into the same charming person. They're clearly interested.",
-   choices:[
-     {label:'Ask them out',social:{type:'start_dating'},result:"You worked up the courage — and they said yes!"},
-     {label:'Keep it casual',effects:{happiness:-3},result:"You stay friendly. Maybe another time."},
-   ]},
-  {id:'move_in',emoji:'🏠',title:'Big Step',
-   requiresRel:'dating',minRelMonths:6,
-   desc:"Your partner suggests moving in together.",
-   choices:[
-     {label:'Move in together',social:{type:'commit'},effects:{happiness:12,stress:5},result:"A new chapter begins together."},
-     {label:'Not quite yet',effects:{happiness:-5,stress:-3},result:"They're a little disappointed."},
-   ]},
-  {id:'proposal',emoji:'💍',title:'The Proposal',
-   requiresRel:'committed',minRelMonths:12,
-   desc:"You've been together long enough. It's time for a next step.",
-   choices:[
-     {label:'Pop the question!',social:{type:'married'},effects:{happiness:25},result:"They said YES! You're engaged!"},
-     {label:'Not ready yet',effects:{happiness:-8,stress:5},result:"The conversation was awkward."},
-   ]},
-  {id:'baby',emoji:'👶',title:'Baby on the Way?',
-   requiresRel:'married',
-   desc:"You and your partner have been talking about starting a family.",
-   choices:[
-     {label:"We're ready!",social:{type:'baby'},effects:{happiness:20,stress:15},result:"Your family is growing! (+$500/mo expenses)"},
-     {label:'Not the right time',effects:{happiness:-5,stress:5},result:"A difficult but honest conversation."},
-   ]},
-  {id:'adopt_pet',emoji:'🐾',title:'A New Best Friend?',
-   noPet:true,
-   desc:"A shelter visit left you thinking about one particular animal all day.",
-   choices:[
-     {label:'Adopt them!',social:{type:'adopt_pet'},effects:{happiness:18,cash:-150},result:"You have a new best friend!"},
-     {label:'Walk away',effects:{happiness:-4},result:"Hard to leave empty-handed."},
-   ]},
-  {id:'pet_emergency',emoji:'🚨',title:'Pet Emergency',
-   requiresPet:true,
-   desc:"Your pet seems sick. The vet says it'll cost $400 to treat.",
-   choices:[
-     {label:'Pay the vet',effects:{cash:-400,happiness:5},result:"Your pet recovers. Huge relief."},
-     {label:'Hope they recover',effects:{stress:15},result:"Fingers crossed... tense few weeks."},
-   ]},
-  {id:'friend_money',emoji:'👥',title:'Friend Needs a Loan',
-   requiresFriends:true,
-   desc:"Your closest friend is in a tight spot and needs to borrow $300.",
-   choices:[
-     {label:'Lend them $300',effects:{cash:-300},social:{type:'friend_closeness',v:15},result:"They're grateful. You grow closer."},
-     {label:"Can't do it",social:{type:'friend_closeness',v:-10},result:"They understand, but it stings."},
-   ]},
-  {id:'family_help',emoji:'👪',title:'Family Crisis',
-   desc:"Your family is going through a rough patch and reaching out.",
-   choices:[
-     {label:'Send $400',effects:{cash:-400,happiness:8,stress:5},social:{type:'family_rel',v:15},result:"Family first. They're grateful."},
-     {label:"Can't right now",effects:{happiness:-5},social:{type:'family_rel',v:-10},result:"It stings not being able to help."},
-   ]},
-  {id:'new_friend',emoji:'😊',title:'Making a New Friend',
-   desc:"You hit it off with someone at a social event. Could be a real friendship.",
-   choices:[
-     {label:'Exchange numbers',social:{type:'new_friend'},effects:{happiness:10},result:"A new friendship begins!"},
-     {label:'Keep it brief',effects:{happiness:-2},result:"You stay in your comfort zone."},
-   ]},
-  // College-specific
-  {id:'exam_cheat',emoji:'📝',title:'Tempting Shortcut',requiresPath:'college',
-   desc:"Someone's selling answers to tomorrow's big exam. $150.",
-   choices:[
-     {label:'Buy the answers',gamble:{p:.4,win:{happiness:8,result:"You aced it. Nobody suspected a thing."},lose:{stress:25,happiness:-15,result:"You got caught. Academic probation."}}},
-     {label:'Study honestly',effects:{stress:10},result:"You grind through it the right way."},
-   ]},
-  {id:'scholarship',emoji:'🏅',title:'Scholarship Offer',requiresPath:'college',
-   desc:"You qualify for a $2,000 academic scholarship. Application takes energy.",
-   choices:[
-     {label:'Apply (30 energy)',effects:{cash:2000,stress:8},result:"You got it! $2,000 in your account."},
-     {label:'Skip it',effects:{happiness:-2},result:"Maybe next semester."},
-   ]},
-  {id:'drop_out',emoji:'🚪',title:'Drop Out?',requiresPath:'college',
-   desc:"College is grinding you down. A real job offer just landed in your inbox.",
-   choices:[
-     {label:'Drop out & take the job',social:{type:'drop_out'},effects:{cash:500,stress:-15},result:"You leave campus and start earning immediately."},
-     {label:'Stick it out',effects:{stress:8,happiness:-3},result:"You stay enrolled. It'll be worth it."},
-   ]},
-  // Business-specific
-  {id:'investor',emoji:'💼',title:'Investor Knocking',requiresPath:'business',
-   desc:"An investor offers $5,000 for 30% of your business.",
-   choices:[
-     {label:'Take the deal',social:{type:'biz_invest'},effects:{cash:5000},result:"Funded! Your business gets a major boost."},
-     {label:'Stay independent',effects:{happiness:5},result:"Full control, on your own terms."},
-   ]},
-  {id:'biz_crisis',emoji:'📉',title:'Business Trouble',requiresPath:'business',
-   desc:"Sales are down. Cut costs or double down?",
-   choices:[
-     {label:'Cut costs aggressively',social:{type:'biz_cut'},effects:{stress:10},result:"Painful but the business stabilizes."},
-     {label:'Double down on marketing',gamble:{p:.5,win:{happiness:10,result:"Bold bet paid off — revenue spikes!"},lose:{cash:-500,stress:15,result:"The campaign flopped. $500 down."}}},
-   ]},
-  // Criminal-specific
-  {id:'go_legit',emoji:'🕊️',title:'A Way Out',requiresPath:'criminal',
-   desc:"A community leader offers you a clean slate and a legit $2,500/mo job.",
-   choices:[
-     {label:'Take the exit',social:{type:'go_legit'},effects:{happiness:15,stress:-20},result:"You walk away from the life. New chapter."},
-     {label:'Stay in the game',social:{type:'heat_down_big'},result:"You're not done yet."},
-   ]},
-  {id:'bigger_score',emoji:'💎',title:'The Big Score',requiresPath:'criminal',
-   desc:"A one-time job could pay $5,000 — but the risks are massive.",
-   choices:[
-     {label:'Go for it',gamble:{p:.4,win:{cash:5000,happiness:8,result:"You pulled it off. $5,000 richer."},lose:{cash:-500,stress:30,health:-10,result:"It went sideways. You barely got away."}}},
-     {label:'Pass',effects:{stress:-5},result:"Some scores aren't worth it."},
-   ]},
-  {id:'setup',emoji:'🚔',title:'Someone Snitched',requiresPath:'criminal',
-   desc:"Word is someone in your circle talked to the cops about you.",
-   choices:[
-     {label:'Disappear for a month',effects:{cash:-600,stress:20},social:{type:'heat_down_big'},result:"You go dark. Heat drops significantly."},
-     {label:'Brazen it out',effects:{stress:25},social:{type:'heat_up_big'},result:"You keep operating. Heat climbs fast."},
-   ]},
+const ALL_DILEMMAS=[
+// ── GENERAL ──────────────────────────────────────────
+{id:'startup',emoji:'💸',title:'Startup Pitch',
+ desc:"An old friend needs $1,000 to fund their startup. They swear it'll 10x.",
+ choices:[
+   {label:'Invest $1,000',gamble:{p:.45,win:{cash:2500,happiness:12,result:"The startup took off — $1,000 became $2,500!"},lose:{cash:-1000,stress:14,result:"It folded. Your $1,000 is gone."}}},
+   {label:'Politely decline',effects:{happiness:-2},result:"You pass. No risk, no reward."},
+ ]},
+{id:'overtime',emoji:'⏰',title:'Overtime Offer',requiresJob:true,
+ desc:"Your boss offers a weekend project for extra pay.",
+ choices:[
+   {label:'Grind the weekend',effects:{cash:900,stress:15,health:-5},result:"Exhausting, but the $900 helps."},
+   {label:'Protect your time',effects:{happiness:6,stress:-6},result:"You recharge instead."},
+ ]},
+{id:'wallet',emoji:'👛',title:'Lost Wallet',
+ desc:"You find a wallet with $200 cash inside.",
+ choices:[
+   {label:'Keep the cash',effects:{cash:200,happiness:-8,stress:5},result:"You pocket it, but guilt lingers."},
+   {label:'Return it',effects:{happiness:14},result:"The owner is overjoyed. You feel great."},
+ ]},
+{id:'trip',emoji:'✈️',title:'Weekend Getaway',
+ desc:"Friends invite you on a spontaneous $350 weekend trip.",
+ choices:[
+   {label:'Go for it',effects:{cash:-350,happiness:20,stress:-15,health:3},result:"Unforgettable weekend. Money well spent."},
+   {label:'Stay home & save',effects:{happiness:-3},result:"You save the cash but feel FOMO."},
+ ]},
+{id:'charity',emoji:'🎗️',title:'Charity Drive',
+ desc:"A local charity is fundraising in your neighborhood.",
+ choices:[
+   {label:'Donate $100',effects:{cash:-100,happiness:12,stress:-3},result:"Giving back feels good."},
+   {label:'Walk past',effects:{happiness:-3},result:"You keep your cash and your guilt."},
+ ]},
+{id:'trainer',emoji:'🏋️',title:'Personal Trainer',
+ desc:"A trainer offers a 1-month transformation package for $300.",
+ choices:[
+   {label:'Sign up ($300)',effects:{cash:-300,health:15,looks:10,stress:-5},result:"Best shape of your life."},
+   {label:'Pass',effects:{happiness:-1},result:"You'll stick to free workouts."},
+ ]},
+{id:'crypto',emoji:'🪙',title:'Hot Crypto Tip',
+ desc:"A coworker swears a coin is about to moon. $500 to get in.",
+ choices:[
+   {label:'Ape in $500',gamble:{p:.4,win:{cash:1500,happiness:10,result:"It mooned! $500 → $2,000."},lose:{cash:-500,stress:15,happiness:-8,result:"It rugged. $500 gone overnight."}}},
+   {label:'Stay out',effects:{stress:-2},result:"You keep your money and sanity."},
+ ]},
+{id:'splurge',emoji:'🛒',title:'Big Sale',
+ desc:"A huge sale on something you've wanted for ages ($250).",
+ choices:[
+   {label:'Treat yourself',effects:{cash:-250,happiness:14,looks:4},result:"Retail therapy hits the spot."},
+   {label:'Resist',effects:{happiness:-2,stress:2},result:"You stay disciplined."},
+ ]},
+{id:'inheritance',emoji:'💰',title:'Unexpected Inheritance',
+ desc:"A distant relative passed away and left you $3,000 — but family expects you to share.",
+ choices:[
+   {label:'Share $1,000 with family',effects:{cash:2000,happiness:12},social:{type:'family_rel',v:20},result:"The gesture meant the world to them."},
+   {label:'Keep it all',effects:{cash:3000,happiness:5,stress:8},social:{type:'family_rel',v:-10},result:"You keep it. The family notices."},
+ ]},
+{id:'health_scare',emoji:'🏥',title:'Health Scare',
+ desc:"Your doctor flagged an abnormal test result. Could be nothing — or something serious.",
+ choices:[
+   {label:'Full workup ($400)',effects:{cash:-400,health:10,happiness:5,stress:-12},result:"All clear. Peace of mind is priceless."},
+   {label:'Hope for the best',effects:{health:-8,stress:18},result:"You put it out of your mind. For now."},
+ ]},
+{id:'relocation',emoji:'🏙️',title:'Job in Another City',
+ desc:"A company across the country is offering $2,000 more per month — but you'd have to move.",
+ choices:[
+   {label:'Take the leap',effects:{cash:-800,happiness:12,stress:10},result:"New city, new start. Exciting and terrifying."},
+   {label:'Stay put',effects:{happiness:-5,stress:-5},result:"Comfort wins. For better or worse."},
+ ]},
+{id:'night_class',emoji:'📚',title:'Night School',
+ desc:"A local college offers a skills course that could help your career. $400, one night a week.",
+ choices:[
+   {label:'Enroll',effects:{cash:-400,stress:8,happiness:10},result:"Investing in yourself never feels wrong."},
+   {label:'Not right now',effects:{happiness:-3},result:"Maybe next semester."},
+ ]},
+{id:'roommate',emoji:'🏠',title:'Split the Rent?',noRel:true,
+ desc:"A trusted acquaintance offers to be your roommate — cutting housing costs by $600/mo.",
+ choices:[
+   {label:'Move in together',effects:{cash:600,stress:5,happiness:5},result:"Shared rent, shared sanity. So far."},
+   {label:'Keep your space',effects:{happiness:5},result:"Privacy costs $600/month. Worth it."},
+ ]},
+{id:'reunion',emoji:'🎓',title:'High School Reunion',
+ desc:"Your 10-year reunion is this month. $120 for tickets and a room full of old faces.",
+ choices:[
+   {label:'Go — reconnect',effects:{cash:-120,happiness:12,stress:5},result:"Some awkward moments, some great ones. Glad you went."},
+   {label:'Skip it',effects:{happiness:-4},result:"Some things are better as memories."},
+ ]},
+{id:'mentor',emoji:'🧑‍🏫',title:'A Mentor Appears',
+ desc:"An experienced person in your field offers to meet monthly and share hard-won wisdom.",
+ choices:[
+   {label:'Absolutely yes',effects:{happiness:12,stress:-5},result:"The guidance is more valuable than you expected."},
+   {label:'Too busy right now',effects:{happiness:-3},result:"The door may not stay open forever."},
+ ]},
+{id:'side_biz',emoji:'🛒',title:'Side Business Idea',
+ desc:"You have an idea for a small side hustle. It will cost $500 to get started.",
+ choices:[
+   {label:'Launch it ($500)',gamble:{p:.55,win:{cash:800,happiness:15,result:"It picked up! First month profitable."},lose:{cash:-500,stress:12,result:"It flopped. $500 lesson learned."}}},
+   {label:'Not the right time',effects:{happiness:-2},result:"The idea stays in your head for now."},
+ ]},
+// ── SOCIAL ──────────────────────────────────────────
+{id:'meet_someone',emoji:'💕',title:'Someone Caught Your Eye',
+ noRel:true,
+ desc:"You keep running into the same charming person. They're clearly interested.",
+ choices:[
+   {label:'Ask them out',social:{type:'start_dating'},result:"You worked up the courage — and they said yes!"},
+   {label:'Keep it casual',effects:{happiness:-3},result:"You stay friendly. Maybe another time."},
+ ]},
+{id:'move_in',emoji:'🏠',title:'Big Step',
+ r:'dating',minRelMonths:6,
+ desc:"Your partner suggests moving in together.",
+ choices:[
+   {label:'Move in together',social:{type:'commit'},effects:{happiness:12,stress:5},result:"A new chapter begins together."},
+   {label:'Not quite yet',effects:{happiness:-5,stress:-3},result:"They're a little disappointed."},
+ ]},
+{id:'proposal',emoji:'💍',title:'The Proposal',
+ r:'committed',minRelMonths:12,
+ desc:"You've been together long enough. It's time for a next step.",
+ choices:[
+   {label:'Pop the question!',social:{type:'married'},effects:{happiness:25},result:"They said YES! You're engaged!"},
+   {label:'Not ready yet',effects:{happiness:-8,stress:5},result:"The conversation was awkward."},
+ ]},
+{id:'baby',emoji:'👶',title:'Baby on the Way?',
+ r:'married',
+ desc:"You and your partner have been talking about starting a family.",
+ choices:[
+   {label:"We're ready!",social:{type:'baby'},effects:{happiness:20,stress:15},result:"Your family is growing! (+$500/mo expenses)"},
+   {label:'Not the right time',effects:{happiness:-5,stress:5},result:"A difficult but honest conversation."},
+ ]},
+{id:'adopt_pet',emoji:'🐾',title:'A New Best Friend?',
+ noPet:true,
+ desc:"A shelter visit left you thinking about one particular animal all day.",
+ choices:[
+   {label:'Adopt them!',social:{type:'adopt_pet'},effects:{happiness:18,cash:-150},result:"You have a new best friend!"},
+   {label:'Walk away',effects:{happiness:-4},result:"Hard to leave empty-handed."},
+ ]},
+{id:'pet_emergency',emoji:'🚨',title:'Pet Emergency',
+ pet:1,
+ desc:"Your pet seems sick. The vet says it'll cost $400 to treat.",
+ choices:[
+   {label:'Pay the vet',effects:{cash:-400,happiness:5},result:"Your pet recovers. Huge relief."},
+   {label:'Hope they recover',effects:{stress:15},result:"Fingers crossed... tense few weeks."},
+ ]},
+{id:'friend_money',emoji:'👥',title:'Friend Needs a Loan',
+ fr:1,
+ desc:"Your closest friend is in a tight spot and needs to borrow $300.",
+ choices:[
+   {label:'Lend them $300',effects:{cash:-300},social:{type:'friend_closeness',v:15},result:"They're grateful. You grow closer."},
+   {label:"Can't do it",social:{type:'friend_closeness',v:-10},result:"They understand, but it stings."},
+ ]},
+{id:'family_help',emoji:'👪',title:'Family Crisis',
+ desc:"Your family is going through a rough patch and reaching out.",
+ choices:[
+   {label:'Send $400',effects:{cash:-400,happiness:8,stress:5},social:{type:'family_rel',v:15},result:"Family first. They're grateful."},
+   {label:"Can't right now",effects:{happiness:-5},social:{type:'family_rel',v:-10},result:"It stings not being able to help."},
+ ]},
+{id:'new_friend',emoji:'😊',title:'Making a New Friend',
+ desc:"You hit it off with someone at a social event. Could be a real friendship.",
+ choices:[
+   {label:'Exchange numbers',social:{type:'new_friend'},effects:{happiness:10},result:"A new friendship begins!"},
+   {label:'Keep it brief',effects:{happiness:-2},result:"You stay in your comfort zone."},
+ ]},
+{id:'long_distance',emoji:'🗺️',title:'Long Distance',
+ ar:1,
+ desc:"Your partner has an opportunity across the country for 3 months. How do you handle it?",
+ choices:[
+   {label:'Support them fully',effects:{stress:15,happiness:5},result:"Hard, but you both come out stronger."},
+   {label:'Ask them to stay',effects:{stress:18,happiness:-10},result:"The conversation is tense. They're not happy."},
+ ]},
+{id:'partner_sick',emoji:'🏥',title:'Partner Is Sick',
+ ar:1,
+ desc:"Your partner was hospitalized. You need to be there.",
+ choices:[
+   {label:'Take time off work',effects:{cash:-400,happiness:10,stress:15},result:"You're there for them. That's everything."},
+   {label:'Visit but keep working',effects:{stress:20,happiness:-8},result:"Stretched thin between work and the hospital."},
+ ]},
+{id:'old_flame',emoji:'💔',title:'Old Flame',
+ noRel:true,
+ desc:"An ex reached out saying they've changed and want to catch up.",
+ choices:[
+   {label:'Meet for coffee',gamble:{p:.4,win:{happiness:12,result:"It was actually good. Feelings are complicated."},lose:{stress:18,happiness:-12,result:"Old wounds opened right back up."}}},
+   {label:'Leave the past behind',effects:{happiness:8,stress:-5},result:"No contact. That chapter is closed."},
+ ]},
+{id:'breakup_threat',emoji:'💔',title:'Relationship Crisis',
+ r:'dating',
+ desc:"Your partner says they need space. Things are rocky.",
+ choices:[
+   {label:'Fight for it',effects:{stress:18,happiness:5},result:"Hard conversations, but you both commit to trying."},
+   {label:'Give them space',effects:{stress:14,happiness:-6},result:"You pull back. The silence is deafening."},
+   {label:'End it mutually',social:{type:'breakup'},effects:{happiness:-15,stress:10},result:"Clean break. Painful but maybe right."},
+ ]},
+{id:'friend_betrayal',emoji:'😤',title:'Betrayed by a Friend',
+ fr:1,
+ desc:"You found out a close friend shared personal things you told them in confidence.",
+ choices:[
+   {label:'Confront and forgive',effects:{stress:14,happiness:-5},social:{type:'friend_closeness',v:-15},result:"Trust is damaged but the friendship survives — barely."},
+   {label:'Cut them off',effects:{stress:10,happiness:-12},social:{type:'remove_friend'},result:"Painful but necessary. You deserve better."},
+ ]},
+{id:'custody',emoji:'👶',title:'Co-Parenting Challenge',
+ ki:1,
+ desc:"There's a conflict about your child's schedule and future plans. Tensions are high.",
+ choices:[
+   {label:'Compromise for the kids',effects:{stress:16,happiness:-5},result:"Kids first. You both know that."},
+   {label:'Consult a mediator ($300)',effects:{cash:-300,stress:10,happiness:5},result:"Third-party help makes all the difference."},
+ ]},
+// ── COLLEGE-SPECIFIC ──────────────────────────────────
+{id:'exam_cheat',emoji:'📝',title:'Tempting Shortcut',
+ p:'college',
+ desc:"Someone's selling answers to tomorrow's big exam. $150.",
+ choices:[
+   {label:'Buy the answers',gamble:{p:.4,win:{happiness:8,result:"You aced it. Nobody suspected a thing."},lose:{stress:25,happiness:-15,result:"You got caught. Academic probation."}}},
+   {label:'Study honestly',effects:{stress:10},result:"You grind through it the right way."},
+ ]},
+{id:'scholarship',emoji:'🏅',title:'Scholarship Offer',
+ p:'college',st:1,
+ desc:"You qualify for a $2,000 academic scholarship. Application takes energy.",
+ choices:[
+   {label:'Apply (30 energy)',effects:{cash:2000,stress:8},result:"You got it! $2,000 in your account."},
+   {label:'Skip it',effects:{happiness:-2},result:"Maybe next semester."},
+ ]},
+{id:'drop_out',emoji:'🚪',title:'Drop Out?',
+ p:'college',st:1,
+ desc:"College is grinding you down. A real job offer just landed in your inbox.",
+ choices:[
+   {label:'Drop out & take the job',social:{type:'drop_out'},effects:{cash:500,stress:-15},result:"You leave campus and start earning immediately."},
+   {label:'Stick it out',effects:{stress:8,happiness:-3},result:"You stay enrolled. It'll be worth it."},
+ ]},
+{id:'grad_party',emoji:'🎓',title:'Graduation Night',
+ p:'college',gr:1,
+ desc:"You graduated! Friends want to celebrate hard tonight.",
+ choices:[
+   {label:'Go all out ($200)',effects:{cash:-200,happiness:22,stress:-15},result:"Night of your life. Worth every dollar."},
+   {label:'Small celebration',effects:{cash:-60,happiness:14,stress:-8},result:"Quiet celebration with close friends."},
+ ]},
+{id:'loan_forgiveness',emoji:'📃',title:'Loan Forgiveness Program',
+ p:'college',
+ desc:"You qualify for partial loan forgiveness. The paperwork will take a full weekend.",
+ choices:[
+   {label:'Do the paperwork',effects:{stress:10,happiness:12},social:{type:'debt_reduce',v:3000},result:"$3,000 off your student loans!"},
+   {label:'Too much work',effects:{happiness:-5},result:"That debt stays on the books."},
+ ]},
+{id:'research_assistant',emoji:'🔬',title:'Research Opportunity',
+ p:'college',st:1,
+ desc:"A professor offers a paid research assistant role — $400/mo extra.",
+ choices:[
+   {label:'Take the position',effects:{cash:400,stress:12,happiness:12},result:"Paid research. And it looks great on a resume."},
+   {label:'Focus on classes',effects:{happiness:-3,stress:-5},result:"One less thing on your plate."},
+ ]},
+{id:'campus_housing',emoji:'🏠',title:'Housing Upgrade',
+ p:'college',st:1,
+ desc:"You can move off-campus into a nicer place — $500 more per month but total freedom.",
+ choices:[
+   {label:'Move off-campus',effects:{cash:-500,happiness:14,stress:-6},result:"Your own space. Worth the cost."},
+   {label:'Stay in the dorm',effects:{happiness:-4,stress:5},result:"Cheaper, noisier, and smaller. But fine."},
+ ]},
+// ── BUSINESS-SPECIFIC ──────────────────────────────────
+{id:'investor',emoji:'💼',title:'Investor Knocking',
+ p:'business',
+ desc:"An investor offers $5,000 for 30% of your business.",
+ choices:[
+   {label:'Take the deal',social:{type:'biz_invest'},effects:{cash:5000},result:"Funded! Your business gets a major boost."},
+   {label:'Stay independent',effects:{happiness:5},result:"Full control, on your own terms."},
+ ]},
+{id:'biz_crisis',emoji:'📉',title:'Business Trouble',
+ p:'business',
+ desc:"Sales are down. Cut costs or double down?",
+ choices:[
+   {label:'Cut costs aggressively',social:{type:'biz_cut'},effects:{stress:10},result:"Painful but the business stabilizes."},
+   {label:'Double down on marketing',gamble:{p:.5,win:{happiness:10,result:"Bold bet paid off — revenue spikes!"},lose:{cash:-500,stress:15,result:"The campaign flopped. $500 down."}}},
+ ]},
+{id:'biz_expansion',emoji:'🏢',title:'Expand the Business',
+ p:'business',
+ desc:"A bigger space is available for $1,500/mo more. Could double revenue — or tank you.",
+ choices:[
+   {label:'Expand boldly',gamble:{p:.5,win:{happiness:18,result:"Revenue doubled. You made the right call."},lose:{cash:-1500,stress:22,result:"Costs outpaced revenue. Struggling now."}}},
+   {label:'Stay lean',effects:{stress:-5,happiness:5},result:"Small and profitable is still winning."},
+ ]},
+{id:'franchise',emoji:'🏪',title:'Franchise Your Model',
+ p:'business',mc:5000,
+ desc:"Someone wants to franchise your business concept for $10,000 upfront.",
+ choices:[
+   {label:'Sign the deal',effects:{cash:10000,stress:18,happiness:16},result:"You're a franchisor now. Huge step."},
+   {label:'Protect the brand',effects:{happiness:8,stress:-5},result:"Keep it exclusive. Quality over quantity."},
+ ]},
+{id:'biz_partner',emoji:'🤝',title:'Business Partnership',
+ p:'business',
+ desc:"Someone wants to co-own the business. $3,000 investment for 40% ownership.",
+ choices:[
+   {label:'Take the deal',effects:{cash:3000,stress:10,happiness:10},result:"Two heads and $3k more. You move faster now."},
+   {label:'Stay solo',effects:{happiness:8,stress:-5},result:"Full control. That is worth something."},
+ ]},
+// ── CRIMINAL-SPECIFIC ──────────────────────────────────
+{id:'go_legit',emoji:'🕊️',title:'A Way Out',
+ p:'criminal',
+ desc:"A community leader offers you a clean slate and a legit $2,500/mo job.",
+ choices:[
+   {label:'Take the exit',social:{type:'go_legit'},effects:{happiness:15,stress:-20},result:"You walk away from the life. New chapter."},
+   {label:'Stay in the game',social:{type:'heat_down_big'},result:"You're not done yet."},
+ ]},
+{id:'bigger_score',emoji:'💎',title:'The Big Score',
+ p:'criminal',
+ desc:"A one-time job could pay $5,000 — but the risks are massive.",
+ choices:[
+   {label:'Go for it',gamble:{p:.4,win:{cash:5000,happiness:8,result:"You pulled it off. $5,000 richer."},lose:{cash:-500,stress:30,health:-10,result:"It went sideways. You barely got away."}}},
+   {label:'Pass',effects:{stress:-5},result:"Some scores are not worth it."},
+ ]},
+{id:'setup',emoji:'🚔',title:'Someone Snitched',
+ p:'criminal',
+ desc:"Word is someone in your circle talked to the cops about you.",
+ choices:[
+   {label:'Disappear for a month',effects:{cash:-600,stress:20},social:{type:'heat_down_big'},result:"You go dark. Heat drops significantly."},
+   {label:'Brazen it out',effects:{stress:25},social:{type:'heat_up_big'},result:"You keep operating. Heat climbs fast."},
+ ]},
+{id:'laundering',emoji:'💸',title:'Moving Money',
+ p:'criminal',
+ desc:"You have accumulated cash that needs to be cleaned. A contact can do it for a 20% cut.",
+ choices:[
+   {label:'Pay the 20% cut',effects:{stress:-8,happiness:5},result:"Done and clean. The cost of doing business."},
+   {label:'Risk it as cash',effects:{stress:22,happiness:-5},result:"One tax audit and it is all over."},
+ ]},
+{id:'gang_leader',emoji:'👑',title:'Leadership Offer',
+ p:'criminal',
+ desc:"You are being offered a leadership role in the organization. More power, more heat.",
+ choices:[
+   {label:'Step up',effects:{cash:1000,stress:20,happiness:10},result:"You are running things now. Everyone knows it."},
+   {label:'Stay in the shadows',effects:{stress:-8,happiness:5},result:"Smart. Leadership is a target."},
+ ]},
+{id:'prison_scare',emoji:'🚔',title:"State's Evidence",
+ p:'criminal',
+ desc:"Someone in your network may be cooperating with the DA. Your name could come up.",
+ choices:[
+   {label:'Disappear completely ($1k)',effects:{cash:-1000,stress:18},social:{type:'heat_down_big'},result:"You go off-grid for weeks. Heat drops hard."},
+   {label:'Lawyer up now ($800)',effects:{cash:-800,stress:12,happiness:8},result:"Expensive insurance. But you sleep better."},
+   {label:'Bluff it out',gamble:{p:.35,win:{result:"Nothing comes of it. Dodged."},lose:{cash:-2000,stress:30,health:-10,result:"Pulled in for questioning. Brutal."}}},
+ ]},
+// ── JOB-SPECIFIC ──────────────────────────────────────
+{id:'promotion',emoji:'⬆️',title:'Promotion Offer',
+ requiresJob:true,
+ desc:"Your boss offers a promotion — $1,500 more per month, but much more responsibility.",
+ choices:[
+   {label:'Accept the promotion',effects:{cash:1500,stress:20,happiness:12},result:"Congrats. Now the real work begins."},
+   {label:'Decline for now',effects:{stress:-5,happiness:5},result:"You know your limits. Respect."},
+ ]},
+{id:'conference',emoji:'✈️',title:'Work Conference',
+ requiresJob:true,
+ desc:"Your company will send you to a 3-day conference. All expenses paid.",
+ choices:[
+   {label:'Go — network hard',effects:{happiness:14,stress:8,looks:3},result:"Made real connections. Career is better for it."},
+   {label:'Decline, too much',effects:{happiness:-4,stress:-5},result:"Stayed home. Cannot win them all."},
+ ]},
+{id:'workplace_conflict',emoji:'😤',title:'Workplace Conflict',
+ requiresJob:true,
+ desc:"A coworker has been taking credit for your work. Do you confront them?",
+ choices:[
+   {label:'Confront directly',gamble:{p:.55,win:{happiness:16,stress:-5,result:"They backed down and apologized."},lose:{stress:20,happiness:-10,result:"It got ugly. Now it is a whole thing."}}},
+   {label:'Report to HR',effects:{stress:14,happiness:5},result:"Documented and handled. Slowly."},
+   {label:'Let it go',effects:{stress:12,happiness:-10},result:"You swallow it. It stings."},
+ ]},
+{id:'toxic_boss',emoji:'😈',title:'Toxic Boss',
+ requiresJob:true,
+ desc:"Your manager has been making your life miserable. Confront them or endure?",
+ choices:[
+   {label:'Confront professionally',gamble:{p:.4,win:{happiness:18,stress:-12,result:"They actually backed off. Earned their respect."},lose:{stress:22,happiness:-12,result:"Made things worse. Start job hunting?"}}},
+   {label:'Request a transfer',effects:{stress:10,happiness:5},result:"You put in the request. Pending approval."},
+   {label:'Endure and job hunt',effects:{stress:18,happiness:-8},result:"Job hunting while employed. Classic."},
+ ]},
+{id:'ethics',emoji:'⚖️',title:'Ethical Gray Area',
+ requiresJob:true,
+ desc:"Your company wants you to bend the rules slightly. It would mean a $500 bonus.",
+ choices:[
+   {label:'Do it for the bonus',effects:{cash:500,stress:15,happiness:-8},result:"You do it. It works, but sits with you."},
+   {label:'Refuse firmly',effects:{happiness:12,stress:8},result:"Integrity intact. Boss is not thrilled."},
+ ]},
+{id:'layoff',emoji:'📋',title:'Layoff Rumor',
+ requiresJob:true,
+ desc:"Word is the company is cutting 20% of staff. Your position might be at risk.",
+ choices:[
+   {label:'Start interviewing now',effects:{stress:18,happiness:5},result:"Better safe than sorry. Interviews lined up."},
+   {label:'Trust the process',effects:{stress:15,happiness:-5},result:"You wait it out. Anxiety builds daily."},
+ ]},
+{id:'headhunter',emoji:'📞',title:'Headhunter Call',
+ requiresJob:true,
+ desc:"A recruiter reached out with a competing offer: $2,000 more per month.",
+ choices:[
+   {label:'Jump ship',effects:{cash:2000,stress:16,happiness:10},result:"Terrifying first week. But the money is real."},
+   {label:'Negotiate with current employer',gamble:{p:.5,win:{cash:800,happiness:8,result:"They matched! Smaller raise but stability."},lose:{happiness:-5,stress:8,result:"They declined. Awkward now."}}},
+   {label:'Decline — stay put',effects:{stress:-5,happiness:-4},result:"Safer choice. Maybe another time."},
+ ]},
 ];
 
 const JOBS_BASE=[
@@ -541,6 +994,38 @@ const JOBS_BASE=[
   {id:'lawyer',title:'Lawyer',emoji:'⚖️',salary:9000,energy:35,stress:28,desc:'Fight for justice. Billable hours grind.',locked:true,requiresDegree:true},
   {id:'engineer',title:'Engineer',emoji:'🔧',salary:8500,energy:35,stress:20,desc:'Build things that last.',locked:true,requiresDegree:true},
 ];
+
+/* ═══════════════════════════════════════════════════════
+   ELIGIBILITY FILTER
+═══════════════════════════════════════════════════════ */
+function eligible(e){
+  // short keys (events) and long keys (dilemmas) both handled
+  const jobId=e.j;
+  if(jobId&&(!S.job||S.job.id!==jobId))return false;
+  if(e.requiresJob&&!S.job)return false;
+  const path=e.p||e.requiresPath;
+  if(path&&S.path!==path)return false;
+  const rel=e.r||e.requiresRel;
+  if(rel&&(!S.relationship||S.relationship.stage!==rel))return false;
+  if((e.ar)&&!S.relationship)return false;
+  if((e.nr||e.noRel)&&S.relationship)return false;
+  if((e.pet||e.requiresPet)&&!S.pet)return false;
+  if((e.noPet)&&S.pet)return false;
+  if((e.fr||e.requiresFriends)&&S.friends.length===0)return false;
+  if((e.ki)&&S.children===0)return false;
+  if(e.mn&&yr()<e.mn)return false;
+  if(e.mx&&yr()>e.mx)return false;
+  if(e.mc&&S.cash<e.mc)return false;
+  if(e.xc&&S.cash>e.xc)return false;
+  if(e.ms&&S.stress<e.ms)return false;
+  if(e.xs&&S.stress>e.xs)return false;
+  if(e.mh&&S.health<e.mh)return false;
+  if(e.xh&&S.health>e.xh)return false;
+  if(e.gr&&!(S.college&&S.college.graduated))return false;
+  if(e.st&&!(S.college&&!S.college.graduated))return false;
+  if(e.minRelMonths&&(!S.relationship||S.relationship.months<e.minRelMonths))return false;
+  return true;
+}
 
 /* ═══════════════════════════════════════════════════════
    STATE
@@ -582,6 +1067,7 @@ function initialState(name,gender,path){
     log:[`🌅 ${name} is 18 and officially on ${gender==='male'?'his':gender==='female'?'her':'their'} own. The game starts now.`],
     used:new Set(),
     lastDilemma:-99,lastDilemmaId:null,
+    shownDilemmas:new Set(),
     // social
     friends:[],
     relationship:null,
@@ -843,14 +1329,26 @@ function processMonth(){
   S.happiness=clamp(S.happiness-2);
   S.looks=clamp(S.looks-.5);
 
-  // random event (35%)
-  if(Math.random()<=.35){
-    const e=EVENTS[~~(Math.random()*EVENTS.length)];
+  // random events — up to 2 per month, drawn from eligible pool
+  const evPool=ALL_EVENTS.filter(eligible);
+  if(evPool.length&&Math.random()<=.55){
+    const e=evPool[~~(Math.random()*evPool.length)];
     S.cash+=(e.cash||0);S.stress=clamp(S.stress+(e.stress||0));
     S.happiness=clamp(S.happiness+(e.happiness||0));S.health=clamp(S.health+(e.health||0));
     S.looks=clamp(S.looks+(e.looks||0));
     if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
     logs.push(`🎲 ${e.d}`);
+    if(Math.random()<=.22){
+      const pool2=evPool.filter(x=>x!==e);
+      if(pool2.length){
+        const e2=pool2[~~(Math.random()*pool2.length)];
+        S.cash+=(e2.cash||0);S.stress=clamp(S.stress+(e2.stress||0));
+        S.happiness=clamp(S.happiness+(e2.happiness||0));S.health=clamp(S.health+(e2.health||0));
+        S.looks=clamp(S.looks+(e2.looks||0));
+        if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
+        logs.push(`🎲 ${e2.d}`);
+      }
+    }
   }
 
   // reset
@@ -887,21 +1385,22 @@ function afterRecap(){
 function pickDilemma(){
   const due=(S.totalMonths-S.lastDilemma)>=3||Math.random()<.4;
   if(!due)return null;
-  const pool=DILEMMAS.filter(d=>{
+  const pool=ALL_DILEMMAS.filter(d=>{
     if(d.id===S.lastDilemmaId)return false;
-    if(d.requiresJob&&!S.job)return false;
-    if(d.requiresPath&&d.requiresPath!==S.path)return false;
-    if(d.requiresRel&&(!S.relationship||S.relationship.stage!==d.requiresRel))return false;
-    if(d.minRelMonths&&(!S.relationship||S.relationship.months<d.minRelMonths))return false;
-    if(d.requiresFriends&&S.friends.length===0)return false;
-    if(d.requiresPet&&!S.pet)return false;
-    if(d.noRel&&S.relationship)return false;
-    if(d.noPet&&S.pet)return false;
-    return true;
+    if(S.shownDilemmas&&S.shownDilemmas.has(d.id))return false;
+    return eligible(d);
   });
-  if(!pool.length)return null;
+  if(!pool.length){
+    // fallback: allow repeats if pool exhausted
+    const pool2=ALL_DILEMMAS.filter(d=>d.id!==S.lastDilemmaId&&eligible(d));
+    if(!pool2.length)return null;
+    const d=pool2[~~(Math.random()*pool2.length)];
+    S.lastDilemma=S.totalMonths;S.lastDilemmaId=d.id;
+    return d;
+  }
   const d=pool[~~(Math.random()*pool.length)];
   S.lastDilemma=S.totalMonths;S.lastDilemmaId=d.id;
+  if(S.shownDilemmas)S.shownDilemmas.add(d.id);
   return d;
 }
 
@@ -972,6 +1471,10 @@ function applySocial(soc,choice){
     const job=JOBS_BASE.find(j=>j.id==='retail');
     if(job&&!S.job){S.job=job;S.log.unshift('🚪 You dropped out and took a retail job.');}
   }
+  if(soc.type==='debt_reduce'){const amt=soc.v||0;S.debt=Math.max(0,S.debt-amt);S.log.unshift(`✅ Debt reduced by $${amt}!`);}
+  if(soc.type==='add_debt'){const amt=soc.v||0;S.debt+=amt;S.log.unshift(`⚠️ Added $${amt} to debt.`);}
+  if(soc.type==='breakup'){S.relationship=null;S.log.unshift('💔 The relationship ended.');}
+  if(soc.type==='remove_friend'&&S.friends.length>0){const f=S.friends.splice(0,1)[0];S.log.unshift(`😤 Cut ties with ${f.name}.`);}
 }
 
 function showResult(msg){
