@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "day": "Tuesday",
+      "platform": "Instagram",
+      "type": "Reel",
+      "hook": "the part everyone rewinds —",
+      "caption": "i wrote this bridge at 3am and almost cut it.\n\nalmost.\n\n'Slow Hours' out now. which line stayed with you?",
+      "hashtags": ["rnbmusic", "latenightvibes", "indieartist", "neosoul", "bedroomrnb", "newmusic", "slowhours"],
+      "visual_direction": "Phone on a stable surface (stacked books works). Single warm lamp behind you. Film yourself lip-syncing only the bridge — don't move the camera. No cuts. Post at 9pm CET to hit Berlin primetime."
+    },
+    {
+      "day": "Wednesday",
+      "platform": "TikTok",
+      "type": "Short",
+      "hook": "POV: it's 2am in Berlin and this comes on",
+      "caption": "apparently y'all in Germany found me before my own city did. 'Slow Hours' is for the late ones.",
+      "hashtags": ["fyp", "rnbtiktok", "berlin", "latenight", "indieartist", "neosoulvibes", "slowhours"],
+      "visual_direction": "Recut the Tuesday Reel vertically — add a single soft text overlay with 'Berlin' and the time. Same clip, new platform angle. No new shoot needed."
+    },
+    {
+      "day": "Thursday",
+      "platform": "Instagram",
+      "type": "Carousel",
+      "hook": "what 'Slow Hours' is actually about",
+      "caption": "swipe if you've listened closely.\n\nsome of these lines are about a 4am drive i still think about.\n\nthank you for listening this carefully.",
+      "hashtags": ["songwriter", "rnb", "indiemusic", "lyrics", "neosoul", "musicstorytelling", "slowhours"],
+      "visual_direction": "4-5 slides: one lyric per slide, your handwriting or a clean minimal font over the existing cover art or a dark solid background. No new photos needed — reuse what you have from the single release."
+    },
+    {
+      "day": "Friday",
+      "platform": "Threads",
+      "type": "Text + audio",
+      "hook": "should the next one be slower or colder?",
+      "caption": "sitting on two demos. one's a slow burn, one's got a harder edge.\n\ngenuinely torn. what do you need right now?",
+      "hashtags": ["newmusic", "rnb", "indieartist"],
+      "visual_direction": "Text post only, plus attach 12 seconds of audio from whichever demo hook feels safest to share. Threads is where your real replies live — ask something you'd actually want answered."
+    }
+  ]
+}

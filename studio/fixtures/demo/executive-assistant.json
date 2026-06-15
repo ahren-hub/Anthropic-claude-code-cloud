@@ -1,0 +1,67 @@
+{
+  "greeting": "Morning, Nyla — your Berlin listeners overtook LA overnight. Coffee's on. Let's use it.",
+  "headline": "The Berlin spike is real and the window is open — one post and two approved pitches this week could turn a data blip into a foothold.",
+  "today_tasks": [
+    {
+      "task": "Open Spotify for Artists, go to 'Discovered On,' screenshot the top source driving Berlin",
+      "why": "We can't pitch the momentum without knowing what's already carrying it.",
+      "agent": "Analyst",
+      "est_minutes": 10
+    },
+    {
+      "task": "Film the 'Slow Hours' bridge clip — warm lamp, stable phone, one take",
+      "why": "That bridge is your most-replayed passage and Tuesday's Reel needs it ready to approve.",
+      "agent": "Content Creator",
+      "est_minutes": 20
+    },
+    {
+      "task": "Read and approve (or edit) the two playlist pitches in your PR queue",
+      "why": "Nothing sends without your okay — but the Berlin window doesn't stay open indefinitely.",
+      "agent": "PR",
+      "est_minutes": 10
+    },
+    {
+      "task": "Reply to 5 comments on last week's post in your own voice",
+      "why": "Your engagement rate drops when you go quiet for 3+ days and the algorithm notices.",
+      "agent": "Brand Manager",
+      "est_minutes": 12
+    }
+  ],
+  "week_plan": [
+    {
+      "day": "Monday",
+      "focus": "Prepare",
+      "items": ["Spotify source check", "Film bridge clip", "Approve PR pitches"]
+    },
+    {
+      "day": "Tuesday",
+      "focus": "Ship the Reel",
+      "items": ["Post 'Slow Hours' bridge Reel at 9pm CET (Berlin primetime)", "Send approved curator pitches"]
+    },
+    {
+      "day": "Wednesday",
+      "focus": "Ride the wave",
+      "items": ["Post Berlin TikTok", "Reply to every comment within 2 hours of posting"]
+    },
+    {
+      "day": "Thursday",
+      "focus": "Go deeper",
+      "items": ["Post 'what this song is about' carousel", "DM any curator who added the track a thank-you"]
+    },
+    {
+      "day": "Friday",
+      "focus": "Tease forward",
+      "items": ["Threads post: ask which demo direction they want next", "Attach 12-second audio snippet"]
+    },
+    {
+      "day": "Saturday",
+      "focus": "Rest",
+      "items": ["Reshare the best-performing clip of the week to Stories if engagement warrants it"]
+    },
+    {
+      "day": "Sunday",
+      "focus": "Calibrate",
+      "items": ["10-minute weekly check-in: what landed, what didn't, what changed for next week"]
+    }
+  ]
+}
