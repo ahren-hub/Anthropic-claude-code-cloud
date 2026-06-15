@@ -21,7 +21,7 @@ const client = DEMO_MODE ? null : new Anthropic();
 const DEFAULT_MODEL = "claude-opus-4-8";
 
 export async function runAgent(agent, ctx) {
-  if (DEMO_MODE) return loadFixture(agent.id);
+  if (DEMO_MODE) return loadFixture(agent.id, agent.mode);
 
   const userInput = agent.buildInput(ctx);
   const response = await client.messages.create({
@@ -41,10 +41,14 @@ export async function runAgent(agent, ctx) {
   return JSON.parse(text);
 }
 
-async function loadFixture(id) {
+async function loadFixture(id, mode) {
   // A short, honest delay so demos feel like real work is happening.
   await new Promise((r) => setTimeout(r, 400));
-  const raw = await readFile(path.join(FIXTURE_DIR, `${id}.json`), "utf8");
+  // Brand Manager has two fixtures: one per mode.
+  const filename = (id === "brand-manager" && mode === "onboarding")
+    ? "brand-manager-onboarding.json"
+    : `${id}.json`;
+  const raw = await readFile(path.join(FIXTURE_DIR, filename), "utf8");
   return JSON.parse(raw);
 }
 

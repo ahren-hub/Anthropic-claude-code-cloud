@@ -12,7 +12,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { AGENTS, TEAM_ORDER, runOne, runMorningCoffee, assembleBriefing } from "./agents/index.js";
+import { AGENTS, TEAM_ORDER, runOne, runMorningCoffee, runOnboarding } from "./agents/index.js";
 import { DEMO_MODE } from "./agents/runtime.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -54,6 +54,12 @@ try {
     banner(`${AGENTS[target].name} — output`);
     const out = await runOne(target, ctx);
     console.log(JSON.stringify(out, null, 2));
+  } else if (cmd === "onboard") {
+    const artist = await loadArtist();
+    banner(`Building Brand Bible for ${artist.name}`);
+    const result = await runOnboarding(artist);
+    console.log("");
+    console.log(JSON.stringify(result.brand_bible, null, 2));
   } else if (cmd === "team" || !cmd) {
     const artist = await loadArtist();
     banner(`Morning Coffee for ${artist.name}`);
@@ -63,7 +69,7 @@ try {
     console.log("");
     console.log(JSON.stringify(briefing, null, 2));
   } else {
-    console.log(`\nUsage:\n  node cli.js team [--artist <file>]\n  node cli.js agent <id>\n  node cli.js list`);
+    console.log(`\nUsage:\n  node cli.js onboard [--artist <file>]\n  node cli.js team [--artist <file>]\n  node cli.js agent <id>\n  node cli.js list`);
   }
 } catch (err) {
   console.error(`\n\x1b[31m${err.message}\x1b[0m`);

@@ -1,24 +1,24 @@
 {
-  "insight": "Nyla's brand is a closed room at 2am — and the Berlin listeners just proved that room has an audience on the other side of the world without her having to shout.",
-  "guidance": "Hold the stillness. The Berlin spike happened because the music was quiet and specific, not because it was loud. Everything this week should reinforce that restraint: one voice, low light, no performance of 'making it.'",
-  "voice_rules": [
-    "Write like you're texting one person you trust, not broadcasting to a feed",
-    "No exclamation points, no 'y'all,' no manufactured hype — ever",
-    "Short sentences. Space between thoughts. Let things breathe.",
-    "Ask real questions when you engage — not 'thoughts?' but something you'd actually want to know",
-    "Reference specific things: a time of night, a city, a line from the song — not generic emotion"
-  ],
-  "visual_rules": [
-    "One light source: warm lamp or candle, never overhead or ring-light",
-    "Muted palette: deep blues, warm amber, near-black — nothing bright or saturated",
-    "Still camera or slow movement only — no jump cuts, no trending transitions",
-    "Face or hands in frame, not full-body performance shots",
-    "Grain is good. Lo-fi feels honest. Polished feels false for this brand."
-  ],
-  "avoid": [
-    "Any graphic announcing stream counts, milestones, or 'we hit X' — breaks the intimacy immediately",
-    "Trending audio that isn't hers — her sound is the point, not the trend",
-    "Over-explaining the music in captions — let the song do the work, captions add texture not summaries",
-    "Posting in bright daylight with high saturation — wrong time of day for her world"
-  ]
+  "greeting": "Morning, Nyla — Berlin moved to your #1 city overnight. That's not a number, that's a signal. Your room found another room on the other side of the world. Let's not waste it.",
+  "strategic_lens": "This week is about converting an organic spike into a deliberate foothold. Hormozi lens: the 'offer' right now is Slow Hours landing in a market that wasn't targeted — that's proof the unique mechanism works. Jesse Cannon lens: this geographic pull usually traces to one source (a playlist add or a community share); find it before we pitch. Managers Playbook lens: Berlin is not just a streaming city, it's a touring city and a sync market — starting to build presence there now, even at your size, is a 12-month investment that pays. This week's job is one post that acknowledges the Berlin audience directly, and two pitches that push deeper into the European late-night lane.",
+  "brand_check": {
+    "on_brand": [
+      "Tuesday Instagram Reel — bridge lip-sync, single warm lamp, no cuts. This is exactly right: the stillness IS the brand. Post at 9pm CET to hit Berlin primetime.",
+      "Thursday carousel on the meaning behind Slow Hours — the format is good, specificity is the test. Make sure the slides name something real, not a summary.",
+      "Friday Threads audio snippet — asking a real question with a 12-second hook is exactly how her voice sounds. This one stays."
+    ],
+    "flags": [
+      {
+        "item": "Wednesday TikTok recut with 'Berlin' text overlay",
+        "issue": "The geo-lean is right but 'POV: it's 2am in Berlin and this comes on' risks performing the moment instead of having it. It could read as engineered virality, which breaks the restraint pillar.",
+        "fix": "Keep the clip. Drop the POV format. Instead: just the music, just her face, caption reads 'apparently berlin found me first.' Lowercase. No performance. Let the city be the surprise, not the hook."
+      }
+    ]
+  },
+  "business_move": {
+    "focus": "Begin building the sync licensing pipeline",
+    "reasoning": "Nyla's sound — sparse production, no vocal clutter, emotional specificity — is purpose-built for sync. Film and TV music supervisors actively seek exactly this. At 4k monthly listeners she won't get inbound interest, but boutique sync agencies that place in indie film and prestige TV take submissions from artists at any size if the music fits. The Berlin spike is also relevant: European sync markets (especially German-produced content) are looking for this lane. Starting now means having relationships in place when her numbers justify them.",
+    "action": "This week: identify 3 boutique sync licensing agencies (not major, boutique — companies placing 2-5 minute scenes in indie film and prestige streaming TV). Draft a brief, one-paragraph intro using the 'discovered in Berlin first' angle as proof the sound travels. We'll review it in Thursday's check-in."
+  },
+  "enforcement_note": "Team — two non-negotiables this week. First: nothing posts in the daytime or with bright lighting. Wrong register, wrong world. Second: no caption explains what the song is about. The song holds the meaning; the caption adds texture or asks a real question. The Thursday carousel is the one exception — slides can name the feeling, but no paragraph summaries. Content Creator: the Berlin TikTok needs a revision before it goes. PR: all pitches should lead with the Berlin angle, not with 'I'm a great artist' — the data is the credibility."
 }

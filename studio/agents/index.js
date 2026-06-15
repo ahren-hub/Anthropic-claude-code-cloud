@@ -1,15 +1,14 @@
-// The team registry and the orchestrator that runs Morning Coffee.
+// The team registry and orchestrator.
 //
-// Agents run in a deliberate dependency order so the output is a real team meeting,
-// not five parallel prompts:
+// Morning Coffee — daily run order:
+//   analyst → brand-manager (daily) → content-creator → pr → executive-assistant
 //
-//   analyst            → finds the signal              (reads: artist)
-//   brand-manager      → sets the rules                (reads: artist, signal)
-//   content-creator    → makes posts within the rules  (reads: artist, signal, brand)
-//   pr                 → drafts size-appropriate pitches(reads: artist, signal, brand)
-//   executive-assistant→ runs the meeting, synthesizes (reads: everything)
+// Onboarding — one-time run order (called separately from the daily meeting):
+//   brand-manager (onboarding)   ← builds the Brand Bible, saved to artist profile
 //
-// Each agent writes its result into a shared ctx.team object that downstream agents read.
+// Each agent reads upstream agents' ctx.team output via its buildInput().
+// The Brand Manager's bible (ctx.artist.brand_bible) persists across the day
+// and is available to all downstream agents.
 
 import { runAgent } from "./runtime.js";
 import analyst from "./analyst.js";
@@ -26,10 +25,10 @@ export const AGENTS = {
   "executive-assistant": executiveAssistant
 };
 
-// The order the morning meeting runs in.
+// Daily meeting order. Brand Manager runs after Analyst so it has the signal.
 export const TEAM_ORDER = ["analyst", "brand-manager", "content-creator", "pr", "executive-assistant"];
 
-// Run a single agent against a context. Useful for testing one agent in isolation.
+// Run a single agent. If agent needs a mode, set it before calling.
 export async function runOne(agentId, ctx) {
   const agent = AGENTS[agentId];
   if (!agent) throw new Error(`Unknown agent: ${agentId}. Known: ${Object.keys(AGENTS).join(", ")}`);
@@ -39,31 +38,65 @@ export async function runOne(agentId, ctx) {
   return output;
 }
 
-// Run the full Morning Coffee meeting and assemble the briefing the app renders.
+// Build the Brand Bible. Called once at onboarding.
+// Result is stored in ctx.artist.brand_bible and should be persisted to the artist's profile.
+export async function runOnboarding(artist) {
+  const ctx = { artist, team: {} };
+  brandManager.mode = "onboarding";
+  const bible = await runOne("brand-manager", ctx);
+  brandManager.mode = "daily"; // reset
+  return { brand_bible: bible, artist: ctx.artist };
+}
+
+// Run the full Morning Coffee meeting.
+// Expects ctx.artist.brand_bible to exist if the artist has been onboarded.
 // onStep(agentId, name) is an optional progress callback.
 export async function runMorningCoffee(artist, onStep) {
   const ctx = { artist, team: {} };
+  brandManager.mode = "daily";
+
   for (const id of TEAM_ORDER) {
     if (onStep) onStep(id, AGENTS[id].name);
     await runOne(id, ctx);
   }
+
   return assembleBriefing(ctx);
 }
 
-// Flatten the team's shared context into the briefing shape the frontend expects.
+// Flatten the team's shared context into the briefing shape the app renders.
 export function assembleBriefing(ctx) {
   const { analytics, brand, content, pr: prItems, schedule } = ctx.team;
   return {
-    greeting: schedule?.greeting || "",
-    headline: schedule?.headline || "",
+    // Brand Manager opens the meeting
+    greeting:         brand?.greeting         || schedule?.greeting || "",
+    strategic_lens:   brand?.strategic_lens   || "",
+    brand_check:      brand?.brand_check      || null,
+    business_move:    brand?.business_move    || null,
+    enforcement_note: brand?.enforcement_note || "",
+
+    // Analyst
     analytics_insight: analytics
       ? { metric: analytics.metric, observation: analytics.observation, action: analytics.action }
       : null,
-    brand_note: brand ? { insight: brand.insight, guidance: brand.guidance } : null,
-    brand_rules: brand ? { voice: brand.voice_rules, visual: brand.visual_rules, avoid: brand.avoid } : null,
+
+    // Brand rules (from bible, for Content/PR to display)
+    brand_rules: ctx.artist.brand_bible
+      ? {
+          unique_mechanism: ctx.artist.brand_bible.identity?.unique_mechanism,
+          voice:   ctx.artist.brand_bible.voice_rules,
+          visual:  ctx.artist.brand_bible.visual_rules,
+          avoid:   ctx.artist.brand_bible.never_list
+        }
+      : null,
+
+    // Content Creator
     content_calendar: content || [],
+
+    // PR
     pr_opportunities: prItems || [],
+
+    // Executive Assistant closes
     today_tasks: schedule?.today_tasks || [],
-    week_plan: schedule?.week_plan || []
+    week_plan:   schedule?.week_plan   || []
   };
 }

@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "story": "Nyla started writing music at 15 in her bedroom after her parents' divorce — not to process it publicly, but because it was the only place where saying the exact right thing mattered. She spent years writing for herself before anyone heard it. That private-made-public tension is still the engine: she doesn't perform vulnerability, she just stopped hiding it.",
+    "personality": "The friend who texts you at 2am with the thing they've been thinking about all week. Curious, unhurried, a little too honest about everything.",
+    "unique_mechanism": "Nyla makes music that sounds like the thought you have right before you fall asleep — sparse enough that the listener fills in the space with their own memory. Where most R&B is performance, hers is permission: permission to feel slow, unresolved, still."
+  },
+  "dream_customer": {
+    "who": "Someone in their mid-20s who feels things deeply but doesn't talk about it much. They have a playlist they only listen to alone. They've been burned enough times to be guarded but they're still romantic underneath it. They're not broken, just careful. They find most music too loud for what they're actually feeling.",
+    "desperate_want": "To feel less alone in the specific, quiet, unnamed feelings — not the big dramatic ones. The 4am ones. The 'I don't know if I'm okay' ones. Nyla gives them a witness.",
+    "where_they_live": "Late-night TikTok and Instagram, European streaming playlists, Spotify 'Late Night' and 'Sad R&B' editorial lanes, Letterboxd, poetry Twitter, Substack reader communities."
+  },
+  "archetypes": {
+    "artist": "The Intimate Confessor — the artist who doesn't perform, they reveal. Think Sade's control, SZA's emotional honesty, Julien Baker's courage. Nyla holds the room by going quieter, not louder.",
+    "audience": "The Careful Romantic — someone who has loved hard and learned to protect it. They feel everything but share selectively. They trust artists who don't oversell the emotion.",
+    "shadow": "The Oversharer — the version of Nyla that tries to go viral by being too raw, too explained, too much. The moment the brand performs intimacy instead of having it, the trust breaks and it can't be rebuilt."
+  },
+  "pillars": [
+    {
+      "name": "Intimacy",
+      "description": "Everything Nyla makes should feel like it was made for one person, even when a million hear it. The intimacy is in the specificity, not the sentiment.",
+      "content_expression": "Single light source. Close-up. A lyric that names a feeling without explaining it. A caption written to one person, not a feed."
+    },
+    {
+      "name": "Restraint",
+      "description": "What she leaves out is as deliberate as what she puts in. Silence is part of the sound. Stillness is part of the visual.",
+      "content_expression": "No jump cuts. No reaction content. No trend chasing. Long pauses in video. Captions that don't fill every word."
+    },
+    {
+      "name": "Honesty Without Announcement",
+      "description": "She shares real things but doesn't announce that she's being vulnerable. She just is. The realness shows in the specificity of what she says, not the scale of the emotion.",
+      "content_expression": "No 'I need to be honest with you' setups. No emotional backstory in the caption — let the song hold it. Share something specific and trust the listener to feel it."
+    },
+    {
+      "name": "The Night as Home",
+      "description": "Nyla's whole world lives in a specific time of day. Late. Quiet. When the defenses are down. Her brand is that hour.",
+      "content_expression": "Post timing matters: late evening or night wherever the core audience is. Aesthetic should always read as 'after dark.' Never morning energy."
+    }
+  ],
+  "voice_rules": [
+    "Write like you're finishing a thought you've been sitting with for a while — not broadcasting, arriving",
+    "Lowercase always. Punctuation for breath, not grammar. Periods land harder when you use them deliberately.",
+    "Specificity over sentiment: name the city, the time, the thing — not the feeling. The feeling comes from the detail.",
+    "Short. Then space. Then short again. Let lines breathe.",
+    "No hype words, no urgency language, no 'don't miss this.' If it needs to be sold, it wasn't right.",
+    "Engagement questions should be real ones — something you'd actually stay up wondering about, not 'thoughts?'"
+  ],
+  "visual_rules": [
+    "One light source per frame: warm lamp, candle, or a single window — never ring light, never overhead",
+    "Palette: deep navy, warm amber, near-black, and skin tones. Nothing bright, nothing saturated, nothing that reads as daytime.",
+    "Camera movement: still or imperceptibly slow. No handheld energy. No zoom cuts.",
+    "Grain is a feature. Soft focus at the edges. Nothing should look like it was shot on a commercial budget.",
+    "Face or hands close to frame. Not full-body performance. The intimacy is in the proximity.",
+    "Every frame should pass this test: does this look like it was made at 2am by someone who cared?"
+  ],
+  "positioning": {
+    "lane": "Late-night neo-soul / sparse bedroom R&B — the emotional lane between SZA and Sade that serves listeners who find most R&B too maximalist for what they're actually feeling",
+    "not_competing_with": "High-production R&B (Beyoncé, Chloe Bailey), pop-crossover artists chasing radio, TikTok trend-forward acts. Nyla is not competing in volume, virality, or spectacle.",
+    "adjacent_artists": "SZA (emotional honesty), Steve Lacy (intimacy in production texture), Sade (restraint and timelessness), Snoh Aalegra (European diaspora, quiet sophistication), Sampha (vulnerability without performance)"
+  },
+  "business_foundation": {
+    "primary_revenue_now": "Streaming royalties + occasional live performance at intimate venues (20-150 capacity) where the aesthetic translates perfectly",
+    "revenue_streams_to_build": [
+      "Sync licensing — her sound is purpose-built for film, TV, and brand emotional moments; this is the highest near-term leverage",
+      "Merch with staying power — one or two objects that feel like artifacts from her world (not generic tour merch), priced for fans who buy to belong",
+      "Direct fan support — Bandcamp or a similar platform where her most engaged listeners can buy direct and feel close to the work",
+      "Live events — intimate, intentional, priced to be worth the room (acoustic sessions, listening parties, small venue residencies)",
+      "Brand partnerships — fragrance, fashion, lifestyle brands whose aesthetic world overlaps with hers (not energy drinks, not tech unless it's poetic)"
+    ],
+    "six_month_milestones": [
+      "25k Spotify monthly listeners with a clear European foothold (Germany as anchor)",
+      "First sync placement — even one small one establishes the lane and opens the door",
+      "Email list or direct fan community with 1k+ active members who have opted in directly",
+      "One intimate live event documented well enough to be content for the next 6 months"
+    ],
+    "relationship_targets": [
+      "Sync music supervisors at boutique agencies placing in indie film, prestige TV, and brand campaigns",
+      "Playlist curators in the late-night / neo-soul / emotional R&B Spotify ecosystem, particularly in Europe",
+      "A small number of journalists or newsletter writers who cover emerging artists with taste (not mainstream press yet)",
+      "Independent producers who work in her sonic lane for future collaborations"
+    ]
+  },
+  "never_list": [
+    "Announce stream counts or follower milestones publicly — it breaks the intimacy and makes the art feel like a business metric",
+    "Use trending audio that isn't hers — her sound is the entire brand; putting someone else's song under her face dilutes the only thing that's irreplaceable",
+    "Post in bright daylight with saturated colors — wrong time of day, wrong emotional register, wrong world",
+    "Over-explain the music in captions — if the song needs a paragraph of context to land, the song isn't done",
+    "Chase a viral moment that requires performing a version of herself she isn't — the Oversharer, the hype version, the 'look at my numbers' version",
+    "Accept brand partnerships that would force her into energy, brightness, or spectacle her brand doesn't inhabit (fast food, energy drinks, mass-market anything)",
+    "Post content just to hit a frequency — silence is better than wrong-energy filler"
+  ]
+}
