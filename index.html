@@ -1563,6 +1563,7 @@ function render(){
 
 function renderLife(){
   const all=getActivities();
+  const pc=PATHS[S.path]||{emoji:'',name:S.path,color:'rgba(255,255,255,.3)'};
   const statsHtml=`<div class="stats-card">
     ${statBar('Happiness','😊',S.happiness,'var(--amber)')}
     ${statBar('Health','❤️',S.health,'var(--red)')}
