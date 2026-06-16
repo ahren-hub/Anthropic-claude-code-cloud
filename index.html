@@ -310,6 +310,7 @@ const PATHS={
     pros:['High cash immediately','No 9-to-5','Power & street respect'],
     cons:['Heat level climbs','Risk of arrest','Hard to go legit later'],
     startCash:1500,startDebt:2000},
+  dropped_out:{emoji:'🚪',name:'Dropped Out',color:'#6B7280',startCash:0,startDebt:0},
 };
 
 const BASE_ACTIVITIES=[
@@ -1066,6 +1067,7 @@ function initialState(name,gender,path){
     job:null,
     log:[`🌅 ${name} is 18 and officially on ${gender==='male'?'his':gender==='female'?'her':'their'} own. The game starts now.`],
     used:new Set(),
+    hasCollegeDegree:false,
     lastDilemma:-99,lastDilemmaId:null,
     shownDilemmas:new Set(),
     // social
@@ -1207,7 +1209,7 @@ function applyRelBonus(){
 ═══════════════════════════════════════════════════════ */
 function getJobs(){
   return JOBS_BASE.filter(j=>{
-    if(j.requiresDegree)return S.college&&S.college.graduated;
+    if(j.requiresDegree)return S.hasCollegeDegree;
     return true;
   });
 }
@@ -1225,9 +1227,13 @@ const yr=()=>18+Math.floor(S.totalMonths/12);
 const mo=()=>S.totalMonths%12;
 const nw=()=>S.cash-S.debt;
 
+let _endMonthRunning=false;
 function endMonth(){
+  if(_endMonthRunning)return;
+  _endMonthRunning=true;
   const logs=processMonth();
   render();
+  _endMonthRunning=false;
   const o=checkOver();
   if(o.end)return;
   showRecap(logs);
@@ -1262,14 +1268,13 @@ function processMonth(){
     // check graduation
     if(S.college.credits>=48){
       S.college.graduated=true;
+      S.hasCollegeDegree=true;
       S.happiness=clamp(S.happiness+20);
       logs.push('🎓 YOU GRADUATED! +20 happiness. Professional jobs now unlocked!');
     }
   }
   if(S.path==='criminal'&&S.criminal){
-    // heat naturally drops a little
-    S.criminal.heat=Math.max(0,S.criminal.heat-5);
-    // arrest risk if heat > 70
+    // arrest risk checked before decay so 71+ heat is meaningful
     if(S.criminal.heat>70&&Math.random()<.3){
       S.cash=Math.max(0,S.cash-1500);
       S.stress=clamp(S.stress+30);
@@ -1277,10 +1282,12 @@ function processMonth(){
       S.criminal.heat=Math.max(0,S.criminal.heat-30);
       logs.push('🚔 ARRESTED! Lost $1,500, paid bail. Heat dropped but damage is done.');
     }
+    // heat naturally drops a little
+    S.criminal.heat=Math.max(0,S.criminal.heat-5);
   }
 
-  // debt interest
-  if(S.debt>0&&S.path!=='college'){// college handles its own
+  // debt interest — college block handles pre-grad; cover graduated+all other paths here
+  if(S.debt>0&&(S.path!=='college'||(S.college&&S.college.graduated))){
     const i=Math.round(S.debt*DEBT_RATE);
     S.debt+=i;
     logs.push(`📈 Accrued $${i} in interest on debt.`);
@@ -1324,7 +1331,7 @@ function processMonth(){
   S.familyRel=Math.max(0,Math.min(100,S.familyRel+(Math.random()<.15?-3:1)));
 
   // stat decay
-  if(S.job)S.stress=clamp(S.stress+S.job.stress);else S.happiness=clamp(S.happiness-5);
+  if(S.job)S.stress=clamp(S.stress+S.job.stress);else{S.happiness=clamp(S.happiness-5);logs.push('😔 Unemployment weighing on happiness. -5 happiness.');}
   if(S.stress>70){S.health=clamp(S.health-4);S.happiness=clamp(S.happiness-5);logs.push('🚨 Severe burnout is hurting your health.');}
   S.happiness=clamp(S.happiness-2);
   S.looks=clamp(S.looks-.5);
@@ -1396,6 +1403,7 @@ function pickDilemma(){
     if(!pool2.length)return null;
     const d=pool2[~~(Math.random()*pool2.length)];
     S.lastDilemma=S.totalMonths;S.lastDilemmaId=d.id;
+    if(S.shownDilemmas)S.shownDilemmas.add(d.id);
     return d;
   }
   const d=pool[~~(Math.random()*pool.length)];
@@ -1452,7 +1460,7 @@ function applySocial(soc,choice){
   }
   if(soc.type==='commit'&&S.relationship){S.relationship.stage='committed';S.log.unshift(`❤️ You and ${S.relationship.name} are now officially committed.`);}
   if(soc.type==='married'&&S.relationship){S.relationship.stage='married';S.log.unshift(`💍 You and ${S.relationship.name} are married!`);}
-  if(soc.type==='baby'){S.children++;S.log.unshift(`👶 Baby #${S.children} is on the way!`);}
+  if(soc.type==='baby'){if(!S.relationship)return;S.children++;S.log.unshift(`👶 Baby #${S.children} is on the way!`);}
   if(soc.type==='new_friend'){const n=pickFriendName(S.name);S.friends.push({name:n,closeness:40});S.log.unshift(`👫 New friend: ${n}!`);}
   if(soc.type==='friend_closeness'&&S.friends.length>0){S.friends[0].closeness=Math.max(0,Math.min(100,S.friends[0].closeness+(soc.v||0)));}
   if(soc.type==='family_rel'){S.familyRel=Math.max(0,Math.min(100,S.familyRel+(soc.v||0)));}
@@ -1481,7 +1489,7 @@ function showResult(msg){
   openModal(`<div class="dilemma-emoji">🤔</div>
     <p style="text-align:center">${msg}</p>
     <div class="modal-actions"><button class="mb-ok" id="_resOk">OK</button></div>`,true);
-  document.getElementById('_resOk').onclick=()=>{closeModal();render();const o=checkOver();};
+  document.getElementById('_resOk').onclick=()=>{closeModal();render();const o=checkOver();if(o&&o.end)return;};
 }
 
 function previewChoice(c){
@@ -1619,9 +1627,6 @@ function renderLife(){
   }).join('')}</div>`;
 
   document.getElementById('tab-life').innerHTML=statsHtml+pathHtml+'<span class="section-label">THIS MONTH\'S ACTIVITIES</span>'+gridHtml+'<div style="height:8px"></div>';
-  // re-ref pc
-  const pc2=PATHS[S.path]||{color:'var(--purple)',emoji:'',name:''};
-  document.querySelectorAll('.card-path-badge').forEach(el=>{el.style.background=pc2.color+'22';el.style.color=pc2.color;});
 }
 
 function statBar(name,emoji,val,color){
