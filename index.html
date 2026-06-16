@@ -1124,7 +1124,7 @@ function rerollChar(){
 }
 
 function renderPathCards(){
-  document.getElementById('pathCards').innerHTML=Object.entries(PATHS).map(([id,p])=>`
+  document.getElementById('pathCards').innerHTML=Object.entries(PATHS).filter(([id,p])=>p.pros).map(([id,p])=>`
     <div class="path-card" id="pc-${id}" onclick="selectPath('${id}')">
       <div class="path-top">
         <span class="path-emoji">${p.emoji}</span>
