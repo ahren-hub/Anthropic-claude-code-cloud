@@ -221,6 +221,7 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
   </div>
   <div style="flex:3"></div>
   <button class="btn" onclick="showCreate()">BEGIN YOUR LIFE</button>
+  <button class="btn" id="continueBtn" style="margin-top:10px;background:rgba(124,58,237,.3);border:1px solid var(--purple);display:none" onclick="continueGame()">CONTINUE SAVED LIFE</button>
 </section>
 
 <!-- ── CHARACTER CREATION ── -->
@@ -282,7 +283,7 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
 /* ═══════════════════════════════════════════════════════
    CONSTANTS
 ═══════════════════════════════════════════════════════ */
-const RENT=1200, LIVING=400, DEBT_RATE=0.05;
+const RENT=1200, LIVING=400, DEBT_RATE=0.015;
 
 const MALE_NAMES=['Aiden','Brandon','Carlos','Derek','Ethan','Felix','Gabriel','Hector','Ivan','Jordan','Kevin','Liam','Marcus','Nathan','Oscar','Patrick','Quincy','Ryan','Samuel','Tyler','Victor','Wesley'];
 const FEMALE_NAMES=['Ava','Brianna','Chloe','Diana','Elena','Faith','Grace','Hailey','Isabel','Jasmine','Kylie','Luna','Maya','Nadia','Olivia','Paige','Quinn','Riley','Sofia','Taylor','Uma','Violet'];
@@ -312,6 +313,21 @@ const PATHS={
     startCash:1500,startDebt:2000},
   dropped_out:{emoji:'🚪',name:'Dropped Out',color:'#6B7280',startCash:0,startDebt:0},
 };
+
+const HOUSING={
+  shared:{label:'Shared Flat',rent:800,happiness:-10,looks:-5,emoji:'🏚️',desc:'Cheap but cramped. Roommates everywhere.'},
+  standard:{label:'Apartment',rent:1200,happiness:0,looks:0,emoji:'🏠',desc:'Nothing fancy. Gets the job done.'},
+  nice:{label:'Nice Place',rent:1800,happiness:10,looks:5,emoji:'🏡',desc:'Good neighborhood, your own space.'},
+  luxury:{label:'Luxury Condo',rent:2800,happiness:20,looks:10,emoji:'🏰',desc:'Top floor views. Status symbol.'},
+};
+const PARTNER_TRAITS=[
+  {id:'ambitious',label:'Ambitious 💪',desc:'Contributes $400/mo income when committed or married.',color:'#F59E0B'},
+  {id:'kind',label:'Kind 💚',desc:'+2 happiness every month.',color:'#10B981'},
+  {id:'funny',label:'Funny 😂',desc:'Reduces stress when you\'re burning out.',color:'#06B6D4'},
+  {id:'loyal',label:'Loyal 🛡️',desc:'Relationship events always land better.',color:'#8B5CF6'},
+  {id:'romantic',label:'Romantic 🌹',desc:'Date nights give 10 extra happiness.',color:'#EC4899'},
+  {id:'adventurous',label:'Adventurous 🌍',desc:'Unlocks travel opportunities.',color:'#EF4444'},
+];
 
 const BASE_ACTIVITIES=[
   {id:'exercise',name:'Exercise',emoji:'🏃',desc:'Free workout. Run, pushups, yoga.',energy:20,health:8,looks:3,stress:-8,multi:true},
@@ -1022,7 +1038,7 @@ function eligible(e){
   if(e.xs&&S.stress>e.xs)return false;
   if(e.mh&&S.health<e.mh)return false;
   if(e.xh&&S.health>e.xh)return false;
-  if(e.gr&&!(S.college&&S.college.graduated))return false;
+  if(e.gr&&!S.hasCollegeDegree)return false;
   if(e.st&&!(S.college&&!S.college.graduated))return false;
   if(e.minRelMonths&&(!S.relationship||S.relationship.months<e.minRelMonths))return false;
   return true;
@@ -1055,6 +1071,55 @@ function genBizName(name){
   return`${name}'s ${types[~~(Math.random()*types.length)]}`;
 }
 
+/* ── AUDIO ── */
+let _actx;
+function sfx(type){
+  try{if(!_actx)_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
+  const t=_actx.currentTime;
+  const play=(freq,start,dur,vol=0.25,wave='sine')=>{
+    const o=_actx.createOscillator(),g=_actx.createGain();
+    o.connect(g);g.connect(_actx.destination);
+    o.type=wave;o.frequency.value=freq;
+    g.gain.setValueAtTime(vol,t+start);
+    g.gain.exponentialRampToValueAtTime(0.001,t+start+dur);
+    o.start(t+start);o.stop(t+start+dur+0.05);
+  };
+  if(type==='click')play(300,0,0.04,0.15,'square');
+  else if(type==='good'){play(440,0,0.12);play(554,0.1,0.12);play(659,0.2,0.18);}
+  else if(type==='bad'){play(330,0,0.15);play(277,0.12,0.15);play(220,0.24,0.2);}
+  else if(type==='month')play(370,0,0.15,0.2);
+  else if(type==='win'){play(440,0,0.2);play(554,0.15,0.2);play(659,0.3,0.2);play(880,0.45,0.4);}
+  else if(type==='lose'){play(220,0,0.3,0.3,'sawtooth');play(185,0.25,0.35,0.3,'sawtooth');}
+  else if(type==='level')play(660,0,0.1,0.2,'square');
+}
+
+/* ── SAVE / LOAD ── */
+function saveGame(){
+  if(!S)return;
+  try{
+    const sv={...S};
+    sv.used=[...S.used];sv.shownDilemmas=[...S.shownDilemmas];
+    localStorage.setItem('lifeline_v2',JSON.stringify(sv));
+  }catch(e){}
+}
+function loadSave(){
+  try{
+    const raw=localStorage.getItem('lifeline_v2');
+    if(!raw)return null;
+    const s=JSON.parse(raw);
+    s.used=new Set(s.used||[]);s.shownDilemmas=new Set(s.shownDilemmas||[]);
+    // backfill fields that may be missing from old saves
+    if(!s.housing)s.housing='standard';
+    if(!s.childrenNames)s.childrenNames=[];
+    if(s.jobMonths===undefined)s.jobMonths=0;
+    if(s.jobLevel===undefined)s.jobLevel=0;
+    if(!s.relationship?.trait&&s.relationship)s.relationship.trait='kind';
+    return s;
+  }catch(e){return null;}
+}
+function hasSave(){return!!localStorage.getItem('lifeline_v2');}
+function deleteSave(){localStorage.removeItem('lifeline_v2');}
+
 function initialState(name,gender,path){
   const pc=PATHS[path];
   const emoji=gender==='male'?'👨':gender==='female'?'👩':'🧑';
@@ -1065,9 +1130,11 @@ function initialState(name,gender,path){
     maxEnergy:100,energy:100,
     happiness:60,health:80,stress:20,looks:60,
     job:null,
+    jobMonths:0,jobLevel:0,
     log:[`🌅 ${name} is 18 and officially on ${gender==='male'?'his':gender==='female'?'her':'their'} own. The game starts now.`],
     used:new Set(),
     hasCollegeDegree:false,
+    housing:'standard',
     lastDilemma:-99,lastDilemmaId:null,
     shownDilemmas:new Set(),
     // social
@@ -1075,6 +1142,7 @@ function initialState(name,gender,path){
     relationship:null,
     pet:null,
     children:0,
+    childrenNames:[],
     familyRel:65,
     // path
     college:path==='college'?{credits:0,gpa:3.0,graduated:false}:null,
@@ -1149,7 +1217,29 @@ function selectPath(id){
 
 function beginGame(){
   if(!selectedPath)return;
+  deleteSave();
   S=fixInitialLog(initialState(pendingChar.name,pendingChar.gender,selectedPath));
+  show('game');
+  switchTab('life');
+  render();
+  saveGame();
+  showTutorial();
+}
+function showTutorial(){
+  openModal(`<div class="dilemma-emoji">🌟</div>
+    <h3 style="text-align:center">Welcome to Lifeline</h3>
+    <p style="text-align:center;margin-top:8px">
+      <b>Each month:</b> spend energy on activities, then hit <b>END MONTH</b> to advance time.<br><br>
+      Watch your <b>Cash, Debt, Health & Happiness</b> — let any hit a crisis point and it's over.<br><br>
+      The goal: reach <b>age 65</b> with <b>$100k+ net worth</b> and <b>happiness 40+</b>.<br><br>
+      Your game auto-saves every month. 💾
+    </p>
+    <div class="modal-actions"><button class="mb-ok" onclick="closeModal()">Let's Go →</button></div>`,false);
+}
+function continueGame(){
+  const sv=loadSave();
+  if(!sv){toast('No save found.');return;}
+  S=sv;
   show('game');
   switchTab('life');
   render();
@@ -1244,12 +1334,18 @@ function processMonth(){
   S.totalMonths++;
 
   // bills
-  S.cash-=(RENT+LIVING);
-  logs.push(`🏠 Paid $${RENT+LIVING} in rent & living expenses.`);
+  const rent=HOUSING[S.housing||'standard'].rent;
+  S.cash-=(rent+LIVING);
+  logs.push(`🏠 Paid $${rent+LIVING} in rent & living expenses.`);
 
   // salary
-  if(S.job){S.cash+=S.job.salary;logs.push(`💵 Earned $${S.job.salary} as ${S.job.emoji} ${S.job.title}.`);}
-  else logs.push('⚠️ No job — no income this month.');
+  if(S.job){
+    S.jobMonths=(S.jobMonths||0)+1;
+    const levelBonus=(S.jobLevel||0)*400;
+    const earned=S.job.salary+levelBonus;
+    S.cash+=earned;
+    logs.push(`💵 Earned $${earned} as ${S.job.emoji} ${S.job.title}${levelBonus?` (+$${levelBonus} seniority)`:''}. `);
+  } else logs.push('⚠️ No job — no income this month.');
 
   // path income / effects
   if(S.path==='business'&&S.business){
@@ -1270,6 +1366,10 @@ function processMonth(){
       S.college.graduated=true;
       S.hasCollegeDegree=true;
       S.happiness=clamp(S.happiness+20);
+      const gpa=S.college.gpa;
+      if(gpa>=3.8){S.debt=Math.max(0,S.debt-6000);logs.push('🏅 Summa Cum Laude! Academic scholarship wiped $6,000 off your loans!');}
+      else if(gpa>=3.5){S.debt=Math.max(0,S.debt-3000);logs.push('🏆 Graduated with honors! $3,000 scholarship applied to loans.');}
+      else if(gpa<2.5)logs.push('📜 Low GPA noted on transcript. Some employers may ask.');
       logs.push('🎓 YOU GRADUATED! +20 happiness. Professional jobs now unlocked!');
     }
   }
@@ -1326,6 +1426,14 @@ function processMonth(){
   } else {
     S.happiness=clamp(S.happiness-1); // single tax
   }
+  // partner trait effects
+  if(S.relationship){
+    const tr=S.relationship.trait;
+    if(tr==='ambitious'&&S.relationship.stage!=='dating'){S.cash+=400;logs.push(`💪 ${S.relationship.name}'s income contributed $400 this month.`);}
+    if(tr==='kind')S.happiness=clamp(S.happiness+2);
+    if(tr==='funny'&&S.stress>65){S.stress=clamp(S.stress-6);logs.push(`😂 ${S.relationship.name} made you laugh when you needed it most.`);}
+    if(tr==='loyal'&&Math.random()<.15){S.happiness=clamp(S.happiness+4);logs.push(`🛡️ ${S.relationship.name}'s loyalty lifts you up.`);}
+  }
 
   // family
   S.familyRel=Math.max(0,Math.min(100,S.familyRel+(Math.random()<.15?-3:1)));
@@ -1358,9 +1466,19 @@ function processMonth(){
     }
   }
 
+  // promotion check
+  if(S.job&&(S.jobMonths===6||S.jobMonths===18)){
+    const lvl=S.jobMonths===6?1:2;
+    const titles=['Senior','Lead'];
+    S.jobLevel=lvl;
+    logs.push(`⬆️ PROMOTED to ${titles[lvl-1]} ${S.job.title}! +$${lvl*400}/mo seniority bonus.`);
+    sfx('level');
+  }
+
   // reset
   S.energy=S.maxEnergy;S.used=new Set();
   S.log=logs.concat(S.log);
+  saveGame();
   return logs;
 }
 
