@@ -191,6 +191,33 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
 .choice-btn .ce{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;}
 .ev-list{display:flex;flex-direction:column;gap:8px;max-height:44vh;overflow-y:auto;margin-top:8px;}
 .ev-line{font-size:13px;line-height:1.4;color:rgba(255,255,255,.7);padding:9px 11px;background:var(--surface2);border-radius:10px;}
+.ev-good{border-left:3px solid var(--green);background:rgba(16,185,129,.08);}
+.ev-bad{border-left:3px solid var(--red);background:rgba(239,68,68,.08);}
+.ev-life{border-left:3px solid var(--amber);background:rgba(245,158,11,.08);}
+.ev-event{border-left:3px solid var(--violet);background:rgba(139,92,246,.08);}
+
+/* ── Housing ── */
+.housing-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer;}
+.housing-row.current{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.5);cursor:default;}
+.housing-row:active{transform:scale(.99);}
+
+/* ── Timeline ── */
+.timeline{width:100%;max-width:320px;text-align:left;margin:4px 0 20px;max-height:30vh;overflow-y:auto;}
+.tl-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;line-height:1.4;}
+.tl-item:last-child{border-bottom:none;}
+.tl-age{color:var(--purple-light);font-weight:700;flex-shrink:0;width:52px;}
+.tl-text{color:rgba(255,255,255,.7);}
+
+/* ── Achievements ── */
+.ach-grid{display:flex;flex-direction:column;gap:8px;margin-top:8px;max-height:46vh;overflow-y:auto;}
+.ach-row{display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:10px;padding:10px 12px;}
+.ach-row.locked{opacity:.35;filter:grayscale(1);}
+.ach-emoji{font-size:22px;flex-shrink:0;}
+.ach-name{font-weight:700;font-size:13px;}
+.ach-desc{font-size:11px;color:rgba(255,255,255,.54);margin-top:1px;}
+.ach-new{display:flex;align-items:center;gap:8px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);border-radius:10px;padding:8px 12px;margin:4px 0;font-size:13px;font-weight:600;color:var(--amber);}
+.rel-health-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:8px;}
+.rel-health-fill{height:100%;border-radius:3px;transition:width .4s;}
 
 /* ── Game over ── */
 #over{padding:32px;flex-direction:column;align-items:center;text-align:center;justify-content:center;}
@@ -222,6 +249,7 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
   <div style="flex:3"></div>
   <button class="btn" onclick="showCreate()">BEGIN YOUR LIFE</button>
   <button class="btn" id="continueBtn" style="margin-top:10px;background:rgba(124,58,237,.3);border:1px solid var(--purple);display:none" onclick="continueGame()">CONTINUE SAVED LIFE</button>
+  <button class="btn" id="recordsBtn" style="margin-top:10px;background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.54);font-size:15px;padding:12px" onclick="showRecords()">🏆 RECORDS &amp; ACHIEVEMENTS</button>
 </section>
 
 <!-- ── CHARACTER CREATION ── -->
@@ -272,6 +300,9 @@ header{padding:12px 20px 8px;display:flex;align-items:center;justify-content:spa
   <h1 id="overTitle">GAME OVER</h1>
   <div class="over-sub" id="overSub"></div>
   <div class="over-stats" id="overStats"></div>
+  <div id="overAch" style="width:100%;max-width:320px"></div>
+  <span class="section-label" style="align-self:center">LIFE TIMELINE</span>
+  <div class="timeline" id="overTimeline"></div>
   <button class="btn" style="max-width:320px" onclick="showCreate()">PLAY AGAIN</button>
 </section>
 
@@ -312,6 +343,7 @@ const PATHS={
     cons:['Heat level climbs','Risk of arrest','Hard to go legit later'],
     startCash:1500,startDebt:2000},
   dropped_out:{emoji:'🚪',name:'Dropped Out',color:'#6B7280',startCash:0,startDebt:0},
+  corporate:{emoji:'🏙️',name:'Corporate',color:'#3B82F6',startCash:0,startDebt:0},
 };
 
 const HOUSING={
@@ -329,6 +361,34 @@ const PARTNER_TRAITS=[
   {id:'adventurous',label:'Adventurous 🌍',desc:'Unlocks travel opportunities.',color:'#EF4444'},
 ];
 
+const ACHIEVEMENTS=[
+  {id:'first_life',emoji:'🌱',name:'First Life',desc:'Complete your first life, however it ends.'},
+  {id:'graduate',emoji:'🎓',name:'Scholar',desc:'Earn a college degree.'},
+  {id:'summa',emoji:'🏅',name:'Summa Cum Laude',desc:'Graduate with a 3.8+ GPA.'},
+  {id:'debt_free',emoji:'🧾',name:'Clean Slate',desc:'Pay off every dollar of debt.'},
+  {id:'married',emoji:'💍',name:'I Do',desc:'Get married.'},
+  {id:'big_family',emoji:'👨‍👩‍👧‍👦',name:'Full House',desc:'Raise 3 or more children.'},
+  {id:'best_friend',emoji:'🤝',name:'Ride or Die',desc:'Reach 90+ closeness with a friend.'},
+  {id:'pet_lover',emoji:'🐾',name:'Best Friend',desc:'Adopt a pet.'},
+  {id:'six_figs',emoji:'💰',name:'Six Figures',desc:'Reach $100k net worth.'},
+  {id:'quarter_mil',emoji:'💎',name:'Quarter Million',desc:'Reach $250k net worth.'},
+  {id:'clean_exit',emoji:'🕊️',name:'Clean Exit',desc:'Walk away from The Life for good.'},
+  {id:'kingpin',emoji:'👑',name:'Kingpin',desc:'Hit $50k net worth on the criminal path.'},
+  {id:'mogul',emoji:'🏢',name:'Mogul',desc:'Grow business revenue past $4,000/mo.'},
+  {id:'survivor',emoji:'🕰️',name:'Survivor',desc:'Reach age 50.'},
+  {id:'golden_years',emoji:'🏆',name:'Golden Years',desc:'Win the game — retire rich and happy.'},
+  {id:'jailbird',emoji:'🚔',name:'Jailbird',desc:'Get arrested 3 times in one life.'},
+  {id:'glow_up',emoji:'✨',name:'Glow Up',desc:'Reach 90+ looks.'},
+  {id:'zen',emoji:'🧘',name:'Zen Master',desc:'Reach age 40 with stress under 20.'},
+  {id:'career_peak',emoji:'⬆️',name:'Corner Office',desc:'Reach Lead seniority at a job.'},
+  {id:'high_roller',emoji:'🏰',name:'High Roller',desc:'Live in the Luxury Condo.'},
+];
+const UNLOCKS=[
+  {id:'trust_fund',emoji:'🪙',name:'Trust Fund',desc:'Start every life with an extra $2,000.',how:'Finish a life with $200k+ net worth.'},
+  {id:'legacy',emoji:'📜',name:'Legacy Admission',desc:'College path starts with $5,000 less debt.',how:'Graduate Summa Cum Laude.'},
+  {id:'fixer',emoji:'🕶️',name:'The Fixer',desc:'Criminal heat cools twice as fast.',how:'Get arrested 3+ times across all lives.'},
+];
+
 const BASE_ACTIVITIES=[
   {id:'exercise',name:'Exercise',emoji:'🏃',desc:'Free workout. Run, pushups, yoga.',energy:20,health:8,looks:3,stress:-8,multi:true},
   {id:'gym',name:'Hit the Gym',emoji:'💪',desc:'Premium session. $60, serious gains.',energy:25,cash:-60,health:14,looks:6,stress:-5},
@@ -344,6 +404,8 @@ const BASE_ACTIVITIES=[
   {id:'walk_pet',name:'Walk the Pet',emoji:'🐾',desc:"Your pet needs you. Pure happiness.",energy:10,happiness:12,stress:-8,requiresPet:true},
   {id:'hang_friends',name:'Hang w/ Friends',emoji:'👫',desc:'Good times with good people.',energy:15,cash:-50,happiness:15,stress:-10,requiresFriends:true},
   {id:'family_call',name:'Family Call',emoji:'📞',desc:'Check in with family. Grounds you.',energy:5,happiness:8,stress:-5},
+  {id:'glow_up',name:'Glow-Up Session',emoji:'💇',desc:'Full makeover day. $180, major looks boost.',energy:15,cash:-180,looks:12,happiness:8},
+  {id:'modeling',name:'Modeling Gig',emoji:'📸',desc:'Get paid for those looks. Requires 65+ looks.',energy:25,cash:900,stress:8,looksGate:65},
 ];
 const PATH_ACTIVITIES={
   college:[
@@ -606,6 +668,22 @@ const ALL_EVENTS=[
 {d:"Freedom has real perks when you think about it.",happiness:12,stress:-6,nr:1},
 {d:"Finally comfortable in your own company.",happiness:14,stress:-10,nr:1},
 {d:"Thought about reaching out to someone. Didn't. Maybe next month.",stress:8,happiness:-5,nr:1},
+// ── CONSEQUENCE CALLBACKS (require a flag set by a past choice) ──
+{d:"Saw a 'LOST WALLET — REWARD' flyer today. The reward was more than the cash you kept. Guilt resurfaces.",stress:10,happiness:-6,rf:'kept_wallet'},
+{d:"The wallet owner tracked you down to thank you again — turns out they run a shop and gave you a $150 credit.",cash:150,happiness:10,rf:'returned_wallet'},
+{d:"A classmate hinted they know exactly how you passed that exam. You're sweating.",stress:16,happiness:-6,rf:'cheated_exam'},
+{d:"An internal audit is quietly reviewing the numbers you bent. You barely sleep this week.",stress:18,happiness:-8,rf:'bent_rules'},
+{d:"Your reputation for playing it straight got you a trusted referral gig. +$300.",cash:300,happiness:8,rf:'integrity'},
+{d:"The friend you lent money to paid you back — with interest and a heartfelt note. $350.",cash:350,happiness:12,rf:'lent_friend',fr:1},
+{d:"Your friend never quite forgot the loan you refused. Things feel slightly off.",happiness:-6,stress:5,rf:'refused_friend',fr:1},
+{d:"A care package arrived from family — snacks, a note, and $150 'just because'. They remember what you did for them.",cash:150,happiness:12,rf:'helped_family'},
+{d:"Family gathering was noticeably frosty toward you. Nobody said why. Everybody knew why.",happiness:-8,stress:8,rf:'ignored_family'},
+{d:"Your mentor introduced you to a key contact. A paid consult followed. +$400.",cash:400,happiness:8,rf:'has_mentor'},
+{d:"The charity you supported honored donors publicly. Your name was on the wall.",happiness:12,looks:3,rf:'charitable'},
+{d:"An old face from The Life spotted you living clean. They just nodded. Respect.",happiness:10,stress:-5,rf:'went_legit'},
+{d:"A cousin brought up the inheritance at dinner. The silence was loud.",stress:10,happiness:-6,rf:'kept_inheritance'},
+{d:"The startup you funded credited you in an interview as their first believer.",happiness:10,rf:'funded_startup'},
+{d:"Word got around you helped a friend launch their dream. People trust you more now.",happiness:8,looks:3,rf:'funded_startup'},
 ];
 
 const ALL_DILEMMAS=[
@@ -613,7 +691,7 @@ const ALL_DILEMMAS=[
 {id:'startup',emoji:'💸',title:'Startup Pitch',
  desc:"An old friend needs $1,000 to fund their startup. They swear it'll 10x.",
  choices:[
-   {label:'Invest $1,000',gamble:{p:.45,win:{cash:2500,happiness:12,result:"The startup took off — $1,000 became $2,500!"},lose:{cash:-1000,stress:14,result:"It folded. Your $1,000 is gone."}}},
+   {label:'Invest $1,000',gamble:{p:.45,win:{cash:2500,happiness:12,flag:'funded_startup',result:"The startup took off — $1,000 became $2,500!"},lose:{cash:-1000,stress:14,result:"It folded. Your $1,000 is gone."}}},
    {label:'Politely decline',effects:{happiness:-2},result:"You pass. No risk, no reward."},
  ]},
 {id:'overtime',emoji:'⏰',title:'Overtime Offer',requiresJob:true,
@@ -625,8 +703,8 @@ const ALL_DILEMMAS=[
 {id:'wallet',emoji:'👛',title:'Lost Wallet',
  desc:"You find a wallet with $200 cash inside.",
  choices:[
-   {label:'Keep the cash',effects:{cash:200,happiness:-8,stress:5},result:"You pocket it, but guilt lingers."},
-   {label:'Return it',effects:{happiness:14},result:"The owner is overjoyed. You feel great."},
+   {label:'Keep the cash',flag:'kept_wallet',effects:{cash:200,happiness:-8,stress:5},result:"You pocket it, but guilt lingers."},
+   {label:'Return it',flag:'returned_wallet',effects:{happiness:14},result:"The owner is overjoyed. You feel great."},
  ]},
 {id:'trip',emoji:'✈️',title:'Weekend Getaway',
  desc:"Friends invite you on a spontaneous $350 weekend trip.",
@@ -637,7 +715,7 @@ const ALL_DILEMMAS=[
 {id:'charity',emoji:'🎗️',title:'Charity Drive',
  desc:"A local charity is fundraising in your neighborhood.",
  choices:[
-   {label:'Donate $100',effects:{cash:-100,happiness:12,stress:-3},result:"Giving back feels good."},
+   {label:'Donate $100',flag:'charitable',effects:{cash:-100,happiness:12,stress:-3},result:"Giving back feels good."},
    {label:'Walk past',effects:{happiness:-3},result:"You keep your cash and your guilt."},
  ]},
 {id:'trainer',emoji:'🏋️',title:'Personal Trainer',
@@ -662,7 +740,7 @@ const ALL_DILEMMAS=[
  desc:"A distant relative passed away and left you $3,000 — but family expects you to share.",
  choices:[
    {label:'Share $1,000 with family',effects:{cash:2000,happiness:12},social:{type:'family_rel',v:20},result:"The gesture meant the world to them."},
-   {label:'Keep it all',effects:{cash:3000,happiness:5,stress:8},social:{type:'family_rel',v:-10},result:"You keep it. The family notices."},
+   {label:'Keep it all',flag:'kept_inheritance',effects:{cash:3000,happiness:5,stress:8},social:{type:'family_rel',v:-10},result:"You keep it. The family notices."},
  ]},
 {id:'health_scare',emoji:'🏥',title:'Health Scare',
  desc:"Your doctor flagged an abnormal test result. Could be nothing — or something serious.",
@@ -697,7 +775,7 @@ const ALL_DILEMMAS=[
 {id:'mentor',emoji:'🧑‍🏫',title:'A Mentor Appears',
  desc:"An experienced person in your field offers to meet monthly and share hard-won wisdom.",
  choices:[
-   {label:'Absolutely yes',effects:{happiness:12,stress:-5},result:"The guidance is more valuable than you expected."},
+   {label:'Absolutely yes',flag:'has_mentor',effects:{happiness:12,stress:-5},result:"The guidance is more valuable than you expected."},
    {label:'Too busy right now',effects:{happiness:-3},result:"The door may not stay open forever."},
  ]},
 {id:'side_biz',emoji:'🛒',title:'Side Business Idea',
@@ -753,14 +831,14 @@ const ALL_DILEMMAS=[
  fr:1,
  desc:"Your closest friend is in a tight spot and needs to borrow $300.",
  choices:[
-   {label:'Lend them $300',effects:{cash:-300},social:{type:'friend_closeness',v:15},result:"They're grateful. You grow closer."},
-   {label:"Can't do it",social:{type:'friend_closeness',v:-10},result:"They understand, but it stings."},
+   {label:'Lend them $300',flag:'lent_friend',effects:{cash:-300},social:{type:'friend_closeness',v:15},result:"They're grateful. You grow closer."},
+   {label:"Can't do it",flag:'refused_friend',social:{type:'friend_closeness',v:-10},result:"They understand, but it stings."},
  ]},
 {id:'family_help',emoji:'👪',title:'Family Crisis',
  desc:"Your family is going through a rough patch and reaching out.",
  choices:[
-   {label:'Send $400',effects:{cash:-400,happiness:8,stress:5},social:{type:'family_rel',v:15},result:"Family first. They're grateful."},
-   {label:"Can't right now",effects:{happiness:-5},social:{type:'family_rel',v:-10},result:"It stings not being able to help."},
+   {label:'Send $400',flag:'helped_family',effects:{cash:-400,happiness:8,stress:5},social:{type:'family_rel',v:15},result:"Family first. They're grateful."},
+   {label:"Can't right now",flag:'ignored_family',effects:{happiness:-5},social:{type:'family_rel',v:-10},result:"It stings not being able to help."},
  ]},
 {id:'new_friend',emoji:'😊',title:'Making a New Friend',
  desc:"You hit it off with someone at a social event. Could be a real friendship.",
@@ -816,7 +894,7 @@ const ALL_DILEMMAS=[
  p:'college',
  desc:"Someone's selling answers to tomorrow's big exam. $150.",
  choices:[
-   {label:'Buy the answers',gamble:{p:.4,win:{happiness:8,result:"You aced it. Nobody suspected a thing."},lose:{stress:25,happiness:-15,result:"You got caught. Academic probation."}}},
+   {label:'Buy the answers',flag:'cheated_exam',gamble:{p:.4,win:{happiness:8,result:"You aced it. Nobody suspected a thing."},lose:{stress:25,happiness:-15,result:"You got caught. Academic probation."}}},
    {label:'Study honestly',effects:{stress:10},result:"You grind through it the right way."},
  ]},
 {id:'scholarship',emoji:'🏅',title:'Scholarship Offer',
@@ -976,8 +1054,8 @@ const ALL_DILEMMAS=[
  requiresJob:true,
  desc:"Your company wants you to bend the rules slightly. It would mean a $500 bonus.",
  choices:[
-   {label:'Do it for the bonus',effects:{cash:500,stress:15,happiness:-8},result:"You do it. It works, but sits with you."},
-   {label:'Refuse firmly',effects:{happiness:12,stress:8},result:"Integrity intact. Boss is not thrilled."},
+   {label:'Do it for the bonus',flag:'bent_rules',effects:{cash:500,stress:15,happiness:-8},result:"You do it. It works, but sits with you."},
+   {label:'Refuse firmly',flag:'integrity',effects:{happiness:12,stress:8},result:"Integrity intact. Boss is not thrilled."},
  ]},
 {id:'layoff',emoji:'📋',title:'Layoff Rumor',
  requiresJob:true,
@@ -993,6 +1071,43 @@ const ALL_DILEMMAS=[
    {label:'Jump ship',effects:{cash:2000,stress:16,happiness:10},result:"Terrifying first week. But the money is real."},
    {label:'Negotiate with current employer',gamble:{p:.5,win:{cash:800,happiness:8,result:"They matched! Smaller raise but stability."},lose:{happiness:-5,stress:8,result:"They declined. Awkward now."}}},
    {label:'Decline — stay put',effects:{stress:-5,happiness:-4},result:"Safer choice. Maybe another time."},
+ ]},
+// ── CONSEQUENCE CALLBACK DILEMMAS ──────────────────────
+{id:'blackmail',emoji:'🤫',title:'Someone Knows',
+ rf:'cheated_exam',
+ desc:"The person who sold you those exam answers wants $300 to stay quiet about it. Forever, they promise.",
+ choices:[
+   {label:'Pay the $300',effects:{cash:-300,stress:10},result:"You pay. The secret holds — for now."},
+   {label:'Call their bluff',gamble:{p:.5,win:{stress:-10,happiness:8,result:"They were bluffing. You never hear from them again."},lose:{stress:25,happiness:-15,result:"They talked. Your reputation takes a real hit."}}},
+ ]},
+{id:'mentor_stage',emoji:'🎤',title:'Pay It Forward',
+ rf:'has_mentor',
+ desc:"Your mentor asks you to speak at a community event about your journey. Terrifying. Flattering.",
+ choices:[
+   {label:'Take the stage',effects:{happiness:15,stress:8,looks:5},result:"Shaky start, strong finish. People came up after."},
+   {label:'Politely decline',effects:{happiness:-4},result:"Your mentor understands. Mostly."},
+ ]},
+// ── CROSSROADS: MID-LIFE PATH SWITCHES ─────────────────
+{id:'crossroads_biz',emoji:'🚀',title:'The Leap',
+ xp:['business','criminal'],mn:24,mx:42,mc:3000,
+ desc:"You've been sketching a business idea for months. You have the savings to try. Quit everything and bet on yourself?",
+ choices:[
+   {label:'Take the leap ($3,000)',social:{type:'switch_business'},effects:{cash:-3000,stress:15,happiness:15},result:"You're your own boss now. Terrifying. Electric."},
+   {label:'Stay the course',effects:{happiness:-4,stress:-3},result:"The idea stays in the drawer. Maybe forever."},
+ ]},
+{id:'crossroads_crime',emoji:'🌑',title:'An Offer From the Shadows',
+ xp:['criminal'],mn:21,xc:600,
+ desc:"You're broke, and an old acquaintance noticed. They offer you a way into The Life — fast money, no questions.",
+ choices:[
+   {label:'Take the offer',social:{type:'switch_criminal'},effects:{cash:1000,stress:12},result:"You're in. The money's real. So is the heat."},
+   {label:'Stay clean',effects:{happiness:6,stress:5},result:"Broke, but clean. You'll find another way."},
+ ]},
+{id:'crossroads_sell',emoji:'🤝',title:'The Acquisition',
+ p:'business',mn:30,
+ desc:"A larger company offers to buy your business outright: $15,000 cash, plus a manager position on their team.",
+ choices:[
+   {label:'Sell the business',social:{type:'sell_business'},effects:{cash:15000,happiness:10,stress:-10},result:"Signed. A chapter closes, a payday opens."},
+   {label:'Keep building',effects:{happiness:8,stress:5},result:"It's not for sale. It's yours."},
  ]},
 ];
 
@@ -1022,6 +1137,9 @@ function eligible(e){
   if(e.requiresJob&&!S.job)return false;
   const path=e.p||e.requiresPath;
   if(path&&S.path!==path)return false;
+  if(e.xp&&(Array.isArray(e.xp)?e.xp.includes(S.path):S.path===e.xp))return false;
+  if(e.rf&&!hasFlag(e.rf))return false;
+  if(e.xf&&hasFlag(e.xf))return false;
   const rel=e.r||e.requiresRel;
   if(rel&&(!S.relationship||S.relationship.stage!==rel))return false;
   if((e.ar)&&!S.relationship)return false;
@@ -1114,19 +1232,117 @@ function loadSave(){
     if(s.jobMonths===undefined)s.jobMonths=0;
     if(s.jobLevel===undefined)s.jobLevel=0;
     if(!s.relationship?.trait&&s.relationship)s.relationship.trait='kind';
+    if(s.relationship&&s.relationship.health===undefined)s.relationship.health=70;
+    if(!s.flags)s.flags=[];
+    if(!s.milestones)s.milestones=[{m:0,t:'🌅 Turned 18 and set out into the world.'}];
+    if(s.arrests===undefined)s.arrests=0;
+    if(!s._newAch)s._newAch=[];
+    if(!s.perks)s.perks=[];
     return s;
   }catch(e){return null;}
 }
 function hasSave(){return!!localStorage.getItem('lifeline_v2');}
 function deleteSave(){localStorage.removeItem('lifeline_v2');}
 
+/* ── FLAGS (choices that echo later) ── */
+function hasFlag(f){return S&&S.flags&&S.flags.includes(f);}
+function addFlag(f){if(!S.flags)S.flags=[];if(!S.flags.includes(f))S.flags.push(f);}
+
+/* ── MILESTONES (life timeline) ── */
+function milestone(text){
+  if(!S.milestones)S.milestones=[];
+  S.milestones.push({m:S.totalMonths,t:text});
+}
+
+/* ── HAPTICS ── */
+function buzz(ms=10){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+
+/* ── META-PROGRESSION (persists across lives) ── */
+function loadMeta(){
+  try{
+    const m=JSON.parse(localStorage.getItem('lifeline_meta')||'{}');
+    return{lives:m.lives||0,bestNetWorth:m.bestNetWorth??null,bestAge:m.bestAge||0,totalChildren:m.totalChildren||0,totalArrests:m.totalArrests||0,wins:m.wins||0,achievements:m.achievements||[],unlocks:m.unlocks||[]};
+  }catch(e){return{lives:0,bestNetWorth:null,bestAge:0,totalChildren:0,totalArrests:0,wins:0,achievements:[],unlocks:[]};}
+}
+function saveMeta(m){try{localStorage.setItem('lifeline_meta',JSON.stringify(m));}catch(e){}}
+function hasUnlock(id){return loadMeta().unlocks.includes(id);}
+
+function awardAch(id){
+  const m=loadMeta();
+  if(m.achievements.includes(id))return false;
+  m.achievements.push(id);
+  saveMeta(m);
+  const a=ACHIEVEMENTS.find(x=>x.id===id);
+  if(a){toast(`🏆 Achievement: ${a.name}!`,2600);sfx('level');buzz(20);}
+  if(!S._newAch)S._newAch=[];
+  S._newAch.push(id);
+  return true;
+}
+
+function checkAchievements(){
+  if(!S)return;
+  if(S.hasCollegeDegree)awardAch('graduate');
+  if(S.hasCollegeDegree&&S.college&&S.college.gpa>=3.8)awardAch('summa');
+  if(S.debt<=0&&S.totalMonths>3)awardAch('debt_free');
+  if(S.relationship&&S.relationship.stage==='married')awardAch('married');
+  if(S.children>=3)awardAch('big_family');
+  if(S.friends.some(f=>f.closeness>=90))awardAch('best_friend');
+  if(S.pet)awardAch('pet_lover');
+  if(nw()>=100000)awardAch('six_figs');
+  if(nw()>=250000)awardAch('quarter_mil');
+  if(S.path==='criminal'&&nw()>=50000)awardAch('kingpin');
+  if(S.business&&S.business.revenue>=4000)awardAch('mogul');
+  if(yr()>=50)awardAch('survivor');
+  if((S.arrests||0)>=3)awardAch('jailbird');
+  if(S.looks>=90)awardAch('glow_up');
+  if(yr()>=40&&S.stress<20)awardAch('zen');
+  if((S.jobLevel||0)>=2)awardAch('career_peak');
+  if(S.housing==='luxury')awardAch('high_roller');
+}
+
+function showRecords(){
+  const m=loadMeta();
+  const statLine=(l,v)=>`<div class="over-row"><span class="l">${l}</span><span class="v">${v}</span></div>`;
+  const achHtml=ACHIEVEMENTS.map(a=>{
+    const got=m.achievements.includes(a.id);
+    return`<div class="ach-row${got?'':' locked'}">
+      <span class="ach-emoji">${a.emoji}</span>
+      <div><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div></div>
+    </div>`;
+  }).join('');
+  const unlockHtml=UNLOCKS.map(u=>{
+    const got=m.unlocks.includes(u.id);
+    return`<div class="ach-row${got?'':' locked'}">
+      <span class="ach-emoji">${u.emoji}</span>
+      <div><div class="ach-name">${u.name}</div><div class="ach-desc">${got?u.desc:'🔒 '+u.how}</div></div>
+    </div>`;
+  }).join('');
+  openModal(`<h3>🏆 Lifetime Records</h3>
+    ${statLine('Lives lived',m.lives)}
+    ${statLine('Wins',m.wins)}
+    ${statLine('Best net worth',m.bestNetWorth===null?'—':moneyFmt(m.bestNetWorth))}
+    ${statLine('Oldest age reached',m.bestAge?m.bestAge+' years':'—')}
+    ${statLine('Total children raised',m.totalChildren)}
+    ${statLine('Total arrests',m.totalArrests)}
+    <span class="section-label">STARTING PERKS</span>
+    <div class="ach-grid" style="max-height:none">${unlockHtml}</div>
+    <span class="section-label">ACHIEVEMENTS (${m.achievements.length}/${ACHIEVEMENTS.length})</span>
+    <div class="ach-grid">${achHtml}</div>
+    <div class="modal-actions"><button class="mb-ok" onclick="closeModal()">Close</button></div>`,false);
+}
+
 function initialState(name,gender,path){
   const pc=PATHS[path];
   const emoji=gender==='male'?'👨':gender==='female'?'👩':'🧑';
+  let startCash=pc.startCash,startDebt=pc.startDebt;
+  const perks=[];
+  if(hasUnlock('trust_fund')){startCash+=2000;perks.push('🪙 Trust Fund: +$2,000 starting cash');}
+  if(hasUnlock('legacy')&&path==='college'){startDebt=Math.max(0,startDebt-5000);perks.push('📜 Legacy Admission: -$5,000 student debt');}
   return{
     name,gender,emoji,path,
     pronouns:gender==='male'?{s:'He',o:'him',p:'his'}:gender==='female'?{s:'She',o:'her',p:'her'}:{s:'They',o:'them',p:'their'},
-    totalMonths:0,cash:pc.startCash,debt:pc.startDebt,
+    totalMonths:0,cash:startCash,debt:startDebt,
+    perks,
     maxEnergy:100,energy:100,
     happiness:60,health:80,stress:20,looks:60,
     job:null,
@@ -1137,6 +1353,10 @@ function initialState(name,gender,path){
     housing:'standard',
     lastDilemma:-99,lastDilemmaId:null,
     shownDilemmas:new Set(),
+    flags:[],
+    milestones:[{m:0,t:`🌅 Turned 18 and started the ${pc.name} path.`}],
+    arrests:0,
+    _newAch:[],
     // social
     friends:[],
     relationship:null,
@@ -1157,13 +1377,17 @@ function fixInitialLog(s){
   const pr=s.pronouns;
   const cashDesc=s.path==='college'?`$800 cash and $20k in student loans`:s.path==='business'?`$2,000 saved and a small business idea`:`$1,500 in the pocket and zero fear`;
   s.log=[`🌅 ${s.name} is 18 and officially on ${pr.o==='him'?'his':pr.o==='her'?'her':'their'} own. ${cashDesc}. The game starts now.`];
+  if(s.perks&&s.perks.length)s.log.unshift(...s.perks.map(p=>`⭐ ${p}`));
   return s;
 }
 
 /* ═══════════════════════════════════════════════════════
    SCREENS
 ═══════════════════════════════════════════════════════ */
-function show(id){['start','create','game','over'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));}
+function show(id){
+  ['start','create','game','over'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));
+  if(id==='start'){const cb=document.getElementById('continueBtn');if(cb)cb.style.display=hasSave()?'':'none';}
+}
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===t));
   ['life','career','social','journal'].forEach(el=>document.getElementById('tab-'+el).classList.toggle('hidden',el!==t));
@@ -1231,7 +1455,8 @@ function showTutorial(){
     <p style="text-align:center;margin-top:8px">
       <b>Each month:</b> spend energy on activities, then hit <b>END MONTH</b> to advance time.<br><br>
       Watch your <b>Cash, Debt, Health & Happiness</b> — let any hit a crisis point and it's over.<br><br>
-      The goal: reach <b>age 65</b> with <b>$100k+ net worth</b> and <b>happiness 40+</b>.<br><br>
+      The goal: reach <b>age 65</b> with <b>$100k+ net worth</b> and <b>happiness 40+</b>. Miss it and you can keep grinding past 65 — but time won't wait forever.<br><br>
+      Your choices leave marks — some decisions come back around years later.<br><br>
       Your game auto-saves every month. 💾
     </p>
     <div class="modal-actions"><button class="mb-ok" onclick="closeModal()">Let's Go →</button></div>`,false);
@@ -1262,6 +1487,8 @@ function doActivity(idx){
   if(a.requiresRel&&!S.relationship){toast('You need to be in a relationship first.');return;}
   if(a.requiresPet&&!S.pet){toast('You need a pet first.');return;}
   if(a.requiresFriends&&S.friends.length===0){toast('Make some friends first!');return;}
+  if(a.looksGate&&S.looks<a.looksGate){toast(`Need ${a.looksGate}+ looks for this.`);return;}
+  sfx('click');buzz();
   S.energy-=a.energy;
   S.cash+=(a.cash||0);
   if(S.cash<0){S.debt+=-S.cash;S.cash=0;}
@@ -1280,7 +1507,11 @@ function doActivity(idx){
   if(a.special==='heat_up'&&S.criminal){S.criminal.heat=Math.min(100,S.criminal.heat+15);if(S.criminal.heat>80)toast('🚨 HEAT IS CRITICAL — Lay Low!');}
   if(a.special==='heat_down'&&S.criminal){S.criminal.heat=Math.max(0,S.criminal.heat-20);toast(`🕶️ Heat down to ${S.criminal.heat}`);}
   // social boosts
-  if(a.id==='date_night'&&S.relationship){S.relationship.months+=0.5;applyRelBonus();}
+  if(a.id==='date_night'&&S.relationship){
+    S.relationship.months+=0.5;applyRelBonus();
+    S.relationship.health=Math.min(100,(S.relationship.health??70)+8);
+    if(S.relationship.trait==='romantic'){S.happiness=clamp(S.happiness+10);toast('🌹 Your romantic partner made it unforgettable. +10 happiness');}
+  }
   if(a.id==='hang_friends'&&S.friends.length>0){S.friends[0].closeness=Math.min(100,S.friends[0].closeness+10);}
   if(a.id==='walk_pet'&&S.pet){S.pet.happiness=Math.min(100,S.pet.happiness+15);}
   if(!a.multi)S.used.add(a.id);
@@ -1305,8 +1536,22 @@ function getJobs(){
 }
 function applyJob(job){
   S.job=job;
+  S.jobMonths=0;S.jobLevel=0;
+  if(job)milestone(`💼 Started work as a ${job.title}.`);
   S.log.unshift(job?`💼 Started a new job as a ${job.emoji} ${job.title} ($${job.salary}/mo).`:'🚶 Quit the job. Hope there\'s savings...');
   render();
+}
+function changeHousing(id){
+  const h=HOUSING[id];
+  if(!h||S.housing===id)return;
+  sfx('click');buzz();
+  S.housing=id;
+  S.happiness=clamp(S.happiness+h.happiness);
+  S.looks=clamp(S.looks+h.looks);
+  if(id==='luxury'){milestone('🏰 Moved into a luxury condo.');awardAch('high_roller');}
+  S.log.unshift(`${h.emoji} Moved into: ${h.label} ($${h.rent}/mo rent).`);
+  render();
+  toast(`${h.emoji} New home: ${h.label}`);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1321,6 +1566,7 @@ let _endMonthRunning=false;
 function endMonth(){
   if(_endMonthRunning)return;
   _endMonthRunning=true;
+  buzz();
   const logs=processMonth();
   render();
   _endMonthRunning=false;
@@ -1332,6 +1578,19 @@ function endMonth(){
 function processMonth(){
   const logs=[];
   S.totalMonths++;
+
+  // aging — energy cap shrinks and health drifts down in later decades
+  const age=yr();
+  const newMax=age>=60?75:age>=50?85:age>=40?95:100;
+  if(newMax<S.maxEnergy){
+    S.maxEnergy=newMax;
+    logs.push(`⏳ Age is catching up — max energy is now ${newMax}.`);
+  }
+  if(age>=50){S.health=clamp(S.health-1);}
+  if(age>=65){S.health=clamp(S.health-1);}
+  if(S.totalMonths===(65-18)*12)logs.push('🎂 You turned 65 — retirement age. If the goals aren\'t met yet, keep grinding... but the clock is ticking.');
+  // past 65, every month carries a natural-death risk that grows with age and poor health
+  if(age>=66&&Math.random()<(0.02+(age-65)*0.008+(100-S.health)*0.0008))S._naturalDeath=true;
 
   // bills
   const rent=HOUSING[S.housing||'standard'].rent;
@@ -1371,6 +1630,7 @@ function processMonth(){
       else if(gpa>=3.5){S.debt=Math.max(0,S.debt-3000);logs.push('🏆 Graduated with honors! $3,000 scholarship applied to loans.');}
       else if(gpa<2.5)logs.push('📜 Low GPA noted on transcript. Some employers may ask.');
       logs.push('🎓 YOU GRADUATED! +20 happiness. Professional jobs now unlocked!');
+      milestone(`🎓 Graduated college with a ${gpa.toFixed(1)} GPA.`);
     }
   }
   if(S.path==='criminal'&&S.criminal){
@@ -1380,10 +1640,12 @@ function processMonth(){
       S.stress=clamp(S.stress+30);
       S.health=clamp(S.health-10);
       S.criminal.heat=Math.max(0,S.criminal.heat-30);
+      S.arrests=(S.arrests||0)+1;
+      milestone('🚔 Arrested. Paid bail and kept moving.');
       logs.push('🚔 ARRESTED! Lost $1,500, paid bail. Heat dropped but damage is done.');
     }
-    // heat naturally drops a little
-    S.criminal.heat=Math.max(0,S.criminal.heat-5);
+    // heat naturally drops a little (Fixer perk doubles the cooldown)
+    S.criminal.heat=Math.max(0,S.criminal.heat-(hasUnlock('fixer')?10:5));
   }
 
   // debt interest — college block handles pre-grad; cover graduated+all other paths here
@@ -1410,9 +1672,32 @@ function processMonth(){
   // overdraft
   if(S.cash<0){S.debt+=-S.cash;S.cash=0;logs.push('⚠️ Overdraft! Expenses added to debt.');}
 
-  // relationship duration
+  // relationship duration & health
   if(S.relationship){
     S.relationship.months++;
+    if(S.relationship.health===undefined)S.relationship.health=70;
+    // neglect erodes the bond; date nights (done during the month) rebuild it
+    if(!S.used.has('date_night'))S.relationship.health=Math.max(0,S.relationship.health-3);
+    if(S.relationship.trait==='loyal')S.relationship.health=Math.min(100,S.relationship.health+2);
+    if(S.relationship.health<35&&S.relationship.health>0)logs.push(`💔 Things with ${S.relationship.name} feel strained. Plan a date night.`);
+    if(S.relationship.health<25&&Math.random()<.25){
+      const wasMarried=S.relationship.stage==='married';
+      const exName=S.relationship.name;
+      if(wasMarried){
+        const settlement=Math.round(S.cash/2);
+        S.cash-=settlement;
+        milestone(`💔 Divorced ${exName}. The settlement cost ${moneyFmt(settlement)}.`);
+        logs.push(`💔 ${exName} filed for divorce. Neglect has a price: ${moneyFmt(settlement)} settlement.`);
+      } else {
+        milestone(`💔 ${exName} ended the relationship.`);
+        logs.push(`💔 ${exName} broke it off. "You were never really here," they said.`);
+      }
+      S.relationship=null;
+      S.happiness=clamp(S.happiness-18);
+      S.stress=clamp(S.stress+12);
+    }
+  }
+  if(S.relationship){
     if(S.relationship.stage==='married')S.happiness=clamp(S.happiness+2);
     else if(S.relationship.stage==='committed')S.happiness=clamp(S.happiness+1);
     // random relationship event
@@ -1471,6 +1756,7 @@ function processMonth(){
     const lvl=S.jobMonths===6?1:2;
     const titles=['Senior','Lead'];
     S.jobLevel=lvl;
+    milestone(`⬆️ Promoted to ${titles[lvl-1]} ${S.job.title}.`);
     logs.push(`⬆️ PROMOTED to ${titles[lvl-1]} ${S.job.title}! +$${lvl*400}/mo seniority bonus.`);
     sfx('level');
   }
@@ -1478,15 +1764,17 @@ function processMonth(){
   // reset
   S.energy=S.maxEnergy;S.used=new Set();
   S.log=logs.concat(S.log);
+  checkAchievements();
   saveGame();
   return logs;
 }
 
 function checkOver(){
-  const dead=S.health<=0;
   const bankrupt=S.debt>=100000&&S.cash<=0;
-  const won=yr()>=65&&nw()>=250000&&S.happiness>=50;
-  if(dead||bankrupt){gameOver(false,dead);return{end:true};}
+  const won=yr()>=65&&nw()>=100000&&S.happiness>=40;
+  if(S._naturalDeath){gameOver(won,true,true);return{end:true};}
+  if(S.health<=0){gameOver(false,true);return{end:true};}
+  if(bankrupt){gameOver(false,false);return{end:true};}
   if(won){gameOver(true);return{end:true};}
   return{end:false};
 }
@@ -1494,10 +1782,18 @@ function checkOver(){
 /* ═══════════════════════════════════════════════════════
    POPUPS
 ═══════════════════════════════════════════════════════ */
+function classifyLog(l){
+  if(/^(💵|✅|🏆|🏅|🎓|⬆️|⭐|💪|🛡️|😂|🌹|🕊️)/.test(l))return' ev-good';
+  if(/^(⚠️|🚨|📉|📈|💔|🚔|😔|⏳)/.test(l))return' ev-bad';
+  if(/^🎲/.test(l))return' ev-event';
+  if(/^(🏠|👶|🎂|❤️|💼|📚)/.test(l))return' ev-life';
+  return'';
+}
 function showRecap(logs){
+  sfx('month');
   openModal(`
     <h3>📅 Month ${S.totalMonths} · Age ${yr()}y ${mo()}m</h3>
-    <div class="ev-list">${logs.map(l=>`<div class="ev-line">${l}</div>`).join('')}</div>
+    <div class="ev-list">${logs.map(l=>`<div class="ev-line${classifyLog(l)}">${l}</div>`).join('')}</div>
     <div class="modal-actions"><button class="mb-ok" id="_rok">Continue →</button></div>`,true);
   document.getElementById('_rok').onclick=()=>{closeModal();afterRecap();};
 }
@@ -1546,12 +1842,16 @@ function showDilemma(d){
 
 function chooseOption(i){
   const c=_activeDilemma.choices[i];
+  sfx('click');buzz();
   applyEffects(c.effects||{});
+  if(c.flag)addFlag(c.flag);
   let resultMsg=c.result||'Done.';
   if(c.gamble){
     const won=Math.random()<c.gamble.p;
     const outcome=won?c.gamble.win:c.gamble.lose;
     applyEffects(outcome);
+    if(outcome.flag)addFlag(outcome.flag);
+    sfx(won?'good':'bad');
     resultMsg=outcome.result||resultMsg;
   }
   if(c.social)applySocial(c.social,c);
@@ -1573,20 +1873,34 @@ function applyEffects(e){
 function applySocial(soc,choice){
   if(soc.type==='start_dating'){
     const pName=pickPartnerName(S.gender);
-    S.relationship={name:pName,stage:'dating',months:0};
-    S.log.unshift(`💕 You started dating ${pName}!`);
+    const trait=PARTNER_TRAITS[~~(Math.random()*PARTNER_TRAITS.length)];
+    S.relationship={name:pName,stage:'dating',months:0,trait:trait.id,health:70};
+    milestone(`💕 Started dating ${pName}.`);
+    S.log.unshift(`💕 You started dating ${pName}! They seem... ${trait.label}`);
   }
-  if(soc.type==='commit'&&S.relationship){S.relationship.stage='committed';S.log.unshift(`❤️ You and ${S.relationship.name} are now officially committed.`);}
-  if(soc.type==='married'&&S.relationship){S.relationship.stage='married';S.log.unshift(`💍 You and ${S.relationship.name} are married!`);}
-  if(soc.type==='baby'){if(!S.relationship)return;S.children++;S.log.unshift(`👶 Baby #${S.children} is on the way!`);}
+  if(soc.type==='commit'&&S.relationship){S.relationship.stage='committed';S.relationship.health=Math.min(100,(S.relationship.health??70)+10);milestone(`❤️ Moved in with ${S.relationship.name}.`);S.log.unshift(`❤️ You and ${S.relationship.name} are now officially committed.`);}
+  if(soc.type==='married'&&S.relationship){S.relationship.stage='married';S.relationship.health=Math.min(100,(S.relationship.health??70)+15);milestone(`💍 Married ${S.relationship.name}.`);S.log.unshift(`💍 You and ${S.relationship.name} are married!`);}
+  if(soc.type==='baby'){
+    if(!S.relationship)return;
+    S.children++;
+    const babyNames=['Emma','Liam','Olivia','Noah','Ava','Elijah','Sophia','Lucas','Mia','Mason','Luna','James'];
+    const bName=babyNames[~~(Math.random()*babyNames.length)];
+    if(!S.childrenNames)S.childrenNames=[];
+    S.childrenNames.push(bName);
+    milestone(`👶 Welcomed ${bName} to the family.`);
+    S.log.unshift(`👶 ${bName} is on the way! (+$500/mo expenses)`);
+  }
   if(soc.type==='new_friend'){const n=pickFriendName(S.name);S.friends.push({name:n,closeness:40});S.log.unshift(`👫 New friend: ${n}!`);}
   if(soc.type==='friend_closeness'&&S.friends.length>0){S.friends[0].closeness=Math.max(0,Math.min(100,S.friends[0].closeness+(soc.v||0)));}
   if(soc.type==='family_rel'){S.familyRel=Math.max(0,Math.min(100,S.familyRel+(soc.v||0)));}
-  if(soc.type==='adopt_pet'){S.pet=pickPet();S.log.unshift(`${S.pet.emoji} Adopted ${S.pet.name} the ${S.pet.type}!`);}
+  if(soc.type==='adopt_pet'){S.pet=pickPet();milestone(`${S.pet.emoji} Adopted ${S.pet.name} the ${S.pet.type}.`);S.log.unshift(`${S.pet.emoji} Adopted ${S.pet.name} the ${S.pet.type}!`);}
   if(soc.type==='biz_invest'&&S.business){S.business.revenue=Math.min(5000,S.business.revenue+600);S.log.unshift('💼 Investor boosted business revenue by $600/mo!');}
   if(soc.type==='biz_cut'&&S.business){S.business.revenue=Math.max(200,S.business.revenue-200);S.business.health=Math.min(100,S.business.health+20);}
   if(soc.type==='go_legit'&&S.criminal){
     S.criminal.heat=0;
+    addFlag('went_legit');
+    awardAch('clean_exit');
+    milestone('🕊️ Left The Life behind and went legit.');
     const legitJob=JOBS_BASE.find(j=>j.id==='admin');
     if(legitJob&&!S.job){S.job=legitJob;S.log.unshift('🕊️ You went legit. New job as Office Admin.');}
   }
@@ -1594,12 +1908,34 @@ function applySocial(soc,choice){
   if(soc.type==='heat_up_big'&&S.criminal){S.criminal.heat=Math.min(100,S.criminal.heat+25);}
   if(soc.type==='drop_out'){
     S.college=null;S.path='dropped_out';
+    milestone('🚪 Dropped out of college.');
     const job=JOBS_BASE.find(j=>j.id==='retail');
     if(job&&!S.job){S.job=job;S.log.unshift('🚪 You dropped out and took a retail job.');}
   }
+  // crossroads: mid-life path switches
+  if(soc.type==='switch_business'){
+    S.path='business';
+    S.business={revenue:600,health:60,name:genBizName(S.name)};
+    if(S.job){S.log.unshift(`🚶 Quit the ${S.job.title} job to go all in.`);S.job=null;S.jobMonths=0;S.jobLevel=0;}
+    milestone(`🚀 Quit everything and founded ${S.business.name}.`);
+    S.log.unshift(`🚀 ${S.business.name} is open for business!`);
+  }
+  if(soc.type==='switch_criminal'){
+    S.path='criminal';
+    S.criminal={heat:10,busted:false};
+    milestone('🌑 Entered The Life.');
+    S.log.unshift('🌑 You\'re in The Life now. Watch the heat.');
+  }
+  if(soc.type==='sell_business'&&S.business){
+    const bizName=S.business.name;
+    S.business=null;S.path='corporate';
+    milestone(`🤝 Sold ${bizName} for $15,000.`);
+    const mgrJob=JOBS_BASE.find(j=>j.id==='manager');
+    if(mgrJob){S.job=mgrJob;S.jobMonths=0;S.jobLevel=0;S.log.unshift(`🤝 Sold ${bizName}. You now manage the team that bought it.`);}
+  }
   if(soc.type==='debt_reduce'){const amt=soc.v||0;S.debt=Math.max(0,S.debt-amt);S.log.unshift(`✅ Debt reduced by $${amt}!`);}
   if(soc.type==='add_debt'){const amt=soc.v||0;S.debt+=amt;S.log.unshift(`⚠️ Added $${amt} to debt.`);}
-  if(soc.type==='breakup'){S.relationship=null;S.log.unshift('💔 The relationship ended.');}
+  if(soc.type==='breakup'){if(S.relationship)milestone(`💔 Broke up with ${S.relationship.name}.`);S.relationship=null;S.log.unshift('💔 The relationship ended.');}
   if(soc.type==='remove_friend'&&S.friends.length>0){const f=S.friends.splice(0,1)[0];S.log.unshift(`😤 Cut ties with ${f.name}.`);}
 }
 
@@ -1630,13 +1966,33 @@ function previewChoice(c){
 /* ═══════════════════════════════════════════════════════
    GAME OVER
 ═══════════════════════════════════════════════════════ */
-function gameOver(didWin,dead){
-  document.getElementById('overEmoji').textContent=didWin?'🏆':(dead?'💀':'💸');
+function gameOver(didWin,dead,natural){
+  sfx(didWin?'win':'lose');buzz(didWin?[30,50,80]:60);
+  if(didWin)awardAch('golden_years');
+  awardAch('first_life');
+  checkAchievements();
+  // lifetime records
+  const meta=loadMeta();
+  meta.lives++;
+  if(didWin)meta.wins++;
+  if(meta.bestNetWorth===null||nw()>meta.bestNetWorth)meta.bestNetWorth=nw();
+  if(yr()>meta.bestAge)meta.bestAge=yr();
+  meta.totalChildren+=S.children;
+  meta.totalArrests+=(S.arrests||0);
+  // unlocks earned this life
+  const newUnlocks=[];
+  const grant=id=>{if(!meta.unlocks.includes(id)){meta.unlocks.push(id);newUnlocks.push(UNLOCKS.find(u=>u.id===id));}};
+  if(nw()>=200000)grant('trust_fund');
+  if(S.hasCollegeDegree&&S.college&&S.college.gpa>=3.8)grant('legacy');
+  if(meta.totalArrests>=3)grant('fixer');
+  saveMeta(meta);
+  deleteSave();
+  document.getElementById('overEmoji').textContent=didWin?'🏆':(dead?(natural?'🕊️':'💀'):'💸');
   document.getElementById('overTitle').textContent=didWin?'LIFE WELL LIVED':'GAME OVER';
   document.getElementById('overTitle').style.color=didWin?'var(--amber)':'var(--red)';
   document.getElementById('overSub').textContent=didWin
-    ?`${S.name} reached retirement with wealth and happiness. An incredible life.`
-    :(dead?`${S.name}'s health reached zero. Rest easy.`:`${S.name} went bankrupt. Money problems spiral fast.`);
+    ?(natural?`${S.name} lived to ${yr()} — and left rich, happy, and at peace. A life fully lived.`:`${S.name} reached retirement with wealth and happiness. An incredible life.`)
+    :(dead?(natural?`${S.name} passed peacefully at ${yr()}, but the goals were never quite reached.`:`${S.name}'s health reached zero. Rest easy.`):`${S.name} went bankrupt. Money problems spiral fast.`);
   const worth=nw();
   const relStr=S.relationship?`${S.relationship.stage==='married'?'💍 Married':'❤️ In a relationship'} with ${S.relationship.name}`:'💔 Single';
   const petStr=S.pet?`${S.pet.emoji} ${S.pet.name} the ${S.pet.type}`:'No pet';
@@ -1647,9 +2003,21 @@ function gameOver(didWin,dead){
     oRow('Health',Math.round(S.health)+'/100'),
     oRow('Friends',S.friends.length+''),
     oRow('Relationship',relStr),
-    oRow('Children',S.children+''),
+    oRow('Children',S.childrenNames&&S.childrenNames.length?S.childrenNames.join(', '):S.children+''),
     oRow('Pet',petStr),
   ].join('');
+  // new achievements & unlocks earned this life
+  const achHtml=(S._newAch||[]).map(id=>{
+    const a=ACHIEVEMENTS.find(x=>x.id===id);
+    return a?`<div class="ach-new">${a.emoji} Achievement: ${a.name}</div>`:'';
+  }).join('');
+  const unlockHtml=newUnlocks.map(u=>u?`<div class="ach-new">${u.emoji} UNLOCKED: ${u.name} — ${u.desc}</div>`:'').join('');
+  document.getElementById('overAch').innerHTML=achHtml+unlockHtml;
+  // life timeline
+  const tl=(S.milestones||[]);
+  document.getElementById('overTimeline').innerHTML=tl.length
+    ?tl.map(ms=>`<div class="tl-item"><span class="tl-age">Age ${18+Math.floor(ms.m/12)}</span><span class="tl-text">${ms.t}</span></div>`).join('')
+    :'<div class="tl-item"><span class="tl-text" style="color:rgba(255,255,255,.3)">A quiet life. No major milestones.</span></div>';
   show('over');
 }
 const oRow=(l,v,c='#fff')=>`<div class="over-row"><span class="l">${l}</span><span class="v" style="color:${c}">${v}</span></div>`;
@@ -1732,8 +2100,9 @@ function renderLife(){
     const noRel=a.requiresRel&&!S.relationship;
     const noPet=a.requiresPet&&!S.pet;
     const noFriends=a.requiresFriends&&S.friends.length===0;
-    const locked=!canAfford||usedAlready||noRel||noPet||noFriends;
-    const lockMsg=usedAlready?'Done this month':noRel?'Need a partner':noPet?'Need a pet':noFriends?'Need friends first':'';
+    const noLooks=a.looksGate&&S.looks<a.looksGate;
+    const locked=!canAfford||usedAlready||noRel||noPet||noFriends||noLooks;
+    const lockMsg=usedAlready?'Done this month':noRel?'Need a partner':noPet?'Need a pet':noFriends?'Need friends first':noLooks?`Need ${a.looksGate}+ looks`:'';
     const isPathAct=PATH_ACTIVITIES[S.path]&&PATH_ACTIVITIES[S.path].find(p=>p.id===a.id);
     return`<div class="card${locked?' locked':''}" ${locked?'':`onclick="doActivity(${i})"`}>
       <div class="card-top"><span class="card-emoji">${a.emoji}</span><span class="e-cost">⚡${a.energy}</span></div>
@@ -1776,6 +2145,21 @@ function renderCareer(){
       </div>
     </div>`;
   }
+  html+=`<span class="section-label" style="margin-top:14px">HOUSING</span>`;
+  html+=Object.entries(HOUSING).map(([id,h])=>{
+    const cur=S.housing===id;
+    return`<div class="housing-row${cur?' current':''}" ${cur?'':`onclick="changeHousing('${id}')"`}>
+      <span style="font-size:24px">${h.emoji}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:14px">${h.label}${cur?' <span style="font-size:10px;color:var(--purple-light);letter-spacing:1px">· CURRENT</span>':''}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.38);margin-top:2px">${h.desc}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="color:var(--red);font-weight:700;font-size:13px">$${h.rent}/mo</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.38)">${h.happiness>=0?'+':''}${h.happiness} 😊</div>
+      </div>
+    </div>`;
+  }).join('');
   html+=`<span class="section-label" style="margin-top:14px">JOB BOARD</span>`;
   html+=getJobs().map((j,i)=>{
     const cur=S.job&&S.job.id===j.id;
@@ -1799,12 +2183,20 @@ function renderSocial(){
     const r=S.relationship;
     const stageEmoji={dating:'💕',committed:'❤️',married:'💍'}[r.stage]||'💕';
     const stageLabel={dating:'Dating',committed:'Committed',married:'Married'}[r.stage]||r.stage;
+    const trait=PARTNER_TRAITS.find(t=>t.id===r.trait);
+    const rh=r.health??70;
+    const rhColor=rh>60?'var(--green)':rh>35?'var(--amber)':'var(--red)';
+    const rhLabel=rh>75?'Thriving':rh>50?'Solid':rh>35?'Needs attention':'On the rocks';
     relHtml=`<div class="social-card">
       <div class="social-card-top">
         <span class="social-card-emoji">${stageEmoji}</span>
         <div><div class="social-card-title">${r.name}</div>
-        <div class="social-card-sub"><span class="rel-stage rel-${r.stage}">${stageLabel}</span> · ${r.months} month${r.months!==1?'s':''}</div></div>
+        <div class="social-card-sub"><span class="rel-stage rel-${r.stage}">${stageLabel}</span> · ${Math.floor(r.months)} month${Math.floor(r.months)!==1?'s':''}</div></div>
       </div>
+      ${trait?`<div style="margin-top:8px"><span class="rel-stage" style="background:${trait.color}22;color:${trait.color}">${trait.label}</span><div style="font-size:11px;color:rgba(255,255,255,.38);margin-top:5px">${trait.desc}</div></div>`:''}
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:10px"><span style="color:rgba(255,255,255,.54)">Relationship health</span><span style="color:${rhColor};font-weight:700">${rhLabel}</span></div>
+      <div class="rel-health-bar"><div class="rel-health-fill" style="width:${rh}%;background:${rhColor}"></div></div>
+      ${rh<40?'<div style="font-size:11px;color:var(--amber);margin-top:6px">💡 Date nights rebuild the bond before it breaks.</div>':''}
     </div>`;
   } else {
     relHtml=`<div class="social-card" style="opacity:.5">
@@ -1857,7 +2249,7 @@ function renderSocial(){
         <div><div class="social-card-title">Family Relationship</div>
         <div class="social-card-sub" style="color:${famColor}">${S.familyRel>75?'Very close — always there':S.familyRel>50?'Close — regular contact':S.familyRel>25?'Distant — occasional calls':'Strained — things are tense'}</div></div>
       </div>
-      ${S.children>0?`<div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.54)">👶 ${S.children} child${S.children>1?'ren':''}</div>`:''}
+      ${S.children>0?`<div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.54)">👶 ${S.childrenNames&&S.childrenNames.length?S.childrenNames.join(', '):S.children+' child'+(S.children>1?'ren':'')}</div>`:''}
     </div>
     <div style="height:8px"></div>`;
 }
@@ -1912,6 +2304,9 @@ function toast(msg,dur=2000){
   el.textContent=msg;el.classList.add('show');
   clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>el.classList.remove('show'),dur);
 }
+
+/* ── INIT ── */
+if(hasSave())document.getElementById('continueBtn').style.display='';
 </script>
 </body>
 </html>
