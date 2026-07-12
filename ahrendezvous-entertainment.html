@@ -589,7 +589,7 @@ html.no-anim [data-reveal],html.no-anim [data-hfade]{opacity:1;transform:none}
    header (Access-Control-Allow-Origin: *) — most CDNs do; Squarespace
    file storage may not, in which case the helix keeps its animated
    channels and only the big reel frame shows your footage.            */
-var REEL_URL='';
+var REEL_URL='https://pub-327e6b6b6741493480dac5f14bfe9379.r2.dev/highlight-reel-1';
 /*   ▲▲▲  e.g. 'https://cdn.yoursite.com/highlight-reel-1.mp4'  ▲▲▲
    ═══════════════════════════════════════════════════════════════════ */
 
@@ -788,7 +788,8 @@ if(hasG&&!RED&&eName){
 }
 
 /* ── SHOWREEL: wire the self-hosted MP4 into the reel frame + helix ── */
-var helixVideoTexture=null;
+var helixVideoTexture=null;   // set only once the CORS video actually loads
+var helixVidMeshes=[];        // buildGL registers the helix "video" planes here
 (function setupReel(){
   if(!REEL_URL) return;
   var v=document.getElementById('reel-video');
@@ -812,13 +813,25 @@ var helixVideoTexture=null;
       if(v.paused){var p2=v.play();if(p2&&p2.catch)p2.catch(function(){});}
     });
   }
-  /* separate muted hidden video streams into the swirling helix (needs CORS) */
+  /* separate muted hidden video streams into the swirling helix.
+     Requires CORS on the bucket. If the cross-origin load fails, we keep
+     the generated channels rather than showing black frames. */
   if(has3){
     var hv=document.createElement('video');
-    hv.src=REEL_URL;hv.muted=true;hv.loop=true;hv.crossOrigin='anonymous';
+    hv.muted=true;hv.loop=true;hv.crossOrigin='anonymous';
     hv.setAttribute('playsinline','');hv.playsInline=true;
+    hv.addEventListener('loadeddata',function(){
+      helixVideoTexture=new THREE.VideoTexture(hv);
+      helixVideoTexture.minFilter=THREE.LinearFilter;
+      helixVideoTexture.magFilter=THREE.LinearFilter;
+      for(var i=0;i<helixVidMeshes.length;i++){
+        helixVidMeshes[i].material.map=helixVideoTexture;
+        helixVidMeshes[i].material.needsUpdate=true;
+      }
+    });
+    hv.addEventListener('error',function(){/* no CORS — keep animated channels */});
+    hv.src=REEL_URL;
     var hp=hv.play();if(hp&&hp.catch)hp.catch(function(){});
-    helixVideoTexture=new THREE.VideoTexture(hv);
   }
 })();
 
@@ -1186,12 +1199,16 @@ function buildGL(){
   for(var fi=0;fi<FRN;fi++){
     var isVid=fi%4===3;
     var land=isVid?true:fi%3===2;
-    var map2=isVid
-      ?(helixVideoTexture||vids[Math.floor(fi/4)%3].tex)
-      :texs[(fi%5)*2+(land?1:0)];
+    /* start every video frame on a generated channel; if the real showreel
+       loads (CORS ok), setupReel swaps these to the VideoTexture live */
+    var map2=isVid?vids[Math.floor(fi/4)%3].tex:texs[(fi%5)*2+(land?1:0)];
     var fmat=new THREE.MeshBasicMaterial({
       map:map2,transparent:true,opacity:.92,side:THREE.DoubleSide,fog:true});
     var fm=new THREE.Mesh(land?geoL:geoP,fmat);
+    if(isVid){
+      helixVidMeshes.push(fm);
+      if(helixVideoTexture){fmat.map=helixVideoTexture;fmat.needsUpdate=true;}
+    }
     frames.push({m:fm,a0:(fi/FRN)*Math.PI*2,y0:((fi*13)%FRN)/FRN*70-35,
       tilt:(Math.random()-.5)*.34,sp:.8+Math.random()*.5});
     helix.add(fm);
