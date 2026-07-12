@@ -332,14 +332,6 @@ main,#nav,#marquee,footer{position:relative;z-index:2}
   background:var(--ember);margin-right:.7em;vertical-align:1px;animation:blink 1.5s infinite;
 }
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-.reel-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2}
-.reel-play{
-  width:100px;height:100px;border-radius:50%;
-  border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
-  background:rgba(13,13,13,.35);backdrop-filter:blur(4px);
-  transition:transform .5s cubic-bezier(.76,0,.24,1),background .4s,border-color .4s;
-}
-.reel-play:hover{transform:scale(1.14);background:rgba(255,69,23,.15);border-color:var(--ember)}
 
 /* ═══ DESTINATIONS ═══════════════════════════════════════════════════ */
 #destinations{padding:0 0 clamp(6rem,12vh,10rem)}
@@ -513,11 +505,6 @@ html.no-anim [data-reveal],html.no-anim [data-hfade]{opacity:1;transform:none}
     <div class="reel-bg"></div>
     <div class="reel-atm"><span>Showreel</span></div>
     <span class="reel-clabel tl"><span class="reel-dot"></span>REC — REEL '26</span>
-    <div class="reel-center">
-      <a class="reel-play" id="reel-play" href="mailto:support@ahrendezvous.com?subject=Showreel" data-hover aria-label="Play showreel">
-        <svg width="22" height="26" viewBox="0 0 22 26" fill="none"><path d="M0 0L22 13L0 26V0Z" fill="#C5A880"/></svg>
-      </a>
-    </div>
     <span class="reel-clabel br" id="reel-status">Work in progress</span>
   </div>
 </section>
@@ -795,23 +782,19 @@ var helixVidMeshes=[];        // buildGL registers the helix "video" planes here
   var v=document.getElementById('reel-video');
   var atm=document.querySelector('.reel-atm');
   var status=document.getElementById('reel-status');
-  var play=document.getElementById('reel-play');
-  /* visible reel-frame video — works on any host, no CORS needed */
+  /* visible reel-frame video — autoplays muted/looping, no overlay */
   if(v){
     v.src=REEL_URL;v.classList.add('on');
+    v.style.cursor='pointer';
     var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});
     if(atm)atm.style.display='none';
     var bg=document.querySelector('.reel-bg');if(bg)bg.style.display='none';
-    if(status)status.textContent="Reel '26";
-  }
-  /* play button now toggles sound on the reel */
-  if(play&&v){
-    play.setAttribute('href','#');
-    play.setAttribute('aria-label','Toggle showreel sound');
-    play.addEventListener('click',function(e){
-      e.preventDefault();
+    if(status)status.textContent="Reel '26 · tap for sound";
+    /* click the video itself to toggle sound — no visible widget */
+    v.addEventListener('click',function(){
       v.muted=!v.muted;
       if(v.paused){var p2=v.play();if(p2&&p2.catch)p2.catch(function(){});}
+      if(status)status.textContent=v.muted?"Reel '26 · tap for sound":"Reel '26 · sound on";
     });
   }
   /* separate muted hidden video streams into the swirling helix.
