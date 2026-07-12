@@ -291,17 +291,17 @@ main,#nav,#marquee,footer{position:relative;z-index:2}
   text-shadow:0 2px 16px rgba(13,13,13,.9);
 }
 .sec-label .idx{color:var(--parch-40);margin-right:1em}
+/* vertical 9:16 showreel — centered cinematic player */
 .reel-frame{
-  position:relative;width:min(96vw,1600px);margin:0 auto;
-  aspect-ratio:21/9;background:var(--shadow);overflow:hidden;
-  border-top:1px solid var(--gold-25);border-bottom:1px solid var(--gold-25);
+  position:relative;width:min(86vw,414px);margin:0 auto;
+  aspect-ratio:9/16;background:var(--shadow);overflow:hidden;
+  border:1px solid var(--gold-25);
+  box-shadow:0 30px 90px rgba(0,0,0,.55),0 0 0 1px rgba(13,13,13,.6);
 }
-@media(max-width:760px){.reel-frame{aspect-ratio:16/9}}
-/* ── REPLACE .reel-bg with your <video autoplay muted loop playsinline> ──
-   style: position:absolute;inset:0;width:100%;height:100%;object-fit:cover */
+/* the reel video sits ABOVE the placeholder gradient */
 .reel-video{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  display:none;background:var(--obsidian);
+  z-index:1;display:none;background:var(--obsidian);
 }
 .reel-video.on{display:block}
 .reel-bg{
@@ -801,6 +801,7 @@ var helixVidMeshes=[];        // buildGL registers the helix "video" planes here
     v.src=REEL_URL;v.classList.add('on');
     var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});
     if(atm)atm.style.display='none';
+    var bg=document.querySelector('.reel-bg');if(bg)bg.style.display='none';
     if(status)status.textContent="Reel '26";
   }
   /* play button now toggles sound on the reel */
@@ -1196,15 +1197,16 @@ function buildGL(){
   var vids=[makeVideo(0),makeVideo(1),makeVideo(2)];
   /* 3 of every 4 frames are cinematic stills; every 4th is a live video channel */
   var geoP=new THREE.PlaneGeometry(7,9.33),geoL=new THREE.PlaneGeometry(11.2,7);
+  var geoV=new THREE.PlaneGeometry(5.6,9.95); /* 9:16 for the vertical showreel */
   for(var fi=0;fi<FRN;fi++){
     var isVid=fi%4===3;
-    var land=isVid?true:fi%3===2;
+    var land=isVid?false:fi%3===2;
     /* start every video frame on a generated channel; if the real showreel
        loads (CORS ok), setupReel swaps these to the VideoTexture live */
     var map2=isVid?vids[Math.floor(fi/4)%3].tex:texs[(fi%5)*2+(land?1:0)];
     var fmat=new THREE.MeshBasicMaterial({
       map:map2,transparent:true,opacity:.92,side:THREE.DoubleSide,fog:true});
-    var fm=new THREE.Mesh(land?geoL:geoP,fmat);
+    var fm=new THREE.Mesh(isVid?geoV:(land?geoL:geoP),fmat);
     if(isVid){
       helixVidMeshes.push(fm);
       if(helixVideoTexture){fmat.map=helixVideoTexture;fmat.needsUpdate=true;}
