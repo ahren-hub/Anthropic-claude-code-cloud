@@ -580,6 +580,11 @@ var REEL_URL='https://pub-327e6b6b6741493480dac5f14bfe9379.r2.dev/Ahrendezvous%2
 /*   ▲▲▲  e.g. 'https://cdn.yoursite.com/highlight-reel-1.mp4'  ▲▲▲
    ═══════════════════════════════════════════════════════════════════ */
 
+/* Real photography for the swirling helix. Each entry: {u:<image>, ar:w/h}.
+   Embedded as compressed data URIs so they render in the 3D helix with no
+   hosting or CORS needed. Auto-generated — add more via the build script. */
+var HELIX_PHOTOS=[];
+
 var hasG=typeof gsap!=='undefined', has3=typeof THREE!=='undefined';
 var RED=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 var TOUCH=window.matchMedia('(pointer:coarse)').matches;
