@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- @include head title="Start a Project — Ahrendezvous®" description="Send a project brief to Ahrendezvous Entertainment — commercial retainers, cultural activations and mentorship camps. West Midtown, Atlanta." -->
+<style>
+/* ═══ CONTACT ════════════════════════════════════════════════════════ */
+.ct-hero{
+  padding:clamp(9rem,19vh,12rem) var(--gutter) clamp(3rem,6vh,4.5rem);
+  display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2rem 4rem;align-items:end;
+}
+.ct-hero .sec-label{grid-column:1/-1;margin:0}
+.ct-title{font-size:clamp(3.6rem,11vw,10.5rem)}
+.ct-intro{display:flex;flex-direction:column;gap:2rem;padding-bottom:1rem}
+.ct-direct{border-top:1px solid var(--line)}
+.cd-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;padding:.95rem 0;border-bottom:1px solid var(--line);font-size:1rem}
+.cd-k{font-family:var(--mono);font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);width:4.4rem}
+.cd-row a{color:var(--parchment);transition:color .3s}
+.cd-row a:hover{color:var(--gold)}
+.cd-copy,.cd-coord{margin-left:auto}
+.cd-copy{font-family:var(--mono);font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);padding:.35rem .65rem;border:1px solid var(--gold-25);transition:background .3s,color .3s}
+.cd-copy:hover{background:var(--gold);color:var(--obsidian)}
+.cd-coord{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--parch-40)}
+@media(max-width:860px){.ct-hero{grid-template-columns:1fr}}
+
+.ct-main{padding:0 var(--gutter) clamp(5rem,12vh,8rem)}
+.ct-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:start}
+.ct-side{position:sticky;top:112px;display:flex;flex-direction:column;gap:2.6rem}
+@media(max-width:980px){.ct-grid{grid-template-columns:1fr}.ct-side{position:static;order:-1}}
+
+/* ── the call sheet ── */
+.sheet{border:1px solid var(--line);background:rgba(13,13,13,.78)}
+.sheet-top{
+  display:flex;justify-content:space-between;gap:1rem;padding:.95rem clamp(1.4rem,3vw,2.4rem);
+  border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);
+}
+.sheet-top span:first-child{color:var(--gold)}
+.sheet-body{padding:clamp(1.4rem,3vw,2.4rem);display:flex;flex-direction:column;gap:1.9rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1.9rem}
+@media(max-width:600px){.row2{grid-template-columns:1fr}.sheet-top span:nth-child(2){display:none}}
+.field{border:0;min-width:0}
+.fl{display:block;font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-70);margin-bottom:.7rem}
+.fl i{font-style:normal;color:var(--ember)}
+.field input[type="text"],.field input[type="email"],.field textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid rgba(247,245,240,.22);border-radius:0;
+  padding:.55rem 0 .7rem;font-family:var(--sans);font-weight:300;font-size:1.08rem;color:var(--parchment);
+  outline:none;transition:border-color .3s,box-shadow .3s;
+}
+.field textarea{resize:vertical;min-height:8rem;line-height:1.55}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--gold);box-shadow:0 1px 0 var(--gold)}
+.field ::placeholder{color:var(--parch-40)}
+.field.bad input,.field.bad textarea{border-bottom-color:var(--ember);box-shadow:0 1px 0 var(--ember)}
+.ferr{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ember);margin-top:.55rem}
+.ferr:empty{display:none}
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip-row label{position:relative}
+.chip-row input{position:absolute;opacity:0;width:1px;height:1px}
+.chip-row span{
+  display:inline-block;padding:.74rem 1rem;border:1px solid var(--line);
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--parch-70);
+  transition:background .3s,border-color .3s,color .3s;
+}
+.chip-row label:hover span{border-color:var(--gold-25);color:var(--parchment)}
+.chip-row input:checked+span{background:var(--parchment);border-color:var(--parchment);color:var(--obsidian)}
+.chip-row input:focus-visible+span{outline:1px solid var(--gold);outline-offset:3px}
+.field.bad .chip-row span{border-color:rgba(255,69,23,.45)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.sheet-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.2rem;padding:0 clamp(1.4rem,3vw,2.4rem) clamp(1.4rem,3vw,2.4rem)}
+.fine{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--parch-40)}
+.fine a{color:var(--gold)}
+.form-err{padding:0 clamp(1.4rem,3vw,2.4rem) 1.6rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ember)}
+.form-err:empty{display:none}
+button.clap[disabled]{opacity:.55;pointer-events:none}
+
+/* ── the live slate ── */
+.slate{position:relative;width:100%;max-width:460px;filter:drop-shadow(0 34px 60px rgba(0,0,0,.55))}
+.slate-stick{
+  height:38px;transform-origin:2% 100%;border:2px solid #050505;border-radius:5px 5px 0 0;
+  background:repeating-linear-gradient(-56deg,var(--parchment) 0 22px,#0a0a0a 22px 44px);
+}
+.slate-band{height:30px;border:2px solid #050505;border-top:0;background:repeating-linear-gradient(56deg,var(--parchment) 0 22px,#0a0a0a 22px 44px)}
+.slate-board{background:#121211;border:2px solid #050505;border-top:0;border-radius:0 0 7px 7px;padding:.3rem 1.3rem 1.1rem}
+.sl-row{display:flex;align-items:baseline;gap:1rem;padding:.8rem 0;border-bottom:1px solid rgba(247,245,240,.13)}
+.sl-row.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.sl-row.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sl-row.grid>div{display:flex;flex-direction:column;gap:.35rem;padding:0 .8rem;border-left:1px solid rgba(247,245,240,.13);min-width:0}
+.sl-row.grid>div:first-child{border-left:0;padding-left:0}
+.sl-k{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);flex:none}
+.sl-v{font-family:var(--mono);font-size:1rem;letter-spacing:.05em;color:var(--parchment);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sl-v.chalk{animation:chalk .55s ease-out}
+@keyframes chalk{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+.sl-foot{padding-top:.85rem;font-family:var(--mono);font-size:.48rem;letter-spacing:.32em;text-transform:uppercase;color:var(--parch-40)}
+.slate-flash{position:absolute;inset:-12px;background:var(--parchment);opacity:0;pointer-events:none;border-radius:8px}
+
+.ct-glance .sec-label{margin-bottom:1rem}
+.gl-row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1rem 0;
+  border-bottom:1px solid var(--line);font-family:var(--serif);font-size:1.3rem;transition:color .3s,padding .45s var(--ease);
+}
+.gl-row:first-of-type{border-top:1px solid var(--line)}
+.gl-row b{font-weight:400;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gl-row small{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--parch-40);margin-left:.3rem}
+.gl-row:hover{color:var(--gold);padding-left:.6rem}
+
+/* ── that's a wrap ── */
+.done{border:1px solid var(--gold-25);padding:clamp(2rem,5vw,4rem);background:rgba(13,13,13,.82);scroll-margin-top:110px;outline:none}
+.done h2{font-size:clamp(3rem,7vw,6rem);margin:1.1rem 0 1.4rem}
+.done-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin:2.2rem 0}
+.done-actions [hidden]{display:none}
+.done-brief{
+  white-space:pre-wrap;font-family:var(--mono);font-size:.78rem;line-height:1.75;color:var(--parch-70);
+  border-top:1px solid var(--line);padding-top:1.4rem;max-height:20rem;overflow:auto;
+}
+</style>
+</head>
+<body data-page="contact">
+<!-- @include chrome -->
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<main id="main">
+<!-- ═══ HERO ════════════════════════════════════════════════════════ -->
+<section class="ct-hero" aria-labelledby="ct-title">
+  <div class="sec-label flush"><span class="idx">05</span>Start a project</div>
+  <h1 class="display ct-title" id="ct-title" data-split>Let's make <em>something.</em></h1>
+  <div class="ct-intro">
+    <p class="lede" data-reveal style="--d:.3s">Fill in the call sheet — what you're making, where it will live and when. We'll take it from there.</p>
+    <div class="ct-direct" data-reveal style="--d:.42s">
+      <div class="cd-row"><span class="cd-k">Email</span><a href="mailto:support@ahrendezvous.com">support@ahrendezvous.com</a><button type="button" class="cd-copy" data-copy="support@ahrendezvous.com">Copy</button></div>
+      <div class="cd-row"><span class="cd-k">Studio</span><span>West Midtown, Atlanta</span><span class="cd-coord">33.78°N 84.41°W</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CALL SHEET ══════════════════════════════════════════════════ -->
+<section class="ct-main" aria-label="Project brief">
+  <div class="ct-grid">
+    <div class="ct-col">
+      <form class="sheet" id="sheet" novalidate data-reveal>
+        <div class="sheet-top" aria-hidden="true"><span>Call sheet</span><span>AHRDVS® · Production brief</span><span id="sheet-date"></span></div>
+        <div class="sheet-body">
+          <div class="row2">
+            <div class="field" data-field="name">
+              <label class="fl" for="f-name">Name <i aria-hidden="true">*</i></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+              <p class="ferr" id="e-name"></p>
+            </div>
+            <div class="field" data-field="email">
+              <label class="fl" for="f-email">Email <i aria-hidden="true">*</i></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email">
+              <p class="ferr" id="e-email"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="fl" for="f-brand">Brand / company</label>
+            <input id="f-brand" name="brand" type="text" autocomplete="organization">
+          </div>
+          <fieldset class="field" data-field="type" aria-describedby="e-type">
+            <legend class="fl">Project <i aria-hidden="true">*</i></legend>
+            <div class="chip-row">
+              <label><input type="radio" name="type" value="tier1"><span>Social Engine · Tier 01</span></label>
+              <label><input type="radio" name="type" value="tier2"><span>Enterprise Presence · Tier 02</span></label>
+              <label><input type="radio" name="type" value="commercial"><span>Commercial project</span></label>
+              <label><input type="radio" name="type" value="cultural"><span>Cultural / activation</span></label>
+              <label><input type="radio" name="type" value="camp"><span>Mentorship camp</span></label>
+              <label><input type="radio" name="type" value="other"><span>Something else</span></label>
+            </div>
+            <p class="ferr" id="e-type"></p>
+          </fieldset>
+          <fieldset class="field" id="g-term" hidden>
+            <legend class="fl">Commitment</legend>
+            <div class="chip-row">
+              <label><input type="radio" name="term" value="3"><span>3 months</span></label>
+              <label><input type="radio" name="term" value="6"><span>6 months</span></label>
+              <label><input type="radio" name="term" value="12"><span>12 months</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="fl">Timing</legend>
+            <div class="chip-row">
+              <label><input type="radio" name="when" value="As soon as possible"><span>As soon as possible</span></label>
+              <label><input type="radio" name="when" value="Within 1–3 months"><span>Within 1–3 months</span></label>
+              <label><input type="radio" name="when" value="Just exploring"><span>Just exploring</span></label>
+            </div>
+          </fieldset>
+          <div class="field" data-field="brief">
+            <label class="fl" for="f-brief">The brief <i aria-hidden="true">*</i></label>
+            <textarea id="f-brief" name="brief" rows="5" required aria-describedby="e-brief" placeholder="What are you making, who is it for, and where will it live?"></textarea>
+            <p class="ferr" id="e-brief"></p>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        </div>
+        <div class="sheet-foot">
+          <button type="submit" class="clap clap-lg" id="send" data-clap>
+            <span class="nc-top"></span>
+            <span class="nc-board"><span class="nc-l1">Slate it · Send brief</span><span class="nc-l2">AHRDVS® · Take 01</span></span>
+          </button>
+          <p class="fine">Prefer email? <a href="mailto:support@ahrendezvous.com">support@ahrendezvous.com</a></p>
+        </div>
+        <p class="form-err" id="form-err" role="alert"></p>
+      </form>
+
+      <div class="done" id="done" hidden tabindex="-1">
+        <div class="sec-label flush"><span class="idx">Wrap</span>That's a wrap</div>
+        <h2 class="display">Brief <em>slated.</em></h2>
+        <p class="lede" id="done-msg"></p>
+        <div class="done-actions">
+          <button type="button" class="btn" id="copy-brief">Copy brief</button>
+          <a class="btn" id="mail-again" href="mailto:support@ahrendezvous.com">Open email again</a>
+          <a class="btn" href="index.html#home">Back to the site <span class="arr">↗</span></a>
+        </div>
+        <pre class="done-brief" id="done-brief"></pre>
+      </div>
+    </div>
+
+    <aside class="ct-side">
+      <div class="slate" id="slate" aria-hidden="true" data-reveal>
+        <div class="slate-stick" id="slate-stick"></div>
+        <div class="slate-band"></div>
+        <div class="slate-board">
+          <div class="sl-row"><span class="sl-k">Prod.</span><span class="sl-v" data-sl="brand">Your production</span></div>
+          <div class="sl-row grid">
+            <div><span class="sl-k">Roll</span><span class="sl-v">A001</span></div>
+            <div><span class="sl-k">Scene</span><span class="sl-v" data-sl="type">—</span></div>
+            <div><span class="sl-k">Take</span><span class="sl-v" data-sl="term">01</span></div>
+          </div>
+          <div class="sl-row"><span class="sl-k">Director</span><span class="sl-v" data-sl="name">—</span></div>
+          <div class="sl-row grid two">
+            <div><span class="sl-k">Camera</span><span class="sl-v">A</span></div>
+            <div><span class="sl-k">Date</span><span class="sl-v" id="sl-date"></span></div>
+          </div>
+          <div class="sl-foot">AHRDVS® · West Midtown · ATL</div>
+        </div>
+        <div class="slate-flash" id="slate-flash"></div>
+      </div>
+      <div class="ct-glance" data-reveal style="--d:.15s">
+        <p class="sec-label flush"><span class="idx">Retainers</span>At a glance</p>
+        <a class="gl-row" href="commercial.html#retainers"><span>The Social Engine</span><b>$2,000<small>/mo</small></b></a>
+        <a class="gl-row" href="commercial.html#retainers"><span>The Enterprise Presence</span><b>$5,000<small>/mo</small></b></a>
+      </div>
+    </aside>
+  </div>
+</section>
+</main>
+
+<!-- @include footer -->
+
+<!-- @include shared-js -->
+<script>
+(function(){
+'use strict';
+var A=window.AHRDVS,RED=A.RED,p2=A.p2;
+
+/* ═══════════════════════════════════════════════════════════════════
+   ▼▼▼  FORM DELIVERY — optional  ▼▼▼
+   Leave '' and "Send brief" opens the visitor's email app with the brief
+   already written out to support@ahrendezvous.com — works with no account.
+   To receive briefs straight to your inbox instead, create a free form at
+   formspree.io and paste its endpoint here, e.g.
+   'https://formspree.io/f/abcdwxyz'.                                   */
+var FORM_ENDPOINT='';
+var TO='support@ahrendezvous.com';
+/* ═══════════════════════════════════════════════════════════════════ */
+
+var TYPES={tier1:'The Social Engine (Tier 01)',tier2:'The Enterprise Presence (Tier 02)',commercial:'Commercial project',
+  cultural:'Cultural / activation',camp:'Mentorship camp',other:'Something else'};
+var SCENE={tier1:'T-01',tier2:'T-02',commercial:'COM',cultural:'CUL',camp:'CAMP',other:'X'};
+var form=document.getElementById('sheet'),E=form.elements,sendBtn=document.getElementById('send');
+var termG=document.getElementById('g-term'),done=document.getElementById('done'),formErr=document.getElementById('form-err');
+
+/* today's date on the sheet and the slate */
+var now=new Date(),stamp=p2(now.getMonth()+1)+'.'+p2(now.getDate())+'.'+String(now.getFullYear()).slice(2);
+document.getElementById('sheet-date').textContent=stamp;
+document.getElementById('sl-date').textContent=stamp;
+
+function collect(){
+  return {
+    name:E.namedItem('name').value.trim(),email:E.namedItem('email').value.trim(),brand:E.namedItem('brand').value.trim(),
+    type:E.namedItem('type').value,term:E.namedItem('term').value,when:E.namedItem('when').value,
+    brief:E.namedItem('brief').value.trim(),website:E.namedItem('website').value.trim()
+  };
+}
+
+/* prefill from links like contact.html?type=tier2&term=6 (known values only) */
+var q=new URLSearchParams(location.search),qt=q.get('type'),qm=q.get('term');
+function check(name,value){
+  form.querySelectorAll('input[name="'+name+'"]').forEach(function(r){if(r.value===value)r.checked=true;});
+}
+if(TYPES[qt])check('type',qt);
+if(['3','6','12'].indexOf(qm)>=0)check('term',qm);
+
+/* commitment only applies to the two retainers */
+function syncTerm(){
+  var t=E.namedItem('type').value,show=t==='tier1'||t==='tier2';
+  termG.hidden=!show;
+  if(!show)form.querySelectorAll('input[name="term"]').forEach(function(r){r.checked=false;});
+}
+syncTerm();
+
+/* ── the slate fills in as you type ── */
+var slateEl=document.getElementById('slate');
+function chalk(key,text){
+  var el=slateEl.querySelector('[data-sl="'+key+'"]');
+  if(el.textContent===text)return;
+  el.textContent=text;
+  if(RED)return;
+  el.classList.remove('chalk');void el.offsetWidth;el.classList.add('chalk');
+}
+function slate(){
+  var d=collect();
+  chalk('brand',d.brand||'Your production');
+  chalk('name',d.name||'—');
+  chalk('type',d.type?SCENE[d.type]:'—');
+  chalk('term',d.term?d.term+' MO':'01');
+}
+slate();
+function clapSlate(){
+  var stick=document.getElementById('slate-stick'),fl=document.getElementById('slate-flash');
+  if(RED||!stick.animate)return;
+  stick.animate([
+    {transform:'rotate(0deg)'},{transform:'rotate(-26deg)',offset:.45,easing:'cubic-bezier(.2,.8,.2,1)'},
+    {transform:'rotate(0deg)',offset:.78,easing:'cubic-bezier(.7,0,1,1)'},{transform:'rotate(-2deg)',offset:.9},{transform:'rotate(0deg)'}
+  ],{duration:620});
+  fl.animate([{opacity:0},{opacity:0,offset:.76},{opacity:.35,offset:.8},{opacity:0}],{duration:780});
+}
+
+/* ── validation ── */
+var RULES={
+  name:function(d){return d.name?'':'Add your name.';},
+  email:function(d){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)?'':(d.email?'That email doesn\'t look right.':'Add an email so we can reply.');},
+  type:function(d){return d.type?'':'Pick what you\'re making.';},
+  brief:function(d){return d.brief.length>=12?'':(d.brief?'A little more detail, please.':'Tell us about the project.');}
+};
+function setErr(key,msg){
+  var f=form.querySelector('[data-field="'+key+'"]');
+  f.classList.toggle('bad',!!msg);
+  f.querySelector('.ferr').textContent=msg;
+  var input=f.querySelector('input:not([type="radio"]),textarea');
+  if(input){if(msg)input.setAttribute('aria-invalid','true');else input.removeAttribute('aria-invalid');}
+}
+function validate(){
+  var d=collect(),first=null;
+  Object.keys(RULES).forEach(function(k){var msg=RULES[k](d);setErr(k,msg);if(msg&&!first)first=k;});
+  if(first){
+    var f=form.querySelector('[data-field="'+first+'"]'),focusEl=f.querySelector('input,textarea');
+    f.scrollIntoView({behavior:RED?'auto':'smooth',block:'center'});
+    if(focusEl)focusEl.focus({preventScroll:true});
+  }
+  return !first;
+}
+form.addEventListener('input',function(e){
+  var f=e.target.closest('[data-field]');
+  if(f&&f.classList.contains('bad'))setErr(f.getAttribute('data-field'),RULES[f.getAttribute('data-field')](collect()));
+  slate();
+});
+form.addEventListener('change',function(e){if(e.target.name==='type')syncTerm();slate();});
+
+/* ── the brief, as plain text ── */
+function subject(d){return 'Project brief — '+TYPES[d.type]+(d.brand?' — '+d.brand:'');}
+function briefText(d){
+  var L=['Name: '+d.name,'Email: '+d.email];
+  if(d.brand)L.push('Brand / company: '+d.brand);
+  L.push('Project: '+TYPES[d.type]);
+  if(d.term)L.push('Commitment: '+d.term+' months');
+  if(d.when)L.push('Timing: '+d.when);
+  L.push('','The brief:',d.brief,'','— Sent from the Ahrendezvous call sheet');
+  return L.join('\r\n');
+}
+function mailto(d){return 'mailto:'+TO+'?subject='+encodeURIComponent(subject(d))+'&body='+encodeURIComponent(briefText(d));}
+
+/* ── after sending ── */
+function wrap(d,mode){
+  document.getElementById('done-brief').textContent=briefText(d);
+  document.getElementById('mail-again').href=mailto(d);
+  document.getElementById('mail-again').hidden=mode!=='mail';
+  document.getElementById('copy-brief').hidden=mode!=='mail';
+  document.getElementById('done-msg').textContent=mode==='mail'
+    ?'Your email app should open with the brief written out to '+TO+' — just press send. Nothing opened? Copy the brief and email it to us.'
+    :'Brief received — thank you. We\'ll be in touch soon.';
+  form.hidden=true;done.hidden=false;
+  done.focus({preventScroll:true});
+  done.scrollIntoView({behavior:RED?'auto':'smooth',block:'start'});
+}
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  formErr.textContent='';
+  if(!validate())return;
+  var d=collect();
+  if(d.website){wrap(d,'sent');return;}         /* honeypot filled: quietly drop it */
+  A.clap(sendBtn);clapSlate();
+  if(FORM_ENDPOINT){
+    sendBtn.disabled=true;
+    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({name:d.name,email:d.email,brand:d.brand,project:TYPES[d.type],commitment:d.term?d.term+' months':'',
+        timing:d.when,brief:d.brief,_subject:subject(d)})})
+      .then(function(r){if(!r.ok)throw new Error(r.status);wrap(d,'sent');})
+      .catch(function(){
+        sendBtn.disabled=false;
+        formErr.textContent='Couldn\'t send just now — try again, or email '+TO+'.';
+      });
+  }else{
+    wrap(d,'mail');
+    setTimeout(function(){A.openMail(mailto(d));},420);  /* after the clap lands */
+  }
+});
+/* separate so it can be stubbed in tests; inside an iframe this opens the mail app */
+A.openMail=function(url){location.href=url;};
+
+/* ── copy buttons ── */
+function copyFrom(btn,text){
+  var label=btn.textContent;
+  A.copy(text).then(function(){btn.textContent='Copied ✓';},function(){A.toast('Copy failed — select the text instead.');})
+    .then(function(){setTimeout(function(){btn.textContent=label;},1600);});
+}
+document.querySelectorAll('[data-copy]').forEach(function(b){
+  b.addEventListener('click',function(){copyFrom(b,b.getAttribute('data-copy'));});
+});
+document.getElementById('copy-brief').addEventListener('click',function(){
+  copyFrom(this,document.getElementById('done-brief').textContent);
+});
+
+A.ready();
+})();
+</script>
+</body>
+</html>

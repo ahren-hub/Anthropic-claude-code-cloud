@@ -1,9 +1,9 @@
 # Ahrendezvous Entertainment — Site Brief (canonical reference)
 
-Single source of truth for the landing-page rebuild. The deliverable is
-`ahrendezvous-entertainment.html` at the repo root — one self-contained file
-(Three.js + GSAP via CDN) that will replace the current Squarespace landing
-page at ahrendezvous.com.
+Single source of truth for the site rebuild. The deliverable is the `site/`
+folder — self-contained pages (landing, Commercial, Portfolio, Contact) that
+are hosted on Cloudflare R2 and embedded in Squarespace as the landing page of
+ahrendezvous.com. See "Site structure" below.
 
 ## Design direction (from 4 reference sites + owner feedback)
 - ~~boazwalma.com~~ — discarded per owner.
@@ -54,9 +54,27 @@ Also: intensive **Film & Photography Mentorship Camps**.
 
 **Contact:** support@ahrendezvous.com · West Midtown, Atlanta.
 
+## Site structure
+- `site/` — built output; upload these files side by side to the R2 bucket
+  (`index.html`, `commercial.html`, `portfolio.html`, `contact.html`). Each is
+  self-contained (photos embedded); links between them are relative. Squarespace
+  embeds `index.html` in a full-screen iframe and visitors navigate inside it.
+- `site-src/` — edit here, then run `node site-src/build.mjs` (no dependencies).
+  - `pages/` one source file per page.
+  - `partials/` shared head CSS, chrome (nav, mobile menu, page-cut transition,
+    cursor, toast), footer and `shared.js` — which also holds `REEL_URL`.
+  - `photos/` processed photography + `manifest.json` (title, category, alt).
+    To add photos: add rows to `process.py`, run
+    `python3 -I site-src/photos/process.py <folder-of-originals>` (needs Pillow;
+    strips EXIF/GPS, converts to sRGB), then rebuild.
+- Pages not built yet (Cultural) show an "in production" notice instead of a
+  dead link; adding `site-src/pages/cultural.html` switches the links on.
+- Contact form composes an email to support@ahrendezvous.com by default; set
+  `FORM_ENDPOINT` in `site-src/pages/contact.html` to deliver via Formspree.
+
 ## Workflow notes
-- Owner reviews via preview before final approval; iterate on the root HTML
-  file directly. The `/website-builder` tool was the v1 path; direct
+- Owner reviews via preview before final approval; iterate on `site-src/`
+  and rebuild. The `/website-builder` tool was the v1 path; direct
   iteration is now preferred.
 - Reference sites block automated scraping (403) — design direction above is
   from owner's own descriptions, which is canonical anyway.

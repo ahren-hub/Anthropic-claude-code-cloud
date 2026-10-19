@@ -1,0 +1,128 @@
+[
+ {
+  "slug": "fire",
+  "title": "Fire",
+  "cat": "editorial",
+  "alt": "Portrait of a man in a jeweled beanie and white tank top against a wall of flames",
+  "ar": 0.884,
+  "w": 976,
+  "h": 1104
+ },
+ {
+  "slug": "red-portrait",
+  "title": "Portrait in red",
+  "cat": "portrait",
+  "alt": "Studio profile portrait of a man in black sunglasses against a red backdrop",
+  "ar": 0.752,
+  "w": 1053,
+  "h": 1400
+ },
+ {
+  "slug": "phone-lights",
+  "title": "Phone lights",
+  "cat": "live",
+  "alt": "Black-and-white concert crowd holding up phone lights toward a performer on stage",
+  "ar": 0.82,
+  "w": 928,
+  "h": 1132
+ },
+ {
+  "slug": "milky-way",
+  "title": "Under the Milky Way",
+  "cat": "nature",
+  "alt": "Silhouette of a figure in a cowboy hat standing on sandstone beneath the Milky Way",
+  "ar": 0.667,
+  "w": 934,
+  "h": 1400
+ },
+ {
+  "slug": "oyster",
+  "title": "Oyster, uni & roe",
+  "cat": "culinary",
+  "alt": "Oyster topped with uni, salmon roe, chives and a purple flower on a ceramic plate",
+  "ar": 1.0,
+  "w": 1400,
+  "h": 1400
+ },
+ {
+  "slug": "embrace",
+  "title": "The embrace",
+  "cat": "live",
+  "alt": "Two women embracing at an event, one smiling over the other's shoulder",
+  "ar": 0.667,
+  "w": 933,
+  "h": 1400
+ },
+ {
+  "slug": "on-the-hood",
+  "title": "On the hood",
+  "cat": "editorial",
+  "alt": "Black-and-white shot of a performer in a red bandana singing on the hood of a classic car, dancers around him",
+  "ar": 0.751,
+  "w": 896,
+  "h": 1193
+ },
+ {
+  "slug": "headlight",
+  "title": "Headlight study",
+  "cat": "editorial",
+  "alt": "Macro of a car headlight glowing red against black",
+  "ar": 0.738,
+  "w": 624,
+  "h": 846
+ },
+ {
+  "slug": "lake",
+  "title": "Lake at first light",
+  "cat": "nature",
+  "alt": "Misty lake at sunrise reflecting autumn trees, seen from a wooden dock",
+  "ar": 1.333,
+  "w": 1400,
+  "h": 1050
+ },
+ {
+  "slug": "camo",
+  "title": "Camo wrap",
+  "cat": "portrait",
+  "alt": "Young man seated on the pavement beside a camo-wrapped car",
+  "ar": 0.562,
+  "w": 787,
+  "h": 1400
+ },
+ {
+  "slug": "the-ring",
+  "title": "The ring",
+  "cat": "live",
+  "alt": "Close-up of a hand with yellow nails and a diamond ring holding a glass of white wine",
+  "ar": 0.667,
+  "w": 933,
+  "h": 1400
+ },
+ {
+  "slug": "lampposts",
+  "title": "Among the lampposts",
+  "cat": "portrait",
+  "alt": "Black-and-white portrait of a man in a cap leaning on a vintage lamppost among many others",
+  "ar": 0.75,
+  "w": 945,
+  "h": 1260
+ },
+ {
+  "slug": "green-eyes",
+  "title": "Green eyes",
+  "cat": "nature",
+  "alt": "Grey cat with green eyes stretched out in grass and fallen leaves",
+  "ar": 1.333,
+  "w": 1134,
+  "h": 851
+ },
+ {
+  "slug": "sorbet",
+  "title": "Sorbet, black bowl",
+  "cat": "culinary",
+  "alt": "Overhead view of a quenelle of yellow sorbet and a black spoon in a dark bowl on wood",
+  "ar": 1.0,
+  "w": 1400,
+  "h": 1400
+ }
+]

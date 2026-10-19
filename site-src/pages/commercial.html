@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- @include head title="Commercial — Ahrendezvous® · Photography and Cinematography Retainers" description="Visual storytelling photography and cinematography for B2B brands and luxury local businesses. Monthly retainers from West Midtown, Atlanta." -->
+<style>
+/* ═══ COMMERCIAL ═════════════════════════════════════════════════════ */
+.cm-sec{padding:clamp(5rem,12vh,9rem) var(--gutter);scroll-margin-top:60px}
+.cm-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem 4rem;align-items:end;margin-bottom:clamp(2.4rem,5vw,4rem)}
+.cm-head .sec-label{grid-column:1/-1;margin-bottom:.6rem}
+.cm-h2{font-size:clamp(2.8rem,6vw,5.6rem)}
+@media(max-width:860px){.cm-head{grid-template-columns:1fr}}
+
+/* ── HERO: a live camera monitor ── */
+.cm-hero{
+  position:relative;min-height:100vh;min-height:100svh;overflow:hidden;
+  display:flex;align-items:flex-end;padding:8rem var(--gutter) clamp(3rem,9vh,6rem);
+}
+.mon{position:absolute;inset:0;z-index:0;background:#070707;overflow:hidden}
+.mon-feed img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.1);
+}
+.mon-feed img.on{opacity:1;animation:kenburns 4.6s linear forwards}
+@keyframes kenburns{from{transform:scale(1.12)}to{transform:scale(1.01)}}
+.mon-flash{position:absolute;inset:0;background:var(--parchment);opacity:0;mix-blend-mode:overlay}
+.mon-shade{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(13,13,13,.6) 0%,rgba(13,13,13,0) 24%,rgba(13,13,13,0) 42%,rgba(13,13,13,.94) 100%),
+    linear-gradient(90deg,rgba(13,13,13,.8) 0%,rgba(13,13,13,.15) 55%,rgba(13,13,13,0) 100%);
+}
+.mon-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(13,13,13,.16) 3px 4px)}
+.mon-hud{position:absolute;inset:clamp(5.8rem,12vh,7.2rem) var(--gutter) clamp(1.4rem,4vh,2.4rem);pointer-events:none}
+.mon-hud .hb{position:absolute;width:28px;height:28px;border:0 solid rgba(247,245,240,.55)}
+.mon-hud .hb.tl{left:0;top:0;border-left-width:1px;border-top-width:1px}
+.mon-hud .hb.tr{right:0;top:0;border-right-width:1px;border-top-width:1px}
+.mon-hud .hb.bl{left:0;bottom:0;border-left-width:1px;border-bottom-width:1px}
+.mon-hud .hb.br{right:0;bottom:0;border-right-width:1px;border-bottom-width:1px}
+.mh{
+  position:absolute;font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(247,245,240,.78);white-space:nowrap;text-shadow:0 1px 10px rgba(13,13,13,.8);
+}
+.mh-tl{left:2.6rem;top:.4rem}.mh-tr{right:2.6rem;top:.4rem}.mh-br{right:2.6rem;bottom:.4rem;color:var(--gold)}
+.mh-tl b{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ember);margin-right:.65em;animation:blink 1.2s infinite}
+.mh-tl em{font-style:normal;color:var(--gold);margin-left:.9em}
+.mon-cross{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%)}
+.mon-cross::before,.mon-cross::after{content:'';position:absolute;background:rgba(247,245,240,.38)}
+.mon-cross::before{left:50%;top:0;bottom:0;width:1px}.mon-cross::after{top:50%;left:0;right:0;height:1px}
+.af{
+  position:absolute;left:0;top:0;width:118px;height:78px;margin:-39px 0 0 -59px;pointer-events:none;
+  transition:width .35s var(--ease),height .35s var(--ease),margin .35s var(--ease);
+}
+.af i{position:absolute;width:16px;height:12px;border:0 solid var(--parchment);transition:border-color .2s}
+.af i:nth-child(1){left:0;top:0;border-left-width:1.5px;border-top-width:1.5px}
+.af i:nth-child(2){right:0;top:0;border-right-width:1.5px;border-top-width:1.5px}
+.af i:nth-child(3){left:0;bottom:0;border-left-width:1.5px;border-bottom-width:1.5px}
+.af i:nth-child(4){right:0;bottom:0;border-right-width:1.5px;border-bottom-width:1.5px}
+.af span{position:absolute;left:0;top:calc(100% + 7px);font-family:var(--mono);font-size:.5rem;letter-spacing:.24em;color:var(--parchment);white-space:nowrap;transition:color .2s}
+.af.lock{width:94px;height:62px;margin:-31px 0 0 -47px}
+.af.lock i,.af.lock span{border-color:var(--ember);color:var(--ember)}
+.cm-hero-copy{position:relative;z-index:2;max-width:min(100%,920px)}
+.cm-title{font-size:clamp(3.4rem,10vw,9.5rem);margin:1rem 0 1.6rem}
+.cm-hero .lede{max-width:52ch;color:rgba(247,245,240,.82)}
+.cm-actions{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1.2rem 1.6rem;margin-top:2.4rem}
+@media(max-width:700px){.mh-tr{display:none}.af{transform-origin:0 0}}
+
+/* ── capabilities ── */
+.caps{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cap{position:relative;padding:2.2rem clamp(1.2rem,2vw,1.9rem) 2.6rem;border-right:1px solid var(--line);transition:background .5s}
+.cap:last-child{border-right:0}
+.cap:hover{background:rgba(26,26,26,.65)}
+.cap-n{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;color:var(--parch-40)}
+.cap svg{display:block;width:46px;height:46px;margin:2.2rem 0 1.7rem;fill:none;stroke:var(--gold);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.cap svg *{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease-out) calc(var(--d,0s) + .25s)}
+.cap.in svg *,html:not(.rv) .cap svg *{stroke-dashoffset:0}
+.cap:hover svg{stroke:var(--ember)}
+.cap h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.2vw,2.1rem);line-height:1.1;margin-bottom:.8rem}
+.cap p{font-size:.92rem;color:var(--parch-70)}
+@media(max-width:1000px){.caps{grid-template-columns:1fr 1fr}.cap:nth-child(2){border-right:0}.cap:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.caps{grid-template-columns:1fr}.cap{border-right:0;border-bottom:1px solid var(--line)}.cap:last-child{border-bottom:0}}
+
+/* ── retainers: spec sheets that double as a picker ── */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.6rem)}
+.tier-wrap{perspective:1400px}
+.tier{
+  position:relative;height:100%;padding:clamp(1.6rem,3vw,2.6rem);overflow:hidden;
+  background:linear-gradient(160deg,rgba(26,26,26,.94),rgba(13,13,13,.94));border:1px solid var(--line);
+  transition:border-color .4s,box-shadow .5s,transform .6s var(--ease-out);
+}
+.tier::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(520px circle at var(--mx,50%) var(--my,0%),rgba(197,168,128,.15),transparent 45%);
+}
+.tier:hover::after{opacity:1}
+.tier.is-on{border-color:var(--gold);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.tier:has(input:focus-visible){outline:1px solid var(--gold);outline-offset:5px}
+.tier input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.tier-hit{position:absolute;inset:0;z-index:3}
+.tier-ghost{
+  position:absolute;right:-.04em;top:-.2em;font-family:var(--serif);font-style:italic;
+  font-size:clamp(9rem,16vw,14rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none;
+}
+.tier-head{position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:2.2rem}
+.tier-no{font-family:var(--mono);font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);padding:.45rem .7rem;border:1px solid var(--gold-25)}
+.tier-pick{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40);transition:color .3s}
+.tier-pick i{position:relative;width:15px;height:15px;border:1px solid currentColor;border-radius:50%}
+.tier-pick .on,.tier.is-on .tier-pick .off{display:none}
+.tier.is-on .tier-pick .on{display:inline}
+.tier.is-on .tier-pick{color:var(--ember)}
+.tier.is-on .tier-pick i::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--ember)}
+.tier-name{position:relative;font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,3.6vw,3.3rem);line-height:1;margin-bottom:1.4rem}
+.tier-name em{font-style:italic;color:var(--gold)}
+.tier-price{position:relative;display:flex;align-items:baseline;font-family:var(--serif);margin-bottom:1rem}
+.tier-price .cur{font-size:1.7rem;color:var(--parch-70);align-self:flex-start;margin:.55rem .15rem 0 0}
+.tier-price b{font-weight:400;font-size:clamp(3.4rem,6vw,5.2rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tier-price .per{font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--parch-40);margin-left:.8rem}
+.tier-for{position:relative;font-size:.98rem;color:var(--parch-70);max-width:36ch;margin-bottom:2rem}
+.spec{position:relative;border-top:1px solid var(--line)}
+.spec>div{display:grid;grid-template-columns:7.2rem 1fr;gap:1rem;padding:.95rem 0;border-bottom:1px solid var(--line)}
+.spec dt{font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40);padding-top:.3rem}
+.spec dd{font-size:.94rem;color:var(--parchment)}
+.spec dd b{font-family:var(--serif);font-weight:500;font-size:1.3em;line-height:1;color:var(--gold)}
+.spec dd.na{color:var(--parch-40)}
+@media(max-width:860px){.tiers{grid-template-columns:1fr}}
+@media(max-width:420px){.spec>div{grid-template-columns:1fr;gap:.2rem}}
+
+.ret-bar{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.4rem 2.4rem;
+  margin-top:clamp(1rem,2vw,1.6rem);padding:1.3rem clamp(1.2rem,2.4vw,2rem);
+  border:1px solid var(--line);background:rgba(13,13,13,.72);
+}
+.terms{border:0;display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.terms legend{float:left;margin-right:1rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40)}
+.terms label{position:relative}
+.terms input{position:absolute;opacity:0;width:1px;height:1px}
+.terms span{
+  display:inline-block;padding:.72rem 1rem;border:1px solid var(--line);
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parch-70);
+  transition:background .3s,border-color .3s,color .3s;
+}
+.terms label:hover span{border-color:var(--gold-25);color:var(--parchment)}
+.terms input:checked+span{background:var(--parchment);border-color:var(--parchment);color:var(--obsidian)}
+.terms input:focus-visible+span{outline:1px solid var(--gold);outline-offset:3px}
+.ret-sum{font-family:var(--serif);font-size:clamp(1.1rem,1.7vw,1.45rem);line-height:1.3;color:var(--parchment)}
+.ret-sum em{color:var(--gold)}
+@media(max-width:1000px){.ret-bar{grid-template-columns:1fr}}
+
+/* ── process: a line that fills as you scroll ── */
+.steps{list-style:none;position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem;padding-top:3.4rem;--p:0}
+.steps::before,.steps::after{content:'';position:absolute;left:0;right:0;top:1rem;height:1px;background:var(--line)}
+.steps::after{background:linear-gradient(90deg,var(--gold),var(--ember));transform:scaleX(var(--p));transform-origin:left}
+.step{position:relative}
+.step::before{
+  content:'';position:absolute;left:0;top:calc(1rem - 3.4rem - 5.5px);width:11px;height:11px;border-radius:50%;
+  border:1px solid var(--parch-40);background:var(--obsidian);transition:border-color .4s,background .4s,box-shadow .4s;
+}
+.step.lit::before{border-color:var(--ember);background:var(--ember);box-shadow:0 0 0 6px rgba(255,69,23,.12)}
+.step-n{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;color:var(--parch-40)}
+.step h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:.6rem 0 .7rem}
+.step p{font-size:.94rem;color:var(--parch-70);max-width:32ch}
+@media(max-width:900px){
+  .steps{grid-template-columns:1fr;gap:2.4rem;padding:0 0 0 2.4rem}
+  .steps::before,.steps::after{left:5px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .steps::after{transform:scaleY(var(--p));transform-origin:top}
+  .step::before{left:-2.4rem;top:.35rem}
+}
+
+/* ── film strip of work ── */
+.cm-strip{padding:clamp(4rem,9vh,7rem) 0}
+.cm-strip-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.2rem;padding:0 var(--gutter);margin-bottom:2.2rem}
+.cm-strip-head .cm-h2{font-size:clamp(2.4rem,5vw,4.4rem)}
+.reel-strip{overflow:hidden;background:#0a0908;border-top:1px solid var(--gold-12);border-bottom:1px solid var(--gold-12)}
+.rs-track{display:flex;gap:6px;width:max-content;animation:mq 70s linear infinite}
+.reel-strip:hover .rs-track{animation-play-state:paused}
+.rs-frame{
+  position:relative;flex:none;padding:24px 0;
+  background:
+    linear-gradient(90deg,transparent 0 9px,rgba(247,245,240,.16) 9px 19px,transparent 19px) 0 8px/28px 8px repeat-x,
+    linear-gradient(90deg,transparent 0 9px,rgba(247,245,240,.16) 9px 19px,transparent 19px) 0 calc(100% - 8px)/28px 8px repeat-x;
+}
+.rs-frame img{display:block;height:clamp(170px,23vw,260px);width:auto;filter:saturate(.85) brightness(.92);transition:filter .5s}
+.rs-frame:hover img{filter:none}
+
+/* ── mentorship camps ── */
+.cm-camps{
+  position:relative;overflow:hidden;margin:0 var(--gutter);padding:clamp(2.4rem,6vw,5rem);
+  display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2rem 4rem;align-items:end;
+  border:1px solid var(--gold-25);
+  background:radial-gradient(120% 150% at 100% 0%,rgba(74,85,81,.42),transparent 62%),rgba(13,13,13,.7);
+}
+.cm-camps .sec-label{grid-column:1/-1;margin:0}
+.cm-camps h2{font-size:clamp(2.4rem,5.2vw,4.8rem)}
+.cm-camps-side{display:flex;flex-direction:column;align-items:flex-start;gap:1.6rem}
+@media(max-width:860px){.cm-camps{grid-template-columns:1fr}}
+
+/* ── closing call ── */
+.cm-end{padding:clamp(6rem,14vh,10rem) var(--gutter);text-align:center}
+.cm-end .sec-label{padding:0}
+.cm-end h2{font-size:clamp(3.4rem,10vw,9rem);margin:0 auto 3rem}
+.cm-end-actions{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
+.cm-mail{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-70);transition:color .3s}
+.cm-mail:hover{color:var(--gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .mon-feed img.on{animation:none;transform:none}
+  .rs-track,.mh-tl b{animation:none}
+  .cap svg *{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body data-page="commercial">
+<!-- @include chrome -->
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<main id="main">
+<!-- ═══ HERO — live monitor ═════════════════════════════════════════ -->
+<section class="cm-hero" id="monitor" aria-labelledby="cm-title">
+  <div class="mon" aria-hidden="true">
+    <div class="mon-feed" id="mon-feed"></div>
+    <div class="mon-flash" id="mon-flash"></div>
+    <div class="mon-shade"></div>
+    <div class="mon-scan"></div>
+    <div class="mon-hud">
+      <span class="hb tl"></span><span class="hb tr"></span><span class="hb bl"></span><span class="hb br"></span>
+      <span class="mh mh-tl"><b></b>REC<em id="mon-tc">00:00:00:00</em></span>
+      <span class="mh mh-tr">24 FPS · 180° · T/2.8</span>
+      <span class="mh mh-br" id="mon-clip">Clip 01</span>
+      <span class="mon-cross"></span>
+    </div>
+    <div class="af" id="af"><i></i><i></i><i></i><i></i><span id="af-label">AF-C</span></div>
+  </div>
+  <div class="cm-hero-copy">
+    <div class="sec-label flush"><span class="idx">01</span>Commercial</div>
+    <h1 class="display cm-title" id="cm-title" data-split>Your brand, <em>in frame.</em></h1>
+    <p class="lede" data-reveal style="--d:.35s">Visual storytelling photography &amp; cinematography for B2B brands and luxury local businesses — produced monthly from our West Midtown studio.</p>
+    <div class="cm-actions" data-reveal style="--d:.5s">
+      <a class="btn" href="#retainers">View retainers <span class="arr down">↓</span></a>
+      <a class="clap clap-lg" href="contact.html?type=commercial" data-clap>
+        <span class="nc-top"></span>
+        <span class="nc-board"><span class="nc-l1">Start a project</span><span class="nc-l2">AHRDVS® · PROD · SLATE</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq">
+    <span>Photography<i>✦</i>Cinematography<i>✦</i>Short-form<i>✦</i>Long-form<i>✦</i>Color grading<i>✦</i>Custom audio<i>✦</i>Native captions<i>✦</i>Aesthetic direction<i>✦</i></span>
+    <span>Photography<i>✦</i>Cinematography<i>✦</i>Short-form<i>✦</i>Long-form<i>✦</i>Color grading<i>✦</i>Custom audio<i>✦</i>Native captions<i>✦</i>Aesthetic direction<i>✦</i></span>
+  </div>
+</div>
+
+<!-- ═══ CAPABILITIES ════════════════════════════════════════════════ -->
+<section class="cm-sec" id="capabilities" aria-labelledby="cap-title">
+  <div class="cm-head">
+    <div class="sec-label flush" data-reveal><span class="idx">02</span>Capabilities</div>
+    <h2 class="display cm-h2" id="cap-title" data-split>Four crafts, <em>one studio.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Stills and motion made together, so every channel you show up on looks like the same brand.</p>
+  </div>
+  <ul class="caps">
+    <li class="cap" data-reveal style="--d:0s">
+      <span class="cap-n">01</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect pathLength="1" x="5" y="13" width="34" height="23" rx="2"/><path pathLength="1" d="M15 13l3-5h8l3 5"/><circle pathLength="1" cx="22" cy="24.5" r="7"/><circle pathLength="1" cx="22" cy="24.5" r="2.6"/><path pathLength="1" d="M32.5 18h2.5"/></svg>
+      <h3>Photography</h3>
+      <p>Hi-res editorial photography of your brand, your product and your people.</p>
+    </li>
+    <li class="cap" data-reveal style="--d:.08s">
+      <span class="cap-n">02</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle pathLength="1" cx="13" cy="11" r="6"/><circle pathLength="1" cx="27" cy="10" r="5"/><rect pathLength="1" x="6" y="18" width="24" height="15" rx="1.5"/><path pathLength="1" d="M30 22.5l9-4v14l-9-4"/><path pathLength="1" d="M12 33l-3 7M24 33l3 7"/></svg>
+      <h3>Cinematography</h3>
+      <p>Short-form built for Reels, TikTok and Shorts — and cinematic long-form when the story needs room.</p>
+    </li>
+    <li class="cap" data-reveal style="--d:.16s">
+      <span class="cap-n">03</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><path pathLength="1" d="M3 24h5l3-8 4 16 4-22 4 26 4-18 3 10 3-4h8"/><circle pathLength="1" cx="36" cy="9" r="4"/></svg>
+      <h3>Post-production</h3>
+      <p>Every edit color-graded, scored with custom audio and captioned natively.</p>
+    </li>
+    <li class="cap" data-reveal style="--d:.24s">
+      <span class="cap-n">04</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle pathLength="1" cx="22" cy="22" r="16"/><path pathLength="1" d="M22 6l6.5 13M38 22l-13 6.5M22 38l-6.5-13M6 22l13-6.5"/><path pathLength="1" d="M33.3 10.7l-8.6 11.2M33.3 33.3l-11.2-8.6M10.7 33.3l8.6-11.2M10.7 10.7l11.2 8.6"/></svg>
+      <h3>Aesthetic direction</h3>
+      <p>Custom aesthetic-direction templates, plus a monthly visual audit and strategy call on The Enterprise Presence.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ═══ RETAINERS ═══════════════════════════════════════════════════ -->
+<section class="cm-sec" id="retainers" aria-labelledby="ret-title">
+  <div class="cm-head">
+    <div class="sec-label flush" data-reveal><span class="idx">03</span>Retainers</div>
+    <h2 class="display cm-h2" id="ret-title" data-split>Monthly production, <em>on retainer.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Choose a tier and a 3, 6 or 12-month commitment. Then it's on us — every month.</p>
+  </div>
+
+  <form class="ret" id="ret" action="contact.html" method="get">
+    <div class="tiers" role="radiogroup" aria-label="Retainer tier">
+      <div class="tier-wrap" data-reveal>
+        <div class="tier is-on">
+          <input type="radio" name="type" value="tier1" id="t1" checked>
+          <label class="tier-hit" for="t1"><span class="vh">Select Tier 01, The Social Engine, $2,000 per month</span></label>
+          <span class="tier-ghost" aria-hidden="true">01</span>
+          <div class="tier-head"><span class="tier-no">Tier 01</span><span class="tier-pick" aria-hidden="true"><i></i><span class="off">Select</span><span class="on">Selected</span></span></div>
+          <h3 class="tier-name">The Social <em>Engine</em></h3>
+          <p class="tier-price"><span class="cur">$</span><b data-count="2000">2,000</b><span class="per">/ month</span></p>
+          <p class="tier-for" data-eq="0">For brands building authority on Reels, TikTok and Shorts.</p>
+          <dl class="spec">
+            <div data-eq="1"><dt>Studio</dt><dd>One 3-hour studio block each month</dd></div>
+            <div data-eq="2"><dt>Video</dt><dd><b data-count="8">8</b> edited short-form videos — color-graded, custom audio, native captions</dd></div>
+            <div data-eq="3"><dt>Photo</dt><dd><b data-count="10">10</b> hi-res editorial photos</dd></div>
+            <div data-eq="4"><dt>Direction</dt><dd class="na">—</dd></div>
+            <div data-eq="5"><dt>Turnaround</dt><dd>10-day guaranteed turnaround</dd></div>
+            <div data-eq="6"><dt>Revisions</dt><dd><b>2</b> revisions</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="tier-wrap" data-reveal style="--d:.12s">
+        <div class="tier">
+          <input type="radio" name="type" value="tier2" id="t2">
+          <label class="tier-hit" for="t2"><span class="vh">Select Tier 02, The Enterprise Presence, $5,000 per month</span></label>
+          <span class="tier-ghost" aria-hidden="true">02</span>
+          <div class="tier-head"><span class="tier-no">Tier 02</span><span class="tier-pick" aria-hidden="true"><i></i><span class="off">Select</span><span class="on">Selected</span></span></div>
+          <h3 class="tier-name">The Enterprise <em>Presence</em></h3>
+          <p class="tier-price"><span class="cur">$</span><b data-count="5000">5,000</b><span class="per">/ month</span></p>
+          <p class="tier-for" data-eq="0">For premium service brands, e-commerce and high-tier creators.</p>
+          <dl class="spec">
+            <div data-eq="1"><dt>Studio</dt><dd>One 8-hour block, or two 4-hour blocks, each month</dd></div>
+            <div data-eq="2"><dt>Video</dt><dd><b data-count="16">16</b> short-form + 1 cinematic long-form — or 5 long-form videos</dd></div>
+            <div data-eq="3"><dt>Photo</dt><dd><b data-count="25">25</b> hi-res editorial photos</dd></div>
+            <div data-eq="4"><dt>Direction</dt><dd>Custom aesthetic-direction templates + monthly visual audit &amp; strategy call</dd></div>
+            <div data-eq="5"><dt>Turnaround</dt><dd>24–72 hour priority turnaround</dd></div>
+            <div data-eq="6"><dt>Revisions</dt><dd><b>5</b> revisions</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="ret-bar" data-reveal>
+      <fieldset class="terms">
+        <legend>Commitment</legend>
+        <label><input type="radio" name="term" value="3" checked><span>3 months</span></label>
+        <label><input type="radio" name="term" value="6"><span>6 months</span></label>
+        <label><input type="radio" name="term" value="12"><span>12 months</span></label>
+      </fieldset>
+      <output class="ret-sum" id="ret-sum" aria-live="polite"></output>
+      <button type="submit" class="clap clap-lg" data-clap>
+        <span class="nc-top"></span>
+        <span class="nc-board"><span class="nc-l1">Request this retainer</span><span class="nc-l2">Opens the project brief</span></span>
+      </button>
+    </div>
+  </form>
+</section>
+
+<!-- ═══ PROCESS ═════════════════════════════════════════════════════ -->
+<section class="cm-sec" id="process" aria-labelledby="proc-title">
+  <div class="cm-head">
+    <div class="sec-label flush" data-reveal><span class="idx">04</span>How a month runs</div>
+    <h2 class="display cm-h2" id="proc-title" data-split>One month, <em>start to finish.</em></h2>
+  </div>
+  <ol class="steps" id="steps">
+    <li class="step" data-reveal><span class="step-n">01</span><h3>Brief</h3><p>Tell us what you're launching, where it will live and how it should feel.</p></li>
+    <li class="step" data-reveal style="--d:.08s"><span class="step-n">02</span><h3>Studio block</h3><p>Your monthly time in the studio — three hours on The Social Engine; eight, or two four-hour sessions, on The Enterprise Presence.</p></li>
+    <li class="step" data-reveal style="--d:.16s"><span class="step-n">03</span><h3>Post</h3><p>Every edit is color-graded, scored with custom audio and captioned natively.</p></li>
+    <li class="step" data-reveal style="--d:.24s"><span class="step-n">04</span><h3>Delivery</h3><p>A guaranteed 10-day turnaround on Tier 01, 24–72 hour priority on Tier 02 — revisions included.</p></li>
+  </ol>
+</section>
+
+<!-- ═══ FROM THE PORTFOLIO ══════════════════════════════════════════ -->
+<section class="cm-strip" aria-labelledby="strip-title">
+  <div class="cm-strip-head">
+    <div>
+      <div class="sec-label flush" data-reveal><span class="idx">05</span>From the portfolio</div>
+      <h2 class="display cm-h2" id="strip-title" data-split>Frames we've <em>made.</em></h2>
+    </div>
+    <a class="btn" href="portfolio.html" data-reveal>View the portfolio <span class="arr">↗</span></a>
+  </div>
+  <div class="reel-strip"><div class="rs-track" id="rs-track"></div></div>
+</section>
+
+<!-- ═══ MENTORSHIP CAMPS ════════════════════════════════════════════ -->
+<section class="cm-camps" aria-labelledby="camps-title" data-reveal>
+  <div class="sec-label flush"><span class="idx">Also</span>From the studio</div>
+  <h2 class="display" id="camps-title">Film &amp; photography <em>mentorship camps.</em></h2>
+  <div class="cm-camps-side">
+    <p class="lede">Intensive mentorship camps in film and photography.</p>
+    <a class="btn" href="contact.html?type=camp">Ask about camps <span class="arr">↗</span></a>
+  </div>
+</section>
+
+<!-- ═══ CLOSE ═══════════════════════════════════════════════════════ -->
+<section class="cm-end" aria-labelledby="end-title">
+  <div class="sec-label" data-reveal><span class="idx">Next</span>Your production</div>
+  <h2 class="display" id="end-title" data-split>Ready when <em>you</em> are.</h2>
+  <div class="cm-end-actions" data-reveal>
+    <a class="clap clap-lg" href="contact.html?type=commercial" data-clap>
+      <span class="nc-top"></span>
+      <span class="nc-board"><span class="nc-l1">Start a project</span><span class="nc-l2">AHRDVS® · PROD · SLATE</span></span>
+    </a>
+    <a class="cm-mail" href="mailto:support@ahrendezvous.com">or email support@ahrendezvous.com</a>
+  </div>
+</section>
+</main>
+
+<!-- @include footer -->
+
+<!-- @include shared-js -->
+<script>
+(function(){
+'use strict';
+var A=window.AHRDVS,RED=A.RED,TOUCH=A.TOUCH,p2=A.p2;
+var FRAMES=/*@data:photo-full:the-ring,oyster,headlight,red-portrait*/[];
+var STRIP=/*@data:photo-thumb:fire,sorbet,on-the-hood,camo,embrace,milky-way,lampposts*/[];
+/* where each frame's subject sits, so the wide crop keeps it in shot */
+var FOCUS={'the-ring':'56% 52%','oyster':'50% 52%','headlight':'46% 42%','red-portrait':'62% 32%'};
+var NAMES={tier1:'The Social Engine',tier2:'The Enterprise Presence'},PRICES={tier1:'$2,000',tier2:'$5,000'};
+
+/* ═══ MONITOR — hard cuts between commercial frames ═══ */
+var hero=document.getElementById('monitor'),feed=document.getElementById('mon-feed');
+var clip=document.getElementById('mon-clip'),flash=document.getElementById('mon-flash'),tcEl=document.getElementById('mon-tc');
+var shots=FRAMES.map(function(f,i){
+  var im=document.createElement('img');
+  im.src=f.u;im.alt='';im.decoding='async';
+  im.style.objectPosition=FOCUS[f.slug]||'50% 50%';
+  im.style.transformOrigin=['70% 60%','30% 40%','60% 30%','40% 70%'][i%4];
+  feed.appendChild(im);
+  return im;
+});
+var cur=-1,heroOn=true;
+function cut(){
+  if(!shots.length)return;
+  if(cur>=0)shots[cur].classList.remove('on');
+  cur=(cur+1)%shots.length;
+  void shots[cur].offsetWidth;                 /* restart the Ken Burns drift */
+  shots[cur].classList.add('on');
+  clip.textContent='Clip '+p2(cur+1)+' / '+p2(shots.length)+' — '+FRAMES[cur].title;
+  if(flash.animate&&!RED)flash.animate([{opacity:0},{opacity:.24},{opacity:0}],{duration:160});
+}
+cut();
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){heroOn=es[0].isIntersecting;}).observe(hero);
+if(!RED)setInterval(function(){if(heroOn&&!document.hidden)cut();},4200);
+
+/* autofocus box: chases the pointer, locks when it settles, hunts when idle */
+var af=document.getElementById('af'),afl=document.getElementById('af-label');
+var t0=performance.now(),ax=0,ay=0,tx=0,ty=0,lastMove=-1e4,lockT=null,lastTc='';
+function hunt(){var r=hero.getBoundingClientRect();tx=r.width*(.52+Math.random()*.3);ty=r.height*(.26+Math.random()*.3);}
+function aim(){
+  af.classList.remove('lock');afl.textContent='AF-C';
+  clearTimeout(lockT);
+  lockT=setTimeout(function(){af.classList.add('lock');afl.textContent='AF · LOCK';},480);
+}
+hunt();ax=tx;ay=ty;aim();
+hero.addEventListener('pointermove',function(e){
+  if(e.pointerType!=='mouse')return;
+  var r=hero.getBoundingClientRect();
+  tx=e.clientX-r.left;ty=e.clientY-r.top;lastMove=performance.now();aim();
+});
+setInterval(function(){if(heroOn&&performance.now()-lastMove>3500){hunt();aim();}},2800);
+(function loop(now){
+  requestAnimationFrame(loop);
+  if(!heroOn)return;
+  var k=RED?1:.12;
+  ax+=(tx-ax)*k;ay+=(ty-ay)*k;
+  af.style.transform='translate('+ax.toFixed(1)+'px,'+ay.toFixed(1)+'px)';
+  var tc=A.tc(((now||t0)-t0)/1000);
+  if(tc!==lastTc){tcEl.textContent=tc;lastTc=tc;}
+})();
+
+/* ═══ RETAINERS — picker, summary, tilt, count-up ═══ */
+var form=document.getElementById('ret'),sum=document.getElementById('ret-sum');
+var tiers=[].slice.call(document.querySelectorAll('.tier'));
+function sync(){
+  var tier=form.querySelector('input[name="type"]:checked'),term=form.querySelector('input[name="term"]:checked');
+  tiers.forEach(function(t){t.classList.toggle('is-on',t.querySelector('input').checked);});
+  if(tier&&term)sum.innerHTML='<em>'+NAMES[tier.value]+'</em> · '+term.value+'-month commitment · '+PRICES[tier.value]+' / month';
+}
+form.addEventListener('change',sync);
+sync();
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var tier=form.querySelector('input[name="type"]:checked').value,term=form.querySelector('input[name="term"]:checked').value;
+  A.clap(form.querySelector('button[type="submit"]'));
+  setTimeout(function(){A.go('contact.html?type='+tier+'&term='+term,'contact');},260);
+});
+if(!TOUCH&&!RED)tiers.forEach(function(t){
+  t.addEventListener('pointermove',function(e){
+    var r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    t.style.transform='rotateX('+((.5-y)*5).toFixed(2)+'deg) rotateY('+((x-.5)*7).toFixed(2)+'deg)';
+    t.style.setProperty('--mx',(x*100).toFixed(1)+'%');t.style.setProperty('--my',(y*100).toFixed(1)+'%');
+  });
+  t.addEventListener('pointerleave',function(){t.style.transform='';});
+});
+/* keep matching rows level across the two spec sheets */
+function level(){
+  var rows=[].slice.call(document.querySelectorAll('[data-eq]'));
+  rows.forEach(function(r){r.style.minHeight='';});
+  if(innerWidth<=860)return;
+  var tallest={};
+  rows.forEach(function(r){var k=r.getAttribute('data-eq');tallest[k]=Math.max(tallest[k]||0,r.offsetHeight);});
+  rows.forEach(function(r){r.style.minHeight=tallest[r.getAttribute('data-eq')]+'px';});
+}
+level();
+addEventListener('resize',level);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(level);
+var cio=('IntersectionObserver' in window)&&!RED?new IntersectionObserver(function(es){
+  es.forEach(function(en){
+    if(!en.isIntersecting)return;
+    cio.unobserve(en.target);
+    var el=en.target,to=+el.getAttribute('data-count'),s=performance.now();
+    (function f(now){
+      var k=Math.min(1,(now-s)/1300),e=1-Math.pow(1-k,3);
+      el.textContent=Math.round(to*e).toLocaleString('en-US');
+      if(k<1)requestAnimationFrame(f);
+    })(s);
+  });
+},{threshold:.6}):null;
+if(cio)document.querySelectorAll('[data-count]').forEach(function(el){el.textContent='0';cio.observe(el);});
+
+/* ═══ PROCESS — scroll fills the line and lights each step ═══ */
+var steps=document.getElementById('steps'),stepEls=[].slice.call(steps.children);
+function scrub(){
+  var r=steps.getBoundingClientRect(),vh=innerHeight;
+  var p=Math.min(1,Math.max(0,(vh*.78-r.top)/(r.height+vh*.2)));
+  steps.style.setProperty('--p',p.toFixed(3));
+  stepEls.forEach(function(s,i){s.classList.toggle('lit',p>=(i+.3)/stepEls.length);});
+}
+addEventListener('scroll',scrub,{passive:true});
+addEventListener('resize',scrub);
+scrub();
+
+/* ═══ STRIP — two identical halves loop seamlessly ═══ */
+var track=document.getElementById('rs-track');
+[0,1].forEach(function(copy){
+  STRIP.forEach(function(p){
+    var a=document.createElement('a');
+    a.href='portfolio.html';a.className='rs-frame';a.setAttribute('data-cursor','View');
+    if(copy){a.setAttribute('aria-hidden','true');a.tabIndex=-1;}else a.setAttribute('aria-label',p.title+' — view the portfolio');
+    var im=document.createElement('img');
+    im.src=p.u;im.alt='';im.width=Math.round(260*p.ar);im.height=260;im.decoding='async';
+    a.appendChild(im);track.appendChild(a);
+  });
+});
+
+A.ready();
+})();
+</script>
+</body>
+</html>
