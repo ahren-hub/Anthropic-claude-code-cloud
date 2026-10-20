@@ -263,6 +263,13 @@ var TO='support@ahrendezvous.com';
 var TYPES={tier1:'The Social Engine (Tier 01)',tier2:'The Enterprise Presence (Tier 02)',commercial:'Commercial project',
   cultural:'Cultural / activation',camp:'Mentorship camp',other:'Something else'};
 var SCENE={tier1:'T-01',tier2:'T-02',commercial:'COM',cultural:'CUL',camp:'CAMP',other:'X'};
+/* cultural links can say which door they came through (…&topic=exhibition) */
+var TOPICS={
+  exhibition:{label:'Exhibition',code:'EXH',ask:'Tell us about the exhibition — the work, the artists and the room it needs.'},
+  activation:{label:'Brand activation',code:'ACT',ask:'Tell us about the activation — the brand, the audience and the timing.'},
+  experience:{label:'Experience',code:'EXP',ask:'Tell us about the experience — who it brings together and what should happen in the room.'}
+};
+var topic='';
 var form=document.getElementById('sheet'),E=form.elements,sendBtn=document.getElementById('send');
 var termG=document.getElementById('g-term'),done=document.getElementById('done'),formErr=document.getElementById('form-err');
 
@@ -275,23 +282,27 @@ function collect(){
   return {
     name:E.namedItem('name').value.trim(),email:E.namedItem('email').value.trim(),brand:E.namedItem('brand').value.trim(),
     type:E.namedItem('type').value,term:E.namedItem('term').value,when:E.namedItem('when').value,
+    topic:E.namedItem('type').value==='cultural'?topic:'',
     brief:E.namedItem('brief').value.trim(),website:E.namedItem('website').value.trim()
   };
 }
 
 /* prefill from links like contact.html?type=tier2&term=6 (known values only) */
-var q=new URLSearchParams(location.search),qt=q.get('type'),qm=q.get('term');
+var q=new URLSearchParams(location.search),qt=q.get('type'),qm=q.get('term'),qtp=q.get('topic');
 function check(name,value){
   form.querySelectorAll('input[name="'+name+'"]').forEach(function(r){if(r.value===value)r.checked=true;});
 }
 if(TYPES[qt])check('type',qt);
 if(['3','6','12'].indexOf(qm)>=0)check('term',qm);
+if(qt==='cultural'&&TOPICS.hasOwnProperty(qtp))topic=qtp;
 
-/* commitment only applies to the two retainers */
+/* commitment only applies to the two retainers; the brief prompt follows the topic */
+var briefEl=E.namedItem('brief'),askDefault=briefEl.placeholder;
 function syncTerm(){
   var t=E.namedItem('type').value,show=t==='tier1'||t==='tier2';
   termG.hidden=!show;
   if(!show)form.querySelectorAll('input[name="term"]').forEach(function(r){r.checked=false;});
+  briefEl.placeholder=t==='cultural'&&topic?TOPICS[topic].ask:askDefault;
 }
 syncTerm();
 
@@ -308,7 +319,7 @@ function slate(){
   var d=collect();
   chalk('brand',d.brand||'Your production');
   chalk('name',d.name||'—');
-  chalk('type',d.type?SCENE[d.type]:'—');
+  chalk('type',d.type?SCENE[d.type]+(d.topic?'·'+TOPICS[d.topic].code:''):'—');
   chalk('term',d.term?d.term+' MO':'01');
 }
 slate();
@@ -354,11 +365,12 @@ form.addEventListener('input',function(e){
 form.addEventListener('change',function(e){if(e.target.name==='type')syncTerm();slate();});
 
 /* ── the brief, as plain text ── */
-function subject(d){return 'Project brief — '+TYPES[d.type]+(d.brand?' — '+d.brand:'');}
+function project(d){return TYPES[d.type]+(d.topic?' — '+TOPICS[d.topic].label:'');}
+function subject(d){return 'Project brief — '+project(d)+(d.brand?' — '+d.brand:'');}
 function briefText(d){
   var L=['Name: '+d.name,'Email: '+d.email];
   if(d.brand)L.push('Brand / company: '+d.brand);
-  L.push('Project: '+TYPES[d.type]);
+  L.push('Project: '+project(d));
   if(d.term)L.push('Commitment: '+d.term+' months');
   if(d.when)L.push('Timing: '+d.when);
   L.push('','The brief:',d.brief,'','— Sent from the Ahrendezvous call sheet');
@@ -389,7 +401,7 @@ form.addEventListener('submit',function(e){
   if(FORM_ENDPOINT){
     sendBtn.disabled=true;
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body:JSON.stringify({name:d.name,email:d.email,brand:d.brand,project:TYPES[d.type],commitment:d.term?d.term+' months':'',
+      body:JSON.stringify({name:d.name,email:d.email,brand:d.brand,project:project(d),commitment:d.term?d.term+' months':'',
         timing:d.when,brief:d.brief,_subject:subject(d)})})
       .then(function(r){if(!r.ok)throw new Error(r.status);wrap(d,'sent');})
       .catch(function(){

@@ -7,6 +7,7 @@
 //   /*@data:NAME*/[]  or  {}            JSON from DATA below (NAME:arg,arg → args)
 //   <!-- @photo-stream -->              one <script> per gallery photo so tiles
 //                                       fill in progressively while the page loads
+//   src="@photo:SLUG"  alt="@alt:SLUG"  a gallery-size photo + its alt text, inline
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -65,7 +66,10 @@ function build(page) {
   });
   html = html.replace('<!-- @photo-stream -->', () => PHOTOS
     .map((p, i) => `<script>AHRDVS.photo(${i},${JSON.stringify(full(p))})</script>`).join('\n'));
-  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}/);
+  const attr = (s) => `"${s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"`;
+  html = html.replace(/"@photo:([\w-]+)"/g, (m, s) => attr(full(pick([s])[0])));
+  html = html.replace(/"@alt:([\w-]+)"/g, (m, s) => attr(pick([s])[0].alt));
+  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}|"@(photo|alt):/);
   if (left) throw new Error(`${page}: unresolved directive ${left[0]}`);
   return html;
 }

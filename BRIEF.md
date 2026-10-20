@@ -1,7 +1,7 @@
 # Ahrendezvous Entertainment — Site Brief (canonical reference)
 
 Single source of truth for the site rebuild. The deliverable is the `site/`
-folder — self-contained pages (landing, Commercial, Portfolio, Contact) that
+folder — self-contained pages (landing, Commercial, Cultural, Portfolio, Contact) that
 are hosted on Cloudflare R2 and embedded in Squarespace as the landing page of
 ahrendezvous.com. See "Site structure" below.
 
@@ -56,7 +56,8 @@ Also: intensive **Film & Photography Mentorship Camps**.
 
 ## Site structure
 - `site/` — built output; upload these files side by side to the R2 bucket
-  (`index.html`, `commercial.html`, `portfolio.html`, `contact.html`). Each is
+  (`index.html`, `commercial.html`, `cultural.html`, `portfolio.html`,
+  `contact.html`). Each is
   self-contained (photos embedded); links between them are relative. Squarespace
   embeds `index.html` in a full-screen iframe and visitors navigate inside it.
 - `site-src/` — edit here, then run `node site-src/build.mjs` (no dependencies).
@@ -67,10 +68,15 @@ Also: intensive **Film & Photography Mentorship Camps**.
     To add photos: add rows to `process.py`, run
     `python3 -I site-src/photos/process.py <folder-of-originals>` (needs Pillow;
     strips EXIF/GPS, converts to sRGB), then rebuild.
-- Pages not built yet (Cultural) show an "in production" notice instead of a
-  dead link; adding `site-src/pages/cultural.html` switches the links on.
+- A link to a page that has no file in `site-src/pages/` shows an "in
+  production" notice instead of a dead link; adding the page switches it on.
 - Contact form composes an email to support@ahrendezvous.com by default; set
   `FORM_ENDPOINT` in `site-src/pages/contact.html` to deliver via Formspree.
+  Links can prefill it: `contact.html?type=tier1|tier2|commercial|cultural|camp|other`,
+  `&term=3|6|12` for retainers, `&topic=exhibition|activation|experience` for cultural.
+- Cultural has no specific events, dates, artists or partners in this brief, so
+  the page describes the three formats and invites ideas; add real programming
+  here before it goes on the page.
 
 ## Workflow notes
 - Owner reviews via preview before final approval; iterate on `site-src/`

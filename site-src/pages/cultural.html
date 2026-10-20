@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- @include head title="Cultural — Ahrendezvous® · Experiences, Exhibitions and Activations" description="Curated community experiences, art exhibitions and brand activations across Atlanta, from a physical, commercial and artistic sanctuary in West Midtown." -->
+<style>
+/* ═══ CULTURAL ═══════════════════════════════════════════════════════ */
+.cu-sec{padding:clamp(5rem,12vh,9rem) var(--gutter);scroll-margin-top:60px}
+.cu-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem 4rem;align-items:end;margin-bottom:clamp(2.4rem,5vw,4rem)}
+.cu-head .sec-label{grid-column:1/-1;margin-bottom:.6rem}
+.cu-h2{font-size:clamp(2.8rem,6vw,5.6rem)}
+@media(max-width:860px){.cu-head{grid-template-columns:1fr}}
+
+/* ── HERO: the rendezvous field ── */
+.cu-hero{
+  position:relative;min-height:100vh;min-height:100svh;overflow:hidden;
+  display:flex;align-items:flex-end;padding:8rem var(--gutter) clamp(3rem,9vh,6rem);
+}
+.cu-field{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.cu-ring-label{
+  position:absolute;z-index:1;transform:translate(-50%,-50%);pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:1rem;white-space:nowrap;
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
+  opacity:0;transition:opacity 1.4s;
+}
+.cu-ring-label.on{opacity:1}
+.cu-ring-label b{position:relative;width:10px;height:10px;border-radius:50%;background:var(--ember)}
+/* a scaling ring rather than a box-shadow spread, which squares off on small circles */
+.cu-ring-label b::after,.rd-pt::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,69,23,.5);animation:pulse 2.4s var(--ease-out) infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.6}to{transform:scale(5.5);opacity:0}}
+.cu-hero-copy{position:relative;z-index:2;max-width:min(100%,760px)}
+@media(min-width:900px){.cu-hero-copy{max-width:min(46vw,760px)}}  /* keep clear of the ring on the right */
+.cu-title{font-size:clamp(3.8rem,12vw,11rem);margin:1rem 0 1.6rem}
+.cu-hero .lede{max-width:46ch;text-shadow:0 2px 18px rgba(13,13,13,.9)}
+.cu-actions{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1.2rem 1.6rem;margin-top:2.4rem}
+.cu-count{
+  position:absolute;z-index:2;right:var(--gutter);bottom:clamp(3rem,9vh,6rem);display:flex;gap:2.4rem;
+  font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);
+}
+.cu-count b{display:block;font-family:var(--serif);font-weight:400;font-size:2.6rem;letter-spacing:0;line-height:1;color:var(--parch-70);margin-bottom:.45rem;font-variant-numeric:tabular-nums}
+.cu-count .tg b{color:var(--gold)}
+/* narrow screens: reserve a band above the copy for the gathering; short phones grow the hero */
+@media(max-width:899px){.cu-count{display:none}.cu-hero{padding-top:calc(88px + min(62vw,330px));padding-bottom:2.6rem}}
+
+/* ── MANIFESTO: words light up as you read down ── */
+.cu-manifesto{padding:clamp(6rem,16vh,11rem) var(--gutter)}
+.cu-manifesto .sec-label{margin-bottom:2.4rem}
+.cu-scrub{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,4.1vw,3.9rem);line-height:1.2;max-width:min(100%,1180px)}
+.cu-scrub .sw{color:rgba(247,245,240,.2);transition:color .45s}
+.cu-scrub .sw.lit{color:var(--parchment)}
+.cu-scrub em{font-style:italic}
+.cu-scrub em .sw.lit{color:var(--gold)}
+html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
+
+/* ── FORMATS: scene cards that stack as you scroll ── */
+.stack{display:flex;flex-direction:column;gap:2rem}
+.scene{position:sticky;top:calc(104px + var(--i,0) * 26px);height:min(74vh,700px);min-height:470px}
+.scene-in{
+  position:relative;height:100%;overflow:hidden;transform-origin:50% 0;
+  display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);
+  border:1px solid var(--gold-25);background:linear-gradient(160deg,#1a1a1a,#0e0e0e);
+  box-shadow:0 -24px 60px rgba(0,0,0,.45);
+}
+.scene-img{position:relative;overflow:hidden;background:#111}
+.scene-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.07);transition:transform 1.6s var(--ease-out)}
+.scene:hover .scene-img img{transform:scale(1)}
+.scene-body{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:2rem;padding:clamp(1.6rem,3.4vw,3.2rem)}
+.scene-no{font-family:var(--mono);font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.scene-title{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,5vw,4.8rem);line-height:1;margin:1.2rem 0 1.4rem}
+.scene-title em{font-style:italic;color:var(--gold)}
+.scene-body p{font-size:1.04rem;color:var(--parch-70);max-width:38ch}
+.scene-ghost{position:absolute;right:-.04em;bottom:-.28em;font-family:var(--serif);font-style:italic;font-size:clamp(10rem,18vw,16rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none}
+.scene-dim{position:absolute;inset:0;background:#050505;opacity:var(--dim,0);pointer-events:none}
+@media(max-width:899px){
+  .scene{position:relative;top:auto;height:auto;min-height:0}
+  .scene-in{grid-template-columns:1fr;box-shadow:none}
+  .scene-img{aspect-ratio:4/3}
+}
+
+/* ── THE ROOM: West Midtown on the radar ── */
+.cu-room{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.4rem,6vw,6rem);align-items:center}
+.cu-room .cu-h2{margin:1.2rem 0 1.6rem}
+.room-facts{margin-top:2.6rem;border-top:1px solid var(--line)}
+.room-facts>div{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--line)}
+.room-facts dt{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding-top:.3rem}
+.room-facts dd{font-size:1.02rem;color:var(--parchment)}
+.radar{position:relative;width:min(100%,520px);aspect-ratio:1;margin-left:auto}
+.rd-grid{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(197,168,128,.24);stroke-width:1}
+.rd-grid .diag{stroke:rgba(197,168,128,.12);stroke-dasharray:3 7}
+/* the spinning square's rotated box would otherwise poke past the viewport edge */
+.rd-clip{position:absolute;inset:2.5%;border-radius:50%;overflow:hidden}
+.rd-sweep{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(197,168,128,.02) 290deg,rgba(197,168,128,.26) 359.5deg,transparent 360deg);
+  animation:sweep 6s linear infinite;
+}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.blip{position:absolute;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--gold);opacity:.12;animation:blip 6s linear infinite}
+@keyframes blip{0%{opacity:1;transform:scale(1.7)}10%{opacity:.85;transform:scale(1)}70%{opacity:.14}100%{opacity:.12}}
+.rd-pt{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ember)}
+.rd-k{position:absolute;font-family:var(--mono);font-size:.5rem;letter-spacing:.3em;color:var(--parch-40)}
+.rd-k.n{left:50%;top:-1.6rem;transform:translateX(-50%)}.rd-k.s{left:50%;bottom:-1.6rem;transform:translateX(-50%)}
+.rd-k.e{right:-1.4rem;top:50%;transform:translateY(-50%)}.rd-k.w{left:-1.6rem;top:50%;transform:translateY(-50%)}
+.rd-tag{
+  position:absolute;left:calc(50% + 18px);top:calc(50% + 14px);display:flex;flex-direction:column;gap:.3rem;white-space:nowrap;
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-70);
+}
+.rd-tag b{font-weight:400;color:var(--gold)}
+@media(max-width:860px){.cu-room{grid-template-columns:1fr}.radar{margin:2rem auto 1rem;width:min(calc(100% - 3.6rem),420px)}}
+
+/* ── BRING SOMETHING TO THE ROOM ── */
+.join-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.join-card{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:3rem;
+  min-height:clamp(220px,26vw,300px);padding:2rem clamp(1.2rem,2.2vw,2rem);border-right:1px solid var(--line);
+  transition:color .45s;
+}
+.join-card:last-child{border-right:0}
+.join-card::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .6s var(--ease)}
+.join-card:hover,.join-card:focus-visible{color:var(--obsidian)}
+.join-card:hover::before,.join-card:focus-visible::before{transform:scaleY(1)}
+.jc-k{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);transition:color .45s}
+.join-card:hover .jc-k,.join-card:focus-visible .jc-k{color:rgba(13,13,13,.62)}
+.join-card b{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.05}
+.join-card .arr{position:absolute;right:1.6rem;top:1.6rem;font-size:1.4rem;color:var(--gold);transition:transform .45s var(--ease),color .45s}
+.join-card:hover .arr,.join-card:focus-visible .arr{transform:translate(5px,-5px);color:var(--obsidian)}
+@media(max-width:860px){.join-grid{grid-template-columns:1fr}.join-card{border-right:0;border-bottom:1px solid var(--line);min-height:0}.join-card:last-child{border-bottom:0}}
+
+/* ── CLOSE ── */
+.cu-end{padding:clamp(6rem,14vh,10rem) var(--gutter);text-align:center}
+.cu-end .sec-label{padding:0}
+.cu-end h2{font-size:clamp(3.4rem,10vw,9rem);margin:0 auto 3rem}
+.cu-end-actions{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
+.cu-mail{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-70);transition:color .3s}
+.cu-mail:hover{color:var(--gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .rd-sweep,.blip{animation:none}
+  .rd-pt::after,.cu-ring-label b::after{animation:none;opacity:0}
+  .blip{opacity:.6}
+  .cu-scrub .sw{color:var(--parchment)}
+}
+</style>
+</head>
+<body data-page="cultural">
+<!-- @include chrome -->
+
+<main id="main">
+<!-- ═══ HERO — the rendezvous ═══════════════════════════════════════ -->
+<section class="cu-hero" id="hero" aria-labelledby="cu-title">
+  <canvas class="cu-field" id="field" aria-hidden="true"></canvas>
+  <div class="cu-ring-label" id="ring-label" aria-hidden="true"><b></b>Rendezvous · West Midtown</div>
+  <div class="cu-count" aria-hidden="true">
+    <span><b id="cnt-apart">—</b>Apart</span>
+    <span class="tg"><b id="cnt-together">—</b>Together</span>
+  </div>
+  <div class="cu-hero-copy">
+    <div class="sec-label flush"><span class="idx">02</span>Cultural</div>
+    <h1 class="display cu-title" id="cu-title" data-split>Come <em>closer.</em></h1>
+    <p class="lede" data-reveal style="--d:.35s">Curated experiences, art exhibitions and brand activations across Atlanta — made to bring people back into the same room.</p>
+    <div class="cu-actions" data-reveal style="--d:.5s">
+      <a class="btn" href="#formats">See the formats <span class="arr down">↓</span></a>
+      <a class="clap clap-lg" href="contact.html?type=cultural" data-clap>
+        <span class="nc-top"></span>
+        <span class="nc-board"><span class="nc-l1">Bring an idea</span><span class="nc-l2">AHRDVS® · Cultural</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq">
+    <span>Curated experiences<i>✦</i>Art exhibitions<i>✦</i>Brand activations<i>✦</i>In person<i>✦</i>West Midtown ATL<i>✦</i>Come closer<i>✦</i></span>
+    <span>Curated experiences<i>✦</i>Art exhibitions<i>✦</i>Brand activations<i>✦</i>In person<i>✦</i>West Midtown ATL<i>✦</i>Come closer<i>✦</i></span>
+  </div>
+</div>
+
+<!-- ═══ MANIFESTO ═══════════════════════════════════════════════════ -->
+<section class="cu-manifesto" aria-label="Why we gather">
+  <div class="sec-label flush" data-reveal><span class="idx">Manifesto</span>Why we gather</div>
+  <p class="cu-scrub" id="scrub">The pandemic is behind us. The isolation isn't. Ahrendezvous is a physical, commercial and artistic sanctuary in West Midtown, Atlanta — and Cultural is where we open the doors: curated experiences, exhibitions and activations, made for <em>being in the same room again.</em></p>
+</section>
+
+<!-- ═══ FORMATS ═════════════════════════════════════════════════════ -->
+<section class="cu-sec" id="formats" aria-labelledby="fm-title">
+  <div class="cu-head">
+    <div class="sec-label flush" data-reveal><span class="idx">Formats</span>Three ways in</div>
+    <h2 class="display cu-h2" id="fm-title" data-split>Three ways into <em>the room.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Every format starts from the same idea: people, in person, around something worth showing up for.</p>
+  </div>
+  <div class="stack" id="stack">
+    <article class="scene" style="--i:0" aria-labelledby="sc1">
+      <div class="scene-in">
+        <div class="scene-img"><img src="@photo:embrace" alt="@alt:embrace" decoding="async"></div>
+        <div class="scene-body">
+          <div>
+            <span class="scene-no">Scene 01 · Experiences</span>
+            <h3 class="scene-title" id="sc1">Curated <em>experiences.</em></h3>
+            <p>Community experiences built around connection — curated for the people in the room, not the feed.</p>
+          </div>
+          <a class="btn" href="contact.html?type=cultural&amp;topic=experience">Plan an experience <span class="arr">↗</span></a>
+          <span class="scene-ghost" aria-hidden="true">01</span>
+        </div>
+        <div class="scene-dim"></div>
+      </div>
+    </article>
+    <article class="scene" style="--i:1" aria-labelledby="sc2">
+      <div class="scene-in">
+        <div class="scene-img"><img src="@photo:lampposts" alt="@alt:lampposts" decoding="async"></div>
+        <div class="scene-body">
+          <div>
+            <span class="scene-no">Scene 02 · Exhibitions</span>
+            <h3 class="scene-title" id="sc2">Art <em>exhibitions.</em></h3>
+            <p>Exhibitions that give the work room to breathe — and give Atlanta a reason to gather around it.</p>
+          </div>
+          <a class="btn" href="contact.html?type=cultural&amp;topic=exhibition">Propose an exhibition <span class="arr">↗</span></a>
+          <span class="scene-ghost" aria-hidden="true">02</span>
+        </div>
+        <div class="scene-dim"></div>
+      </div>
+    </article>
+    <article class="scene" style="--i:2" aria-labelledby="sc3">
+      <div class="scene-in">
+        <div class="scene-img"><img src="@photo:phone-lights" alt="@alt:phone-lights" decoding="async"></div>
+        <div class="scene-body">
+          <div>
+            <span class="scene-no">Scene 03 · Activations</span>
+            <h3 class="scene-title" id="sc3">Brand <em>activations.</em></h3>
+            <p>Live brand moments across Atlanta — built to be experienced in person, not scrolled past.</p>
+          </div>
+          <a class="btn" href="contact.html?type=cultural&amp;topic=activation">Plan an activation <span class="arr">↗</span></a>
+          <span class="scene-ghost" aria-hidden="true">03</span>
+        </div>
+        <div class="scene-dim"></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ THE ROOM ════════════════════════════════════════════════════ -->
+<section class="cu-sec cu-room" aria-labelledby="room-title">
+  <div>
+    <div class="sec-label flush" data-reveal><span class="idx">The room</span>West Midtown</div>
+    <h2 class="display cu-h2" id="room-title" data-split>A sanctuary in <em>West Midtown.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Physical, commercial and artistic — one place in Atlanta where production, collaboration and culture share the same roof.</p>
+    <dl class="room-facts" data-reveal style="--d:.3s">
+      <div><dt>Physical</dt><dd>A real room to gather in — no screens between you.</dd></div>
+      <div><dt>Commercial</dt><dd>Production for brands, under the same roof.</dd></div>
+      <div><dt>Artistic</dt><dd>Space for work that deserves to be seen in person.</dd></div>
+    </dl>
+  </div>
+  <div class="radar" id="radar" aria-hidden="true" data-reveal>
+    <div class="rd-clip"><div class="rd-sweep" id="rd-sweep"></div></div>
+    <svg class="rd-grid" viewBox="0 0 400 400"><circle cx="200" cy="200" r="190"/><circle cx="200" cy="200" r="140"/><circle cx="200" cy="200" r="90"/><circle cx="200" cy="200" r="40"/><path d="M200 10V390M10 200H390"/><path class="diag" d="M66 66L334 334M334 66L66 334"/></svg>
+    <span class="rd-pt"></span>
+    <span class="rd-k n">N</span><span class="rd-k e">E</span><span class="rd-k s">S</span><span class="rd-k w">W</span>
+    <span class="rd-tag"><b>West Midtown · ATL</b>33.78°N · 84.41°W</span>
+  </div>
+</section>
+
+<!-- ═══ BRING SOMETHING ═════════════════════════════════════════════ -->
+<section class="cu-sec" aria-labelledby="join-title">
+  <div class="cu-head">
+    <div class="sec-label flush" data-reveal><span class="idx">Join</span>Bring something</div>
+    <h2 class="display cu-h2" id="join-title" data-split>Bring something <em>to the room.</em></h2>
+  </div>
+  <div class="join-grid" data-reveal>
+    <a class="join-card" href="contact.html?type=cultural&amp;topic=exhibition"><span class="jc-k">Artists &amp; curators</span><b>Have an exhibition in mind?</b><span class="arr" aria-hidden="true">↗</span></a>
+    <a class="join-card" href="contact.html?type=cultural&amp;topic=activation"><span class="jc-k">Brands</span><b>Planning an activation?</b><span class="arr" aria-hidden="true">↗</span></a>
+    <a class="join-card" href="contact.html?type=cultural&amp;topic=experience"><span class="jc-k">Communities &amp; hosts</span><b>Want to bring people together?</b><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- ═══ CLOSE ═══════════════════════════════════════════════════════ -->
+<section class="cu-end" aria-labelledby="end-title">
+  <div class="sec-label" data-reveal><span class="idx">Next</span>See you there</div>
+  <h2 class="display" id="end-title" data-split>See you in <em>the room.</em></h2>
+  <div class="cu-end-actions" data-reveal>
+    <a class="clap clap-lg" href="contact.html?type=cultural" data-clap>
+      <span class="nc-top"></span>
+      <span class="nc-board"><span class="nc-l1">Start a project</span><span class="nc-l2">AHRDVS® · PROD · SLATE</span></span>
+    </a>
+    <a class="cu-mail" href="mailto:support@ahrendezvous.com">or email support@ahrendezvous.com</a>
+  </div>
+</section>
+</main>
+
+<!-- @include footer -->
+
+<!-- @include shared-js -->
+<script>
+(function(){
+'use strict';
+var A=window.AHRDVS,RED=A.RED;
+function clamp(v){return v<0?0:v>1?1:v;}
+function pad3(n){return ('00'+n).slice(-3);}
+
+/* ═══ RENDEZVOUS FIELD — people start apart and are drawn into one
+       connected ring; the cursor pulls the nearest ones in and links them ═══ */
+var hero=document.getElementById('hero'),cv=document.getElementById('field'),ctx=cv.getContext('2d');
+var ringLabel=document.getElementById('ring-label');
+var cTogether=document.getElementById('cnt-together'),cApart=document.getElementById('cnt-apart');
+var GOLD='197,168,128',EMBER='255,69,23',PARCH='247,245,240';
+var dpr=Math.min(devicePixelRatio||1,2),W=0,H=0,CX=0,CY=0,R=0,LINK=64,PULL=150;
+var P=[],N=0,mx=0,my=0,mOn=false,t0=0,heroOn=true,frame=0,lx=0,ly=0;
+
+var heroCopy=document.querySelector('.cu-hero-copy');
+function layoutField(){
+  var r=hero.getBoundingClientRect(),wide=r.width>=900;
+  W=r.width;H=r.height;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  if(wide){
+    CX=W*.7;CY=H*.46;R=Math.min(W*.2,H*.24);
+  }else{
+    /* narrow screens: centre the gathering in the free band above the copy */
+    var top=88,band=Math.max(150,heroCopy.getBoundingClientRect().top-r.top-16-top);
+    CX=W*.5;CY=top+band/2;R=Math.max(56,Math.min(W*.3,band*.31));
+  }
+  LINK=wide?64:50;PULL=wide?150:110;
+  ringLabel.style.left=CX+'px';ringLabel.style.top=CY+'px';
+}
+function seedField(){
+  N=W<700?84:150;P=[];
+  for(var i=0;i<N;i++){
+    var halo=Math.random()>.7;
+    P.push({
+      fx:Math.random(),fy:Math.random(),                     /* where they start, alone */
+      a:i/N*Math.PI*2+(Math.random()-.5)*.1,                 /* their place at the meeting point */
+      rr:halo?.22+Math.random()*.3:(Math.random()-.5)*.18,   /* most on the ring, some in the halo */
+      d:Math.random()*1.5,ph:Math.random()*6.2832,
+      s:.75+Math.random()*1.05,e:Math.random()<.09,x:0,y:0,deg:0
+    });
+  }
+  P.forEach(function(p){p.x=p.fx*W;p.y=p.fy*H;});
+}
+function ease(k){return k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;}
+function draw(now){
+  var t=(now-t0)/1000,i,j,k,p,q,gsum=0;
+  /* the whole gathering leans toward the cursor; up close it pulls people in */
+  lx+=((mOn?(mx-CX)*.07:0)-lx)*.05;ly+=((mOn?(my-CY)*.07:0)-ly)*.05;
+  var ox=CX+lx,oy=CY+ly;
+  ringLabel.style.transform='translate(calc(-50% + '+lx.toFixed(1)+'px),calc(-50% + '+ly.toFixed(1)+'px))';
+  for(i=0;i<N;i++){
+    p=P[i];
+    var g=RED?1:ease(clamp((t-p.d)/2.8));
+    gsum+=g;
+    var wx=p.fx*W+(RED?0:Math.sin(t*.3+p.ph)*16),wy=p.fy*H+(RED?0:Math.cos(t*.26+p.ph)*16);
+    var ang=p.a+(RED?0:t*.03),rad=R*(1+p.rr+(RED?0:.025*Math.sin(t*.9+p.ph)));
+    var tx=wx+(ox+Math.cos(ang)*rad-wx)*g,ty=wy+(oy+Math.sin(ang)*rad-wy)*g;
+    if(mOn){
+      var dx=mx-tx,dy=my-ty,dd=Math.sqrt(dx*dx+dy*dy);
+      if(dd<PULL){var f=Math.pow(1-dd/PULL,2)*.5;tx+=dx*f;ty+=dy*f;}
+    }
+    if(RED){p.x=tx;p.y=ty;}else{p.x+=(tx-p.x)*.1;p.y+=(ty-p.y)*.1;}
+    p.deg=0;
+  }
+  /* links reach further as people gather — few connections while apart */
+  var link=LINK*(.32+.68*(gsum/N)),L2=link*link,B=[[],[],[],[]];
+  for(i=0;i<N;i++){
+    p=P[i];
+    for(j=i+1;j<N;j++){
+      q=P[j];
+      var ex=p.x-q.x,ey=p.y-q.y,d2=ex*ex+ey*ey;
+      if(d2<L2){p.deg++;q.deg++;B[Math.min(3,Math.floor((1-Math.sqrt(d2)/link)*4))].push(p.x,p.y,q.x,q.y);}
+    }
+  }
+  ctx.clearRect(0,0,W,H);
+  ctx.lineWidth=1;
+  for(k=0;k<4;k++){
+    if(!B[k].length)continue;
+    ctx.strokeStyle='rgba('+GOLD+','+(.06+k*.075)+')';
+    ctx.beginPath();
+    for(i=0;i<B[k].length;i+=4){ctx.moveTo(B[k][i],B[k][i+1]);ctx.lineTo(B[k][i+2],B[k][i+3]);}
+    ctx.stroke();
+  }
+  if(mOn){
+    ctx.strokeStyle='rgba('+EMBER+',.32)';ctx.beginPath();
+    for(i=0;i<N;i++){p=P[i];var cx2=p.x-mx,cy2=p.y-my;if(cx2*cx2+cy2*cy2<PULL*PULL*.45){ctx.moveTo(mx,my);ctx.lineTo(p.x,p.y);}}
+    ctx.stroke();
+  }
+  var together=0;
+  for(i=0;i<N;i++){
+    p=P[i];
+    var on=p.deg>0;
+    if(on)together++;
+    ctx.fillStyle='rgba('+(p.e?EMBER:on?GOLD:PARCH)+','+(on?.92:.38)+')';
+    ctx.beginPath();ctx.arc(p.x,p.y,p.s*(on?1.25:1),0,6.2832);ctx.fill();
+  }
+  ringLabel.classList.toggle('on',gsum/N>.85);
+  if(frame++%8===0){cTogether.textContent=pad3(together);cApart.textContent=pad3(N-together);}
+}
+layoutField();seedField();
+t0=performance.now()+800;                      /* begin once the page cut has opened */
+if(RED)draw(t0);
+else{
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){heroOn=es[0].isIntersecting;}).observe(hero);
+  (function loop(now){requestAnimationFrame(loop);if(heroOn)draw(now);})(performance.now());
+  hero.addEventListener('pointermove',function(e){
+    if(e.pointerType!=='mouse')return;
+    var r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;mOn=true;
+  });
+  hero.addEventListener('pointerleave',function(){mOn=false;});
+}
+addEventListener('resize',function(){layoutField();if(RED)draw(t0);});
+
+/* ═══ MANIFESTO — each word lights up as the paragraph scrolls past ═══ */
+var scrubEl=document.getElementById('scrub'),words=[];
+(function wrap(node){
+  [].slice.call(node.childNodes).forEach(function(n){
+    if(n.nodeType===3){
+      var frag=document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(function(w){
+        if(!w)return;
+        if(/^\s+$/.test(w)){frag.appendChild(document.createTextNode(w));return;}
+        var s=document.createElement('span');s.className='sw';s.textContent=w;
+        frag.appendChild(s);words.push(s);
+      });
+      node.replaceChild(frag,n);
+    }else if(n.nodeType===1)wrap(n);
+  });
+})(scrubEl);
+function scrub(){
+  var r=scrubEl.getBoundingClientRect(),vh=innerHeight;
+  var k=Math.round((RED?1:clamp((vh*.82-r.top)/(r.height+vh*.3)))*words.length);
+  for(var i=0;i<words.length;i++)words[i].classList.toggle('lit',i<k);
+}
+
+/* ═══ FORMATS — the covered scene sinks back and dims ═══ */
+var scenes=[].slice.call(document.querySelectorAll('.scene')),tops=[];
+function measure(){tops=scenes.map(function(s){return parseFloat(getComputedStyle(s).top)||0;});}
+function stack(){
+  var live=innerWidth>=900&&!RED;
+  for(var i=0;i<scenes.length;i++){
+    var inner=scenes[i].firstElementChild,prog=0;
+    if(live&&i<scenes.length-1){
+      var nr=scenes[i+1].getBoundingClientRect();
+      prog=clamp(1-(nr.top-tops[i+1])/scenes[i].offsetHeight);
+    }
+    inner.style.transform=prog?'scale('+(1-.07*prog).toFixed(4)+')':'';
+    inner.style.setProperty('--dim',(prog*.55).toFixed(3));
+  }
+}
+measure();
+
+/* ═══ RADAR — blips light up as the sweep passes over them ═══ */
+var radar=document.getElementById('radar'),sweep=document.getElementById('rd-sweep');
+for(var b=0;b<16;b++){
+  var phi=Math.random()*360,rr=.1+Math.random()*.34,bl=document.createElement('i');
+  bl.className='blip';
+  bl.style.left=(50+Math.sin(phi*Math.PI/180)*rr*100).toFixed(2)+'%';
+  bl.style.top=(50-Math.cos(phi*Math.PI/180)*rr*100).toFixed(2)+'%';
+  bl.style.animationDelay=(phi/60-6).toFixed(2)+'s';   /* sweep turns 60°/s: flash as it arrives */
+  radar.appendChild(bl);
+}
+sweep.style.animation='none';void sweep.offsetWidth;sweep.style.animation='';  /* start in step with the blips */
+
+var ticking=false;
+function onScroll(){
+  if(ticking)return;
+  ticking=true;
+  requestAnimationFrame(function(){ticking=false;scrub();stack();});
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',function(){measure();scrub();stack();});
+scrub();stack();
+
+A.ready();
+})();
+</script>
+</body>
+</html>
