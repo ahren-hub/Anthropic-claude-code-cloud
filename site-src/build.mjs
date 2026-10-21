@@ -21,7 +21,8 @@ const SCENES = {
   commercial: 'SC. 01 — Commercial',
   cultural: 'SC. 02 — Cultural',
   portfolio: 'SC. 03 — Portfolio',
-  contact: 'SC. 05 — Start a project',
+  about: 'SC. 05 — About',
+  contact: 'SC. 06 — Start a project',
 };
 const PAGES = readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html')).map((f) => f.slice(0, -5));
 const PHOTOS = JSON.parse(read('photos/manifest.json'));

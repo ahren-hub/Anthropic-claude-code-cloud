@@ -17,7 +17,7 @@ var TOUCH=matchMedia('(pointer:coarse)').matches;
 var PAGE=document.body.getAttribute('data-page')||'index';
 var BUILT=/*@data:pages*/[];    /* pages that exist — links to others show "in production" */
 var SCENES=/*@data:scenes*/{};  /* cut-transition title per page */
-var NAMES={index:'Home',commercial:'Commercial',cultural:'Cultural',portfolio:'Portfolio',contact:'Contact'};
+var NAMES={index:'Home',commercial:'Commercial',cultural:'Cultural',portfolio:'Portfolio',about:'About',contact:'Contact'};
 var A=window.AHRDVS={RED:RED,TOUCH:TOUCH,PAGE:PAGE,REEL_URL:REEL_URL};
 
 /* ── helpers ───────────────────────────────────── */
@@ -212,7 +212,7 @@ if(menuBtn)menuBtn.addEventListener('click',function(){setMenu(!root.classList.c
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'&&root.classList.contains('menu-open')){setMenu(false);menuBtn.focus();}
 });
-var wide=matchMedia('(min-width:1181px)');
+var wide=matchMedia('(min-width:1261px)');
 function onWide(e){if(e.matches)setMenu(false);}
 if(wide.addEventListener)wide.addEventListener('change',onWide);else wide.addListener(onWide);
 

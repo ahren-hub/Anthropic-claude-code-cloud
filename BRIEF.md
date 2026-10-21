@@ -89,7 +89,7 @@ Camp prices in the doc ($1,000 single / $500 shared) are also held back.
 
 ## Site structure
 - `site/` — built output; upload these files side by side to the R2 bucket
-  (`index.html`, `commercial.html`, `cultural.html`, `portfolio.html`,
+  (`index.html`, `commercial.html`, `cultural.html`, `portfolio.html`, `about.html`,
   `contact.html`). Each is
   self-contained (photos embedded); links between them are relative. Squarespace
   embeds `index.html` in a full-screen iframe and visitors navigate inside it.
@@ -116,3 +116,14 @@ Camp prices in the doc ($1,000 single / $500 shared) are also held back.
   iteration is now preferred.
 - Reference sites block automated scraping (403) — design direction above is
   from owner's own descriptions, which is canonical anyway.
+
+## Founder (About page)
+Ahren Powell. Began in 2012 filming his mother giving birth to his baby
+brother; when his brother passed later that year, photos and videos were all
+that remained. Movies became how he spent time with family, especially his
+mom. Worked across projects with many companies before founding Ahrendezvous,
+to build a space where everyone — including introverts and outsiders — can
+create on their own terms. Multi-medium creative: "beauty is not a monolith."
+Collaborations: 1st Phorm, Sick Ride Nation, Live Nation, RADCO, Children's
+Center for Hope & Healing. Instagram @ahrenrene. Modern Romantic brand is
+inactive — keep off the site. Portrait photo still to be supplied.

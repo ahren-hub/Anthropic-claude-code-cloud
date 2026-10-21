@@ -111,7 +111,7 @@ html:not(.cursor-on) .c-trail{display:none}
 .nav-logo b sup{color:var(--ember);font-size:.55em;letter-spacing:0}
 .nav-logo i{font-family:var(--mono);font-style:normal;font-size:.64rem;letter-spacing:.46em;color:var(--gold)}
 .nav-right{display:flex;align-items:center;gap:2.2rem}
-.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links{display:flex;gap:1.6rem;align-items:center}
 .nav-links a,.nav-links .soon{
   font-family:var(--mono);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--parch-70);position:relative;padding:.25rem 0;
@@ -137,7 +137,7 @@ html:not(.cursor-on) .c-trail{display:none}
 .nav-menu i::before{top:0}.nav-menu i::after{bottom:0}
 .menu-open .nav-menu i::before{transform:translateY(3.5px) rotate(45deg)}
 .menu-open .nav-menu i::after{transform:translateY(-3.5px) rotate(-45deg)}
-@media(max-width:1180px){.nav-links{display:none}.nav-menu{display:inline-flex}}
+@media(max-width:1260px){.nav-links{display:none}.nav-menu{display:inline-flex}}
 
 /* ── CLAPPERBOARD — nav CTA, page CTAs and the contact submit ── */
 .clap{position:relative;display:inline-flex;flex-direction:column;text-decoration:none;text-align:left}
@@ -512,6 +512,7 @@ html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
       <a href="cultural.html" data-nav="cultural">Cultural</a>
       <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
       <span class="soon">Artist Hub<sup>SOON</sup></span>
+      <a href="about.html" data-nav="about">About</a>
       <a href="contact.html" data-nav="contact">Contact</a>
     </div>
     <a class="clap nav-clap" href="contact.html" data-magnetic data-clap aria-label="Start a project">
@@ -532,7 +533,8 @@ html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
     <li><a href="cultural.html" data-nav="cultural" style="--i:1"><small>02</small>Cultural</a></li>
     <li><a href="portfolio.html" data-nav="portfolio" style="--i:2"><small>03</small>Portfolio</a></li>
     <li><span class="soon" style="--i:3"><small>04</small>Artist Hub <sup>SOON</sup></span></li>
-    <li><a href="contact.html" data-nav="contact" style="--i:4"><small>05</small>Contact</a></li>
+    <li><a href="about.html" data-nav="about" style="--i:4"><small>05</small>About</a></li>
+    <li><a href="contact.html" data-nav="contact" style="--i:5"><small>06</small>Contact</a></li>
   </ul>
   <div class="menu-foot">
     <a class="clap clap-lg" href="contact.html" data-clap aria-label="Start a project">
@@ -716,9 +718,9 @@ var root=document.documentElement;
 var RED=matchMedia('(prefers-reduced-motion:reduce)').matches;
 var TOUCH=matchMedia('(pointer:coarse)').matches;
 var PAGE=document.body.getAttribute('data-page')||'index';
-var BUILT=["commercial","contact","cultural","index","portfolio"];    /* pages that exist — links to others show "in production" */
-var SCENES={"index":"SC. 00 — Home","commercial":"SC. 01 — Commercial","cultural":"SC. 02 — Cultural","portfolio":"SC. 03 — Portfolio","contact":"SC. 05 — Start a project"};  /* cut-transition title per page */
-var NAMES={index:'Home',commercial:'Commercial',cultural:'Cultural',portfolio:'Portfolio',contact:'Contact'};
+var BUILT=["about","commercial","contact","cultural","index","portfolio"];    /* pages that exist — links to others show "in production" */
+var SCENES={"index":"SC. 00 — Home","commercial":"SC. 01 — Commercial","cultural":"SC. 02 — Cultural","portfolio":"SC. 03 — Portfolio","about":"SC. 05 — About","contact":"SC. 06 — Start a project"};  /* cut-transition title per page */
+var NAMES={index:'Home',commercial:'Commercial',cultural:'Cultural',portfolio:'Portfolio',about:'About',contact:'Contact'};
 var A=window.AHRDVS={RED:RED,TOUCH:TOUCH,PAGE:PAGE,REEL_URL:REEL_URL};
 
 /* ── helpers ───────────────────────────────────── */
@@ -913,7 +915,7 @@ if(menuBtn)menuBtn.addEventListener('click',function(){setMenu(!root.classList.c
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'&&root.classList.contains('menu-open')){setMenu(false);menuBtn.focus();}
 });
-var wide=matchMedia('(min-width:1181px)');
+var wide=matchMedia('(min-width:1261px)');
 function onWide(e){if(e.matches)setMenu(false);}
 if(wide.addEventListener)wide.addEventListener('change',onWide);else wide.addListener(onWide);
 
