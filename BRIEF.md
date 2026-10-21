@@ -43,7 +43,8 @@ high-end production, vetted collaboration, and curated cultural experiences."
 pre-arranged meeting at a specific time and place — as a bridge out of the
 post-COVID isolation that fractured community and emptied "third places".
 Brand voice: sophisticated, inclusive, intellectual, community-oriented.
-Moody, auteur-driven, indie-film aesthetic. No founding year is on record.
+Moody, auteur-driven, indie-film aesthetic. Established 2024 (owner-confirmed;
+shown as "EST 2024" on the Enter-screen lens).
 
 **Slogans:** "Isolation is over. Your rendezvous with Atlanta's elite creative
 class starts here." · "Shared love, shared entertainment." · "Bridging the
