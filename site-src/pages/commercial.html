@@ -64,20 +64,30 @@
 .cm-actions{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1.2rem 1.6rem;margin-top:2.4rem}
 @media(max-width:700px){.mh-tr{display:none}.af{transform-origin:0 0}}
 
-/* ── capabilities ── */
-.caps{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.cap{position:relative;padding:2.2rem clamp(1.2rem,2vw,1.9rem) 2.6rem;border-right:1px solid var(--line);transition:background .5s}
-.cap:last-child{border-right:0}
-.cap:hover{background:rgba(26,26,26,.65)}
+/* ── production: six offerings, each opens a matching brief ── */
+.caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.cap{
+  position:relative;display:flex;flex-direction:column;
+  padding:2.2rem clamp(1.2rem,2vw,1.9rem) 2.2rem;
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .5s;
+}
+.cap:nth-child(3n){border-right:0}
+.cap:hover,.cap:focus-visible{background:rgba(26,26,26,.65)}
 .cap-n{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;color:var(--parch-40)}
-.cap svg{display:block;width:46px;height:46px;margin:2.2rem 0 1.7rem;fill:none;stroke:var(--gold);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.cap svg{display:block;width:46px;height:46px;margin:2rem 0 1.6rem;fill:none;stroke:var(--gold);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
 .cap svg *{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease-out) calc(var(--d,0s) + .25s)}
 .cap.in svg *,html:not(.rv) .cap svg *{stroke-dashoffset:0}
 .cap:hover svg{stroke:var(--ember)}
 .cap h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.2vw,2.1rem);line-height:1.1;margin-bottom:.8rem}
-.cap p{font-size:.92rem;color:var(--parch-70)}
-@media(max-width:1000px){.caps{grid-template-columns:1fr 1fr}.cap:nth-child(2){border-right:0}.cap:nth-child(-n+2){border-bottom:1px solid var(--line)}}
-@media(max-width:560px){.caps{grid-template-columns:1fr}.cap{border-right:0;border-bottom:1px solid var(--line)}.cap:last-child{border-bottom:0}}
+.cap p{font-size:.92rem;color:var(--parch-70);max-width:36ch}
+.cap-go{
+  display:inline-flex;align-items:center;gap:.6rem;margin-top:auto;padding-top:1.6rem;
+  font-family:var(--mono);font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
+}
+.cap-go i{font-style:normal;transition:transform .45s var(--ease)}
+.cap:hover .cap-go i{transform:translate(4px,-4px)}
+@media(max-width:1000px){.caps{grid-template-columns:1fr 1fr}.cap:nth-child(3n){border-right:1px solid var(--line)}.cap:nth-child(2n){border-right:0}}
+@media(max-width:560px){.caps{grid-template-columns:1fr}.cap,.cap:nth-child(3n){border-right:0}}
 
 /* ── retainers: spec sheets that double as a picker ── */
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.6rem)}
@@ -114,33 +124,24 @@
 .tier-price .cur{font-size:1.7rem;color:var(--parch-70);align-self:flex-start;margin:.55rem .15rem 0 0}
 .tier-price b{font-weight:400;font-size:clamp(3.4rem,6vw,5.2rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .tier-price .per{font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--parch-40);margin-left:.8rem}
+/* pricing on request: label over an italic gold line, same footprint as a price */
+.tier-price.req{display:block}
+.tier-price.req .per{display:block;margin:0 0 .5rem}
+.tier-price.req b{display:block;font-style:italic;font-size:clamp(2.6rem,4.4vw,3.8rem);letter-spacing:-.01em;color:var(--gold)}
 .tier-for{position:relative;font-size:.98rem;color:var(--parch-70);max-width:36ch;margin-bottom:2rem}
 .spec{position:relative;border-top:1px solid var(--line)}
 .spec>div{display:grid;grid-template-columns:7.2rem 1fr;gap:1rem;padding:.95rem 0;border-bottom:1px solid var(--line)}
 .spec dt{font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40);padding-top:.3rem}
 .spec dd{font-size:.94rem;color:var(--parchment)}
 .spec dd b{font-family:var(--serif);font-weight:500;font-size:1.3em;line-height:1;color:var(--gold)}
-.spec dd.na{color:var(--parch-40)}
 @media(max-width:860px){.tiers{grid-template-columns:1fr}}
 @media(max-width:420px){.spec>div{grid-template-columns:1fr;gap:.2rem}}
 
 .ret-bar{
-  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.4rem 2.4rem;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1.4rem 2.4rem;
   margin-top:clamp(1rem,2vw,1.6rem);padding:1.3rem clamp(1.2rem,2.4vw,2rem);
   border:1px solid var(--line);background:rgba(13,13,13,.72);
 }
-.terms{border:0;display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
-.terms legend{float:left;margin-right:1rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40)}
-.terms label{position:relative}
-.terms input{position:absolute;opacity:0;width:1px;height:1px}
-.terms span{
-  display:inline-block;padding:.72rem 1rem;border:1px solid var(--line);
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parch-70);
-  transition:background .3s,border-color .3s,color .3s;
-}
-.terms label:hover span{border-color:var(--gold-25);color:var(--parchment)}
-.terms input:checked+span{background:var(--parchment);border-color:var(--parchment);color:var(--obsidian)}
-.terms input:focus-visible+span{outline:1px solid var(--gold);outline-offset:3px}
 .ret-sum{font-family:var(--serif);font-size:clamp(1.1rem,1.7vw,1.45rem);line-height:1.3;color:var(--parchment)}
 .ret-sum em{color:var(--gold)}
 @media(max-width:1000px){.ret-bar{grid-template-columns:1fr}}
@@ -182,16 +183,33 @@
 .rs-frame:hover img{filter:none}
 
 /* ── mentorship camps ── */
-.cm-camps{
-  position:relative;overflow:hidden;margin:0 var(--gutter);padding:clamp(2.4rem,6vw,5rem);
-  display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2rem 4rem;align-items:end;
+.cm-camps{border-top:1px solid var(--line)}
+.camp-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(1rem,2.4vw,2rem);align-items:stretch}
+.camp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line)}
+.camp-stats>div{display:flex;flex-direction:column;gap:2.2rem;padding:1.6rem clamp(1rem,1.6vw,1.4rem);border-right:1px solid var(--line)}  /* numbers share a baseline whatever the caption length */
+.camp-stats>div:last-child{border-right:0}
+.camp-stats dt{font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40)}
+.camp-stats b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(3rem,5vw,4.4rem);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.camp-stats dd span{display:block;margin-top:.6rem;font-size:.86rem;color:var(--parch-70)}
+.camp-packs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.4rem)}
+.pack{
+  display:flex;flex-direction:column;gap:.9rem;padding:1.8rem clamp(1.2rem,2vw,1.6rem);
   border:1px solid var(--gold-25);
-  background:radial-gradient(120% 150% at 100% 0%,rgba(74,85,81,.42),transparent 62%),rgba(13,13,13,.7);
+  background:radial-gradient(120% 140% at 100% 0%,rgba(74,85,81,.4),transparent 62%),rgba(13,13,13,.7);
 }
-.cm-camps .sec-label{grid-column:1/-1;margin:0}
-.cm-camps h2{font-size:clamp(2.4rem,5.2vw,4.8rem)}
-.cm-camps-side{display:flex;flex-direction:column;align-items:flex-start;gap:1.6rem}
-@media(max-width:860px){.cm-camps{grid-template-columns:1fr}}
+.pack-k{font-family:var(--mono);font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.pack h3{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3vw,2.6rem);line-height:1}
+.pack h3 em{font-style:italic;color:var(--gold)}
+.pack p{font-size:.94rem;color:var(--parch-70)}
+.pack-price{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold)}
+.camp-cta{margin-top:clamp(1.6rem,3vw,2.4rem)}
+@media(max-width:1000px){.camp-grid{grid-template-columns:1fr}}
+@media(max-width:560px){
+  .camp-stats{grid-template-columns:1fr}
+  .camp-stats>div{border-right:0;border-bottom:1px solid var(--line)}
+  .camp-stats>div:last-child{border-bottom:0}
+  .camp-packs{grid-template-columns:1fr}
+}
 
 /* ── closing call ── */
 .cm-end{padding:clamp(6rem,14vh,10rem) var(--gutter);text-align:center}
@@ -232,9 +250,9 @@
   <div class="cm-hero-copy">
     <div class="sec-label flush"><span class="idx">01</span>Commercial</div>
     <h1 class="display cm-title" id="cm-title" data-split>Your brand, <em>in frame.</em></h1>
-    <p class="lede" data-reveal style="--d:.35s">Visual storytelling photography &amp; cinematography for B2B brands and luxury local businesses — produced monthly from our West Midtown studio.</p>
+    <p class="lede" data-reveal style="--d:.35s">Boutique visual production from West Midtown — a rental studio and a full-service production company in one, making high-value storytelling for B2B brands, luxury local businesses and artists.</p>
     <div class="cm-actions" data-reveal style="--d:.5s">
-      <a class="btn" href="#retainers">View retainers <span class="arr down">↓</span></a>
+      <a class="btn" href="#production">See what we make <span class="arr down">↓</span></a>
       <a class="clap clap-lg" href="contact.html?type=commercial" data-clap>
         <span class="nc-top"></span>
         <span class="nc-board"><span class="nc-l1">Start a project</span><span class="nc-l2">AHRDVS® · PROD · SLATE</span></span>
@@ -245,44 +263,62 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="mq">
-    <span>Photography<i>✦</i>Cinematography<i>✦</i>Short-form<i>✦</i>Long-form<i>✦</i>Color grading<i>✦</i>Custom audio<i>✦</i>Native captions<i>✦</i>Aesthetic direction<i>✦</i></span>
-    <span>Photography<i>✦</i>Cinematography<i>✦</i>Short-form<i>✦</i>Long-form<i>✦</i>Color grading<i>✦</i>Custom audio<i>✦</i>Native captions<i>✦</i>Aesthetic direction<i>✦</i></span>
+    <span>Studio rental<i>✦</i>Films<i>✦</i>Music videos<i>✦</i>Short-form<i>✦</i>Brand documentaries<i>✦</i>Podcasts<i>✦</i>Weddings<i>✦</i>Editorial photography<i>✦</i></span>
+    <span>Studio rental<i>✦</i>Films<i>✦</i>Music videos<i>✦</i>Short-form<i>✦</i>Brand documentaries<i>✦</i>Podcasts<i>✦</i>Weddings<i>✦</i>Editorial photography<i>✦</i></span>
   </div>
 </div>
 
-<!-- ═══ CAPABILITIES ════════════════════════════════════════════════ -->
-<section class="cm-sec" id="capabilities" aria-labelledby="cap-title">
+<!-- ═══ PRODUCTION ══════════════════════════════════════════════════ -->
+<section class="cm-sec" id="production" aria-labelledby="cap-title">
   <div class="cm-head">
-    <div class="sec-label flush" data-reveal><span class="idx">02</span>Capabilities</div>
-    <h2 class="display cm-h2" id="cap-title" data-split>Four crafts, <em>one studio.</em></h2>
-    <p class="lede" data-reveal style="--d:.2s">Stills and motion made together, so every channel you show up on looks like the same brand.</p>
+    <div class="sec-label flush" data-reveal><span class="idx">02</span>Production</div>
+    <h2 class="display cm-h2" id="cap-title" data-split>Your creative <em>sandbox.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Stop managing disjointed freelancers. Access a unified production studio and a vetted database under one roof.</p>
   </div>
-  <ul class="caps">
-    <li class="cap" data-reveal style="--d:0s">
+  <div class="caps">
+    <a class="cap" href="contact.html?type=studio" data-reveal style="--d:0s">
       <span class="cap-n">01</span>
-      <svg viewBox="0 0 44 44" aria-hidden="true"><rect pathLength="1" x="5" y="13" width="34" height="23" rx="2"/><path pathLength="1" d="M15 13l3-5h8l3 5"/><circle pathLength="1" cx="22" cy="24.5" r="7"/><circle pathLength="1" cx="22" cy="24.5" r="2.6"/><path pathLength="1" d="M32.5 18h2.5"/></svg>
-      <h3>Photography</h3>
-      <p>Hi-res editorial photography of your brand, your product and your people.</p>
-    </li>
-    <li class="cap" data-reveal style="--d:.08s">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><path pathLength="1" d="M9 7h26l-5 13H14z"/><path pathLength="1" d="M16 11h12"/><path pathLength="1" d="M22 20v16"/><path pathLength="1" d="M22 36l-8 5M22 36l8 5M22 36v5"/></svg>
+      <h3>Studio rental</h3>
+      <p>A premium, visually optimized studio in Atlanta, with professional gear and background sets.</p>
+      <span class="cap-go">Book the studio <i>↗</i></span>
+    </a>
+    <a class="cap" href="contact.html?type=film" data-reveal style="--d:.06s">
       <span class="cap-n">02</span>
-      <svg viewBox="0 0 44 44" aria-hidden="true"><circle pathLength="1" cx="13" cy="11" r="6"/><circle pathLength="1" cx="27" cy="10" r="5"/><rect pathLength="1" x="6" y="18" width="24" height="15" rx="1.5"/><path pathLength="1" d="M30 22.5l9-4v14l-9-4"/><path pathLength="1" d="M12 33l-3 7M24 33l3 7"/></svg>
-      <h3>Cinematography</h3>
-      <p>Short-form built for Reels, TikTok and Shorts — and cinematic long-form when the story needs room.</p>
-    </li>
-    <li class="cap" data-reveal style="--d:.16s">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect pathLength="1" x="6" y="17" width="32" height="21" rx="1.5"/><path pathLength="1" d="M6 11h32v6H6z"/><path pathLength="1" d="M12 11l4 6M20 11l4 6M28 11l4 6"/><path pathLength="1" d="M11 25h22M11 31h14"/></svg>
+      <h3>Films &amp; narrative</h3>
+      <p>Scripted shorts, independent features and documentary storytelling with an indie-film aesthetic.</p>
+      <span class="cap-go">Start a film <i>↗</i></span>
+    </a>
+    <a class="cap" href="contact.html?type=music" data-reveal style="--d:.12s">
       <span class="cap-n">03</span>
-      <svg viewBox="0 0 44 44" aria-hidden="true"><path pathLength="1" d="M3 24h5l3-8 4 16 4-22 4 26 4-18 3 10 3-4h8"/><circle pathLength="1" cx="36" cy="9" r="4"/></svg>
-      <h3>Post-production</h3>
-      <p>Every edit color-graded, scored with custom audio and captioned natively.</p>
-    </li>
-    <li class="cap" data-reveal style="--d:.24s">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><path pathLength="1" d="M17 31V11l18-4v20"/><circle pathLength="1" cx="13" cy="31" r="4"/><circle pathLength="1" cx="31" cy="27" r="4"/></svg>
+      <h3>Music videos</h3>
+      <p>High-concept, visually striking music videos tailored to the artist's aesthetic.</p>
+      <span class="cap-go">Pitch a video <i>↗</i></span>
+    </a>
+    <a class="cap" href="#retainers" data-reveal style="--d:.18s">
       <span class="cap-n">04</span>
-      <svg viewBox="0 0 44 44" aria-hidden="true"><circle pathLength="1" cx="22" cy="22" r="16"/><path pathLength="1" d="M22 6l6.5 13M38 22l-13 6.5M22 38l-6.5-13M6 22l13-6.5"/><path pathLength="1" d="M33.3 10.7l-8.6 11.2M33.3 33.3l-11.2-8.6M10.7 33.3l8.6-11.2M10.7 10.7l11.2 8.6"/></svg>
-      <h3>Aesthetic direction</h3>
-      <p>Custom aesthetic-direction templates, plus a monthly visual audit and strategy call on The Enterprise Presence.</p>
-    </li>
-  </ul>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect pathLength="1" x="13" y="5" width="18" height="34" rx="3"/><path pathLength="1" d="M20 34.5h4"/><path pathLength="1" d="M19.5 16l8 5-8 5z"/></svg>
+      <h3>Short-form &amp; photo</h3>
+      <p>High-retention Reels, TikToks and YouTube Shorts, plus editorial brand photography — monthly, on retainer.</p>
+      <span class="cap-go">See the retainers <i>↓</i></span>
+    </a>
+    <a class="cap" href="contact.html?type=commercial" data-reveal style="--d:.24s">
+      <span class="cap-n">05</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect pathLength="1" x="4" y="9" width="36" height="22" rx="1.5"/><path pathLength="1" d="M16 38h12M22 31v7"/><path pathLength="1" d="M19 15l8 5-8 5z"/></svg>
+      <h3>Long-form campaigns</h3>
+      <p>Brand documentaries, corporate profiles, product launches and podcasts.</p>
+      <span class="cap-go">Plan a campaign <i>↗</i></span>
+    </a>
+    <a class="cap" href="contact.html?type=wedding" data-reveal style="--d:.3s">
+      <span class="cap-n">06</span>
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle pathLength="1" cx="17" cy="26" r="9"/><circle pathLength="1" cx="27" cy="26" r="9"/><path pathLength="1" d="M27 17l-3.5-4 3.5-4 3.5 4z"/></svg>
+      <h3>Weddings &amp; milestones</h3>
+      <p>Documentary-style wedding films that capture raw, organic human connection.</p>
+      <span class="cap-go">Tell us the date <i>↗</i></span>
+    </a>
+  </div>
 </section>
 
 <!-- ═══ RETAINERS ═══════════════════════════════════════════════════ -->
@@ -290,7 +326,7 @@
   <div class="cm-head">
     <div class="sec-label flush" data-reveal><span class="idx">03</span>Retainers</div>
     <h2 class="display cm-h2" id="ret-title" data-split>Monthly production, <em>on retainer.</em></h2>
-    <p class="lede" data-reveal style="--d:.2s">Choose a tier and a 3, 6 or 12-month commitment. Then it's on us — every month.</p>
+    <p class="lede" data-reveal style="--d:.2s">Predictable monthly production for B2B brands, e-commerce stores and creators. Pick a tier and we'll send pricing.</p>
   </div>
 
   <form class="ret" id="ret" action="contact.html" method="get">
@@ -298,54 +334,44 @@
       <div class="tier-wrap" data-reveal>
         <div class="tier is-on">
           <input type="radio" name="type" value="tier1" id="t1" checked>
-          <label class="tier-hit" for="t1"><span class="vh">Select Tier 01, The Social Engine, $2,000 per month</span></label>
+          <label class="tier-hit" for="t1"><span class="vh">Select Tier 01, The Social Engine</span></label>
           <span class="tier-ghost" aria-hidden="true">01</span>
           <div class="tier-head"><span class="tier-no">Tier 01</span><span class="tier-pick" aria-hidden="true"><i></i><span class="off">Select</span><span class="on">Selected</span></span></div>
           <h3 class="tier-name">The Social <em>Engine</em></h3>
-          <p class="tier-price"><span class="cur">$</span><b data-count="2000">2,000</b><span class="per">/ month</span></p>
-          <p class="tier-for" data-eq="0">For brands building authority on Reels, TikTok and Shorts.</p>
+          <p class="tier-price req"><span class="per">Investment</span><b>On request</b></p>
+          <p class="tier-for" data-eq="0">For brands establishing authority on short-form channels — Reels, TikTok and YouTube Shorts.</p>
           <dl class="spec">
-            <div data-eq="1"><dt>Studio</dt><dd>One 3-hour studio block each month</dd></div>
-            <div data-eq="2"><dt>Video</dt><dd><b data-count="8">8</b> edited short-form videos — color-graded, custom audio, native captions</dd></div>
-            <div data-eq="3"><dt>Photo</dt><dd><b data-count="10">10</b> hi-res editorial photos</dd></div>
-            <div data-eq="4"><dt>Direction</dt><dd class="na">—</dd></div>
-            <div data-eq="5"><dt>Turnaround</dt><dd>10-day guaranteed turnaround</dd></div>
-            <div data-eq="6"><dt>Revisions</dt><dd><b>2</b> revisions</dd></div>
+            <div data-eq="1"><dt>Studio</dt><dd>One 3-hour production block each month, in the Atlanta studio or on location</dd></div>
+            <div data-eq="2"><dt>Video</dt><dd><b data-count="8">8</b> fully edited, high-retention short-form videos — color-graded, custom audio, native captions</dd></div>
+            <div data-eq="3"><dt>Photo</dt><dd><b data-count="10">10</b> high-resolution editorial brand photos</dd></div>
+            <div data-eq="4"><dt>Plus</dt><dd>10-day guaranteed delivery</dd></div>
           </dl>
         </div>
       </div>
       <div class="tier-wrap" data-reveal style="--d:.12s">
         <div class="tier">
           <input type="radio" name="type" value="tier2" id="t2">
-          <label class="tier-hit" for="t2"><span class="vh">Select Tier 02, The Enterprise Presence, $5,000 per month</span></label>
+          <label class="tier-hit" for="t2"><span class="vh">Select Tier 02, The Enterprise Presence</span></label>
           <span class="tier-ghost" aria-hidden="true">02</span>
           <div class="tier-head"><span class="tier-no">Tier 02</span><span class="tier-pick" aria-hidden="true"><i></i><span class="off">Select</span><span class="on">Selected</span></span></div>
           <h3 class="tier-name">The Enterprise <em>Presence</em></h3>
-          <p class="tier-price"><span class="cur">$</span><b data-count="5000">5,000</b><span class="per">/ month</span></p>
-          <p class="tier-for" data-eq="0">For premium service brands, e-commerce and high-tier creators.</p>
+          <p class="tier-price req"><span class="per">Investment</span><b>On request</b></p>
+          <p class="tier-for" data-eq="0">For premium brands, e-commerce stores and high-tier creators who want a complete digital footprint.</p>
           <dl class="spec">
-            <div data-eq="1"><dt>Studio</dt><dd>One 8-hour block, or two 4-hour blocks, each month</dd></div>
-            <div data-eq="2"><dt>Video</dt><dd><b data-count="16">16</b> short-form + 1 cinematic long-form — or 5 long-form videos</dd></div>
-            <div data-eq="3"><dt>Photo</dt><dd><b data-count="25">25</b> hi-res editorial photos</dd></div>
-            <div data-eq="4"><dt>Direction</dt><dd>Custom aesthetic-direction templates + monthly visual audit &amp; strategy call</dd></div>
-            <div data-eq="5"><dt>Turnaround</dt><dd>24–72 hour priority turnaround</dd></div>
-            <div data-eq="6"><dt>Revisions</dt><dd><b>5</b> revisions</dd></div>
+            <div data-eq="1"><dt>Studio</dt><dd>One 6-hour production block each month, or two 3-hour sessions</dd></div>
+            <div data-eq="2"><dt>Video</dt><dd><b data-count="16">16</b> fully edited short-form videos + 1 cinematic long-form brand video, for landing pages or YouTube</dd></div>
+            <div data-eq="3"><dt>Photo</dt><dd><b data-count="25">25</b> high-resolution editorial brand photos</dd></div>
+            <div data-eq="4"><dt>Plus</dt><dd>Priority support — custom aesthetic templates and monthly visual audit &amp; strategy calls</dd></div>
           </dl>
         </div>
       </div>
     </div>
 
     <div class="ret-bar" data-reveal>
-      <fieldset class="terms">
-        <legend>Commitment</legend>
-        <label><input type="radio" name="term" value="3" checked><span>3 months</span></label>
-        <label><input type="radio" name="term" value="6"><span>6 months</span></label>
-        <label><input type="radio" name="term" value="12"><span>12 months</span></label>
-      </fieldset>
       <output class="ret-sum" id="ret-sum" aria-live="polite"></output>
       <button type="submit" class="clap clap-lg" data-clap>
         <span class="nc-top"></span>
-        <span class="nc-board"><span class="nc-l1">Request this retainer</span><span class="nc-l2">Opens the project brief</span></span>
+        <span class="nc-board"><span class="nc-l1">Request pricing</span><span class="nc-l2">Opens the project brief</span></span>
       </button>
     </div>
   </form>
@@ -359,9 +385,9 @@
   </div>
   <ol class="steps" id="steps">
     <li class="step" data-reveal><span class="step-n">01</span><h3>Brief</h3><p>Tell us what you're launching, where it will live and how it should feel.</p></li>
-    <li class="step" data-reveal style="--d:.08s"><span class="step-n">02</span><h3>Studio block</h3><p>Your monthly time in the studio — three hours on The Social Engine; eight, or two four-hour sessions, on The Enterprise Presence.</p></li>
+    <li class="step" data-reveal style="--d:.08s"><span class="step-n">02</span><h3>Studio block</h3><p>Your monthly production block — three hours on The Social Engine; six, or two three-hour sessions, on The Enterprise Presence.</p></li>
     <li class="step" data-reveal style="--d:.16s"><span class="step-n">03</span><h3>Post</h3><p>Every edit is color-graded, scored with custom audio and captioned natively.</p></li>
-    <li class="step" data-reveal style="--d:.24s"><span class="step-n">04</span><h3>Delivery</h3><p>A guaranteed 10-day turnaround on Tier 01, 24–72 hour priority on Tier 02 — revisions included.</p></li>
+    <li class="step" data-reveal style="--d:.24s"><span class="step-n">04</span><h3>Delivery</h3><p>Finished edits and photos every month — guaranteed 10-day delivery on The Social Engine, priority support and a monthly visual audit on The Enterprise Presence.</p></li>
   </ol>
 </section>
 
@@ -378,12 +404,38 @@
 </section>
 
 <!-- ═══ MENTORSHIP CAMPS ════════════════════════════════════════════ -->
-<section class="cm-camps" aria-labelledby="camps-title" data-reveal>
-  <div class="sec-label flush"><span class="idx">Also</span>From the studio</div>
-  <h2 class="display" id="camps-title">Film &amp; photography <em>mentorship camps.</em></h2>
-  <div class="cm-camps-side">
-    <p class="lede">Intensive mentorship camps in film and photography.</p>
-    <a class="btn" href="contact.html?type=camp">Ask about camps <span class="arr">↗</span></a>
+<section class="cm-sec cm-camps" id="camps" aria-labelledby="camps-title">
+  <div class="cm-head">
+    <div class="sec-label flush" data-reveal><span class="idx">06</span>Mentorship</div>
+    <h2 class="display cm-h2" id="camps-title" data-split>Film &amp; photography <em>camps.</em></h2>
+    <p class="lede" data-reveal style="--d:.2s">Immersive weekend camps where mentees work alongside active industry professionals on real, working sets — and graduate with a professionally directed body of work.</p>
+  </div>
+  <div class="camp-grid">
+    <dl class="camp-stats" data-reveal>
+      <div><dt>Camps a year</dt><dd><b data-count="4">4</b><span>Two film, two photography</span></dd></div>
+      <div><dt>Per camp</dt><dd><b data-count="30">30</b><span>Mentees</span></dd></div>
+      <div><dt>Days</dt><dd><b data-count="4">4</b><span>Immersive weekends, 3–5 days</span></dd></div>
+    </dl>
+    <div class="camp-packs" data-reveal style="--d:.12s">
+      <div class="pack">
+        <span class="pack-k">Package</span>
+        <h3>Single <em>room</em></h3>
+        <p>Your own room, with lodging and professional seminars included.</p>
+        <span class="pack-price">Pricing on request</span>
+      </div>
+      <div class="pack">
+        <span class="pack-k">Package</span>
+        <h3>Shared <em>room</em></h3>
+        <p>A shared room — the more affordable way in.</p>
+        <span class="pack-price">Pricing on request</span>
+      </div>
+    </div>
+  </div>
+  <div class="camp-cta" data-reveal>
+    <a class="clap clap-lg" href="contact.html?type=camp" data-clap>
+      <span class="nc-top"></span>
+      <span class="nc-board"><span class="nc-l1">Ask about the next camp</span><span class="nc-l2">Film · Photography</span></span>
+    </a>
   </div>
 </section>
 
@@ -412,7 +464,8 @@ var FRAMES=/*@data:photo-full:the-ring,oyster,headlight,red-portrait*/[];
 var STRIP=/*@data:photo-thumb:fire,sorbet,on-the-hood,camo,embrace,milky-way,lampposts*/[];
 /* where each frame's subject sits, so the wide crop keeps it in shot */
 var FOCUS={'the-ring':'56% 52%','oyster':'50% 52%','headlight':'46% 42%','red-portrait':'62% 32%'};
-var NAMES={tier1:'The Social Engine',tier2:'The Enterprise Presence'},PRICES={tier1:'$2,000',tier2:'$5,000'};
+var NAMES={tier1:'The Social Engine',tier2:'The Enterprise Presence'};
+var MONTHLY={tier1:'8 short-form videos · 10 photos a month',tier2:'16 short-form + 1 long-form · 25 photos a month'};
 
 /* ═══ MONITOR — hard cuts between commercial frames ═══ */
 var hero=document.getElementById('monitor'),feed=document.getElementById('mon-feed');
@@ -469,17 +522,17 @@ setInterval(function(){if(heroOn&&performance.now()-lastMove>3500){hunt();aim();
 var form=document.getElementById('ret'),sum=document.getElementById('ret-sum');
 var tiers=[].slice.call(document.querySelectorAll('.tier'));
 function sync(){
-  var tier=form.querySelector('input[name="type"]:checked'),term=form.querySelector('input[name="term"]:checked');
+  var tier=form.querySelector('input[name="type"]:checked');
   tiers.forEach(function(t){t.classList.toggle('is-on',t.querySelector('input').checked);});
-  if(tier&&term)sum.innerHTML='<em>'+NAMES[tier.value]+'</em> · '+term.value+'-month commitment · '+PRICES[tier.value]+' / month';
+  if(tier)sum.innerHTML='<em>'+NAMES[tier.value]+'</em> · '+MONTHLY[tier.value]+' · pricing on request';
 }
 form.addEventListener('change',sync);
 sync();
 form.addEventListener('submit',function(e){
   e.preventDefault();
-  var tier=form.querySelector('input[name="type"]:checked').value,term=form.querySelector('input[name="term"]:checked').value;
+  var tier=form.querySelector('input[name="type"]:checked').value;
   A.clap(form.querySelector('button[type="submit"]'));
-  setTimeout(function(){A.go('contact.html?type='+tier+'&term='+term,'contact');},260);
+  setTimeout(function(){A.go('contact.html?type='+tier,'contact');},260);
 });
 if(!TOUCH&&!RED)tiers.forEach(function(t){
   t.addEventListener('pointermove',function(e){

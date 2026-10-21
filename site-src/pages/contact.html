@@ -52,6 +52,7 @@
 .ferr{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ember);margin-top:.55rem}
 .ferr:empty{display:none}
 .chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip-row.sub{margin-top:.5rem}
 .chip-row label{position:relative}
 .chip-row input{position:absolute;opacity:0;width:1px;height:1px}
 .chip-row span{
@@ -158,19 +159,26 @@ button.clap[disabled]{opacity:.55;pointer-events:none}
             <div class="chip-row">
               <label><input type="radio" name="type" value="tier1"><span>Social Engine · Tier 01</span></label>
               <label><input type="radio" name="type" value="tier2"><span>Enterprise Presence · Tier 02</span></label>
-              <label><input type="radio" name="type" value="commercial"><span>Commercial project</span></label>
+              <label><input type="radio" name="type" value="studio"><span>Studio rental</span></label>
+              <label><input type="radio" name="type" value="film"><span>Film / narrative</span></label>
+              <label><input type="radio" name="type" value="music"><span>Music video</span></label>
+              <label><input type="radio" name="type" value="commercial"><span>Campaign / commercial</span></label>
+              <label><input type="radio" name="type" value="wedding"><span>Wedding / milestone</span></label>
               <label><input type="radio" name="type" value="cultural"><span>Cultural / activation</span></label>
               <label><input type="radio" name="type" value="camp"><span>Mentorship camp</span></label>
               <label><input type="radio" name="type" value="other"><span>Something else</span></label>
             </div>
             <p class="ferr" id="e-type"></p>
           </fieldset>
-          <fieldset class="field" id="g-term" hidden>
-            <legend class="fl">Commitment</legend>
+          <fieldset class="field" id="g-camp" hidden>
+            <legend class="fl">Camp</legend>
             <div class="chip-row">
-              <label><input type="radio" name="term" value="3"><span>3 months</span></label>
-              <label><input type="radio" name="term" value="6"><span>6 months</span></label>
-              <label><input type="radio" name="term" value="12"><span>12 months</span></label>
+              <label><input type="radio" name="track" value="Film camp"><span>Film camp</span></label>
+              <label><input type="radio" name="track" value="Photography camp"><span>Photography camp</span></label>
+            </div>
+            <div class="chip-row sub">
+              <label><input type="radio" name="room" value="Single room"><span>Single room · lodging + seminars</span></label>
+              <label><input type="radio" name="room" value="Shared room"><span>Shared room</span></label>
             </div>
           </fieldset>
           <fieldset class="field">
@@ -220,7 +228,7 @@ button.clap[disabled]{opacity:.55;pointer-events:none}
           <div class="sl-row grid">
             <div><span class="sl-k">Roll</span><span class="sl-v">A001</span></div>
             <div><span class="sl-k">Scene</span><span class="sl-v" data-sl="type">—</span></div>
-            <div><span class="sl-k">Take</span><span class="sl-v" data-sl="term">01</span></div>
+            <div><span class="sl-k">Take</span><span class="sl-v">01</span></div>
           </div>
           <div class="sl-row"><span class="sl-k">Director</span><span class="sl-v" data-sl="name">—</span></div>
           <div class="sl-row grid two">
@@ -233,8 +241,8 @@ button.clap[disabled]{opacity:.55;pointer-events:none}
       </div>
       <div class="ct-glance" data-reveal style="--d:.15s">
         <p class="sec-label flush"><span class="idx">Retainers</span>At a glance</p>
-        <a class="gl-row" href="commercial.html#retainers"><span>The Social Engine</span><b>$2,000<small>/mo</small></b></a>
-        <a class="gl-row" href="commercial.html#retainers"><span>The Enterprise Presence</span><b>$5,000<small>/mo</small></b></a>
+        <a class="gl-row" href="commercial.html#retainers"><span>The Social Engine</span><b>8 videos · 10 photos<small>/mo</small></b></a>
+        <a class="gl-row" href="commercial.html#retainers"><span>The Enterprise Presence</span><b>17 videos · 25 photos<small>/mo</small></b></a>
       </div>
     </aside>
   </div>
@@ -260,9 +268,10 @@ var FORM_ENDPOINT='';
 var TO='support@ahrendezvous.com';
 /* ═══════════════════════════════════════════════════════════════════ */
 
-var TYPES={tier1:'The Social Engine (Tier 01)',tier2:'The Enterprise Presence (Tier 02)',commercial:'Commercial project',
+var TYPES={tier1:'The Social Engine (Tier 01)',tier2:'The Enterprise Presence (Tier 02)',studio:'Studio rental',
+  film:'Film / narrative project',music:'Music video',commercial:'Campaign / commercial project',wedding:'Wedding / milestone',
   cultural:'Cultural / activation',camp:'Mentorship camp',other:'Something else'};
-var SCENE={tier1:'T-01',tier2:'T-02',commercial:'COM',cultural:'CUL',camp:'CAMP',other:'X'};
+var SCENE={tier1:'T-01',tier2:'T-02',studio:'STU',film:'FILM',music:'MV',commercial:'COM',wedding:'WED',cultural:'CUL',camp:'CAMP',other:'X'};
 /* cultural links can say which door they came through (…&topic=exhibition) */
 var TOPICS={
   exhibition:{label:'Exhibition',code:'EXH',ask:'Tell us about the exhibition — the work, the artists and the room it needs.'},
@@ -271,7 +280,7 @@ var TOPICS={
 };
 var topic='';
 var form=document.getElementById('sheet'),E=form.elements,sendBtn=document.getElementById('send');
-var termG=document.getElementById('g-term'),done=document.getElementById('done'),formErr=document.getElementById('form-err');
+var campG=document.getElementById('g-camp'),done=document.getElementById('done'),formErr=document.getElementById('form-err');
 
 /* today's date on the sheet and the slate */
 var now=new Date(),stamp=p2(now.getMonth()+1)+'.'+p2(now.getDate())+'.'+String(now.getFullYear()).slice(2);
@@ -279,32 +288,32 @@ document.getElementById('sheet-date').textContent=stamp;
 document.getElementById('sl-date').textContent=stamp;
 
 function collect(){
+  var type=E.namedItem('type').value,camp=type==='camp';
   return {
     name:E.namedItem('name').value.trim(),email:E.namedItem('email').value.trim(),brand:E.namedItem('brand').value.trim(),
-    type:E.namedItem('type').value,term:E.namedItem('term').value,when:E.namedItem('when').value,
-    topic:E.namedItem('type').value==='cultural'?topic:'',
+    type:type,when:E.namedItem('when').value,topic:type==='cultural'?topic:'',
+    track:camp?E.namedItem('track').value:'',room:camp?E.namedItem('room').value:'',
     brief:E.namedItem('brief').value.trim(),website:E.namedItem('website').value.trim()
   };
 }
 
-/* prefill from links like contact.html?type=tier2&term=6 (known values only) */
-var q=new URLSearchParams(location.search),qt=q.get('type'),qm=q.get('term'),qtp=q.get('topic');
+/* prefill from links like contact.html?type=studio or ?type=cultural&topic=exhibition (known values only) */
+var q=new URLSearchParams(location.search),qt=q.get('type'),qtp=q.get('topic');
 function check(name,value){
   form.querySelectorAll('input[name="'+name+'"]').forEach(function(r){if(r.value===value)r.checked=true;});
 }
-if(TYPES[qt])check('type',qt);
-if(['3','6','12'].indexOf(qm)>=0)check('term',qm);
+if(TYPES.hasOwnProperty(qt))check('type',qt);
 if(qt==='cultural'&&TOPICS.hasOwnProperty(qtp))topic=qtp;
 
-/* commitment only applies to the two retainers; the brief prompt follows the topic */
+/* camp details only apply to camps; the brief prompt follows the cultural topic */
 var briefEl=E.namedItem('brief'),askDefault=briefEl.placeholder;
-function syncTerm(){
-  var t=E.namedItem('type').value,show=t==='tier1'||t==='tier2';
-  termG.hidden=!show;
-  if(!show)form.querySelectorAll('input[name="term"]').forEach(function(r){r.checked=false;});
+function syncType(){
+  var t=E.namedItem('type').value,camp=t==='camp';
+  campG.hidden=!camp;
+  if(!camp)campG.querySelectorAll('input').forEach(function(r){r.checked=false;});
   briefEl.placeholder=t==='cultural'&&topic?TOPICS[topic].ask:askDefault;
 }
-syncTerm();
+syncType();
 
 /* ── the slate fills in as you type ── */
 var slateEl=document.getElementById('slate');
@@ -319,8 +328,7 @@ function slate(){
   var d=collect();
   chalk('brand',d.brand||'Your production');
   chalk('name',d.name||'—');
-  chalk('type',d.type?SCENE[d.type]+(d.topic?'·'+TOPICS[d.topic].code:''):'—');
-  chalk('term',d.term?d.term+' MO':'01');
+  chalk('type',d.type?SCENE[d.type]+(d.topic?'·'+TOPICS[d.topic].code:'')+(d.track?'·'+d.track.charAt(0):''):'—');
 }
 slate();
 function clapSlate(){
@@ -362,7 +370,7 @@ form.addEventListener('input',function(e){
   if(f&&f.classList.contains('bad'))setErr(f.getAttribute('data-field'),RULES[f.getAttribute('data-field')](collect()));
   slate();
 });
-form.addEventListener('change',function(e){if(e.target.name==='type')syncTerm();slate();});
+form.addEventListener('change',function(e){if(e.target.name==='type')syncType();slate();});
 
 /* ── the brief, as plain text ── */
 function project(d){return TYPES[d.type]+(d.topic?' — '+TOPICS[d.topic].label:'');}
@@ -371,7 +379,8 @@ function briefText(d){
   var L=['Name: '+d.name,'Email: '+d.email];
   if(d.brand)L.push('Brand / company: '+d.brand);
   L.push('Project: '+project(d));
-  if(d.term)L.push('Commitment: '+d.term+' months');
+  if(d.track)L.push('Camp: '+d.track);
+  if(d.room)L.push('Package: '+d.room);
   if(d.when)L.push('Timing: '+d.when);
   L.push('','The brief:',d.brief,'','— Sent from the Ahrendezvous call sheet');
   return L.join('\r\n');
@@ -401,7 +410,7 @@ form.addEventListener('submit',function(e){
   if(FORM_ENDPOINT){
     sendBtn.disabled=true;
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body:JSON.stringify({name:d.name,email:d.email,brand:d.brand,project:project(d),commitment:d.term?d.term+' months':'',
+      body:JSON.stringify({name:d.name,email:d.email,brand:d.brand,project:project(d),camp:d.track,package:d.room,
         timing:d.when,brief:d.brief,_subject:subject(d)})})
       .then(function(r){if(!r.ok)throw new Error(r.status);wrap(d,'sent');})
       .catch(function(){

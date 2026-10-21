@@ -25,32 +25,64 @@ ahrendezvous.com. See "Site structure" below.
 | Cinematic Slate   | #4A5551 | muted grounding accents |
 Plus one sparing "pop" accent (supari influence) for interactive states.
 
+**Typography:** the owner's Canva brand kit specifies Cinzel / Playfair Display
+headings, Montserrat subheads and Inter / Lato body. The site deliberately keeps
+Cormorant Garamond + Space Grotesk + Space Mono (owner's choice, Oct 2026 — it
+matches the depoluce look they liked); match the kit if asked.
+
 ## Content
-**One-liner:** "Bridging the post-pandemic isolation gap through high-end
-production, vetted collaboration, and curated cultural experiences."
+Primary source: the owner's Google Doc "Ahrendezvous Entertainment - Master
+Business Backlog & Strategy" (Oct 2026), which supersedes the June chat brief.
+Its founder-funnel (Ahren Rene | Modern Romantic), financial forecast and
+investment-ask sections are internal — keep them off the site.
 
-**About:** Physical, commercial, and artistic sanctuary in West Midtown,
-Atlanta, addressing the post-COVID loneliness crisis. Moody, auteur-driven
-aesthetic. Three layers:
-1. **Commercial** — visual storytelling photography & cinematography for B2B
-   brands and luxury local businesses.
-2. **Professional** — invite-only physical + digital Nationwide Artist Hub;
-   signature "REP SHEET" directory; ends the "lone wolf" creative bottleneck.
-3. **Cultural** — curated community experiences, art exhibitions, brand
-   activations in Atlanta.
+**One-liner / mission:** "Bridging the post-pandemic isolation gap through
+high-end production, vetted collaboration, and curated cultural experiences."
 
-Also: intensive **Film & Photography Mentorship Camps**.
+**The name:** "Ahrendezvous" (ah-rendezvous) plays on "a rendezvous" — a
+pre-arranged meeting at a specific time and place — as a bridge out of the
+post-COVID isolation that fractured community and emptied "third places".
+Brand voice: sophisticated, inclusive, intellectual, community-oriented.
+Moody, auteur-driven, indie-film aesthetic. No founding year is on record.
 
-**Retainers (3/6/12-month commitments):**
-- **Tier 1 — The Social Engine, $2,000/mo.** For brands building authority on
-  Reels/TikTok/Shorts. One 3-hr studio block/mo; 8 edited short-form videos
-  (color-graded, custom audio, native captions); 10 hi-res editorial photos;
-  10-day guaranteed turnaround; 2 revisions.
-- **Tier 2 — The Enterprise Presence, $5,000/mo.** For premium service brands,
-  e-commerce, high-tier creators. One 8-hr block (or two 4-hr); 16 short-form
-  + 1 cinematic long-form OR 5 long-form videos; 25 hi-res editorial photos;
-  custom aesthetic-direction templates + monthly visual audit/strategy call;
-  24–72 hr priority turnaround; 5 revisions.
+**Slogans:** "Isolation is over. Your rendezvous with Atlanta's elite creative
+class starts here." · "Shared love, shared entertainment." · "Bridging the
+social isolation gap through entertainment." · "Stop managing disjointed
+freelancers. Access a unified production studio and a vetted database under
+one roof."
+
+**Pillars** (West Midtown, Atlanta sanctuary — physical, commercial, artistic):
+1. **Boutique visual production** ("our creative sandbox") — both a rental
+   studio (premium, visually optimized space with pro gear and background
+   sets) and a full-service production company: films & narrative (scripted
+   shorts, indie features, documentary), music videos, short-form (Reels,
+   TikTok, Shorts), long-form campaigns (brand docs, corporate profiles,
+   product launches, podcasts), weddings & milestones (documentary-style).
+2. **Nationwide Artist Hub** (coming soon on the site) — invite-only physical +
+   digital network; the **REP SHEET**, a vetted roster (producers, DPs,
+   photographers, gaffers, designers, editors) sent to clients and EPs on
+   every booked job.
+3. **Experiences & events** — curated community experiences, art exhibitions,
+   gallery nights and brand activations; sponsorship / brand integration as
+   physical "third-place" activations against digital ad fatigue.
+4. **Mentorship camps** — 2 film + 2 photography camps a year, 30 participants
+   each, immersive weekends of 3–5 (usually 4) days on real working sets with
+   active pros; mentees graduate with a professionally directed body of work.
+   Packages: single room (lodging + professional seminars) and shared room.
+
+**Retainers — pricing ON REQUEST on the site (owner's choice, Oct 2026)**
+because sources disagree: the strategy doc says Tier 1 $1,500/mo and Tier 2
+$2,800/mo on a 12-month commitment; the June brief said $2,000 / $5,000 on
+3/6/12-month terms. The site shows the doc's inclusions:
+- **Tier 1 — The Social Engine.** Brands establishing authority on Reels /
+  TikTok / Shorts. One 3-hr production block a month (studio or local
+  location); 8 edited high-retention short-form videos (color-graded, custom
+  audio, native captions); 10 hi-res editorial photos; 10-day guaranteed delivery.
+- **Tier 2 — The Enterprise Presence.** Premium brands, e-commerce, high-tier
+  creators. One 6-hr block (or two 3-hr); 16 short-form + 1 cinematic
+  long-form brand video; 25 hi-res editorial photos; priority support —
+  custom aesthetic templates + monthly visual audit / strategy calls.
+Camp prices in the doc ($1,000 single / $500 shared) are also held back.
 
 **Contact:** support@ahrendezvous.com · West Midtown, Atlanta.
 
@@ -72,11 +104,10 @@ Also: intensive **Film & Photography Mentorship Camps**.
   production" notice instead of a dead link; adding the page switches it on.
 - Contact form composes an email to support@ahrendezvous.com by default; set
   `FORM_ENDPOINT` in `site-src/pages/contact.html` to deliver via Formspree.
-  Links can prefill it: `contact.html?type=tier1|tier2|commercial|cultural|camp|other`,
-  `&term=3|6|12` for retainers, `&topic=exhibition|activation|experience` for cultural.
-- Cultural has no specific events, dates, artists or partners in this brief, so
-  the page describes the three formats and invites ideas; add real programming
-  here before it goes on the page.
+  Links can prefill it: `contact.html?type=tier1|tier2|studio|film|music|commercial|wedding|cultural|camp|other`,
+  plus `&topic=exhibition|activation|experience` for cultural.
+- No specific events, dates, artists or partners are on record yet, so Cultural
+  describes the formats and invites ideas; add real programming here first.
 
 ## Workflow notes
 - Owner reviews via preview before final approval; iterate on `site-src/`
