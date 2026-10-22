@@ -7,7 +7,7 @@
 .cm-sec{padding:clamp(5rem,12vh,9rem) var(--gutter);scroll-margin-top:60px}
 .cm-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem 4rem;align-items:end;margin-bottom:clamp(2.4rem,5vw,4rem)}
 .cm-head .sec-label{grid-column:1/-1;margin-bottom:.6rem}
-.cm-h2{font-size:clamp(2.8rem,6vw,5.6rem)}
+.cm-h2{font-size:clamp(2.24rem,4.8vw,4.48rem)}
 @media(max-width:860px){.cm-head{grid-template-columns:1fr}}
 
 /* ── HERO: a live camera monitor ── */
@@ -59,7 +59,7 @@
 .af.lock{width:94px;height:62px;margin:-31px 0 0 -47px}
 .af.lock i,.af.lock span{border-color:var(--ember);color:var(--ember)}
 .cm-hero-copy{position:relative;z-index:2;max-width:min(100%,920px)}
-.cm-title{font-size:clamp(3.4rem,10vw,9.5rem);margin:1rem 0 1.6rem}
+.cm-title{font-size:clamp(2.72rem,8vw,7.6rem);margin:1rem 0 1.6rem}
 .cm-hero .lede{max-width:52ch;color:rgba(247,245,240,.82)}
 .cm-actions{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1.2rem 1.6rem;margin-top:2.4rem}
 @media(max-width:700px){.mh-tr{display:none}.af{transform-origin:0 0}}
@@ -78,7 +78,7 @@
 .cap svg *{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease-out) calc(var(--d,0s) + .25s)}
 .cap.in svg *,html:not(.rv) .cap svg *{stroke-dashoffset:0}
 .cap:hover svg{stroke:var(--ember)}
-.cap h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.2vw,2.1rem);line-height:1.1;margin-bottom:.8rem}
+.cap h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,1.8vw,1.7rem);line-height:1.1;margin-bottom:.8rem}
 .cap p{font-size:.92rem;color:var(--parch-70);max-width:36ch}
 .cap-go{
   display:inline-flex;align-items:center;gap:.6rem;margin-top:auto;padding-top:1.6rem;
@@ -107,7 +107,7 @@
 .tier input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .tier-hit{position:absolute;inset:0;z-index:3}
 .tier-ghost{
-  position:absolute;right:-.04em;top:-.2em;font-family:var(--serif);font-style:italic;
+  position:absolute;right:-.04em;top:-.2em;font-family:var(--display);
   font-size:clamp(9rem,16vw,14rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none;
 }
 .tier-head{position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:2.2rem}
@@ -118,8 +118,8 @@
 .tier.is-on .tier-pick .on{display:inline}
 .tier.is-on .tier-pick{color:var(--ember)}
 .tier.is-on .tier-pick i::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--ember)}
-.tier-name{position:relative;font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,3.6vw,3.3rem);line-height:1;margin-bottom:1.4rem}
-.tier-name em{font-style:italic;color:var(--gold)}
+.tier-name{position:relative;font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,2.9vw,2.65rem);line-height:1.1;margin-bottom:1.4rem}
+.tier-name em{font-style:normal;color:var(--gold)}
 .tier-price{position:relative;display:flex;align-items:baseline;font-family:var(--serif);margin-bottom:1rem}
 .tier-price .cur{font-size:1.7rem;color:var(--parch-70);align-self:flex-start;margin:.55rem .15rem 0 0}
 .tier-price b{font-weight:400;font-size:clamp(3.4rem,6vw,5.2rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -127,13 +127,13 @@
 /* pricing on request: label over an italic gold line, same footprint as a price */
 .tier-price.req{display:block}
 .tier-price.req .per{display:block;margin:0 0 .5rem}
-.tier-price.req b{display:block;font-style:italic;font-size:clamp(2.6rem,4.4vw,3.8rem);letter-spacing:-.01em;color:var(--gold)}
+.tier-price.req b{display:block;font-size:clamp(2.1rem,3.5vw,3rem);letter-spacing:-.01em;color:var(--gold)}
 .tier-for{position:relative;font-size:.98rem;color:var(--parch-70);max-width:36ch;margin-bottom:2rem}
 .spec{position:relative;border-top:1px solid var(--line)}
 .spec>div{display:grid;grid-template-columns:7.2rem 1fr;gap:1rem;padding:.95rem 0;border-bottom:1px solid var(--line)}
 .spec dt{font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40);padding-top:.3rem}
 .spec dd{font-size:.94rem;color:var(--parchment)}
-.spec dd b{font-family:var(--serif);font-weight:500;font-size:1.3em;line-height:1;color:var(--gold)}
+.spec dd b{font-family:var(--display);font-weight:400;font-size:1.3em;line-height:1;color:var(--gold)}
 @media(max-width:860px){.tiers{grid-template-columns:1fr}}
 @media(max-width:420px){.spec>div{grid-template-columns:1fr;gap:.2rem}}
 
@@ -142,7 +142,7 @@
   margin-top:clamp(1rem,2vw,1.6rem);padding:1.3rem clamp(1.2rem,2.4vw,2rem);
   border:1px solid var(--line);background:rgba(13,13,13,.72);
 }
-.ret-sum{font-family:var(--serif);font-size:clamp(1.1rem,1.7vw,1.45rem);line-height:1.3;color:var(--parchment)}
+.ret-sum{font-family:var(--serif);font-size:clamp(.95rem,1.4vw,1.2rem);line-height:1.3;color:var(--parchment)}
 .ret-sum em{color:var(--gold)}
 @media(max-width:1000px){.ret-bar{grid-template-columns:1fr}}
 
@@ -157,7 +157,7 @@
 }
 .step.lit::before{border-color:var(--ember);background:var(--ember);box-shadow:0 0 0 6px rgba(255,69,23,.12)}
 .step-n{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;color:var(--parch-40)}
-.step h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:.6rem 0 .7rem}
+.step h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,1.9vw,1.75rem);margin:.6rem 0 .7rem}
 .step p{font-size:.94rem;color:var(--parch-70);max-width:32ch}
 @media(max-width:900px){
   .steps{grid-template-columns:1fr;gap:2.4rem;padding:0 0 0 2.4rem}
@@ -169,7 +169,7 @@
 /* ── film strip of work ── */
 .cm-strip{padding:clamp(4rem,9vh,7rem) 0}
 .cm-strip-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.2rem;padding:0 var(--gutter);margin-bottom:2.2rem}
-.cm-strip-head .cm-h2{font-size:clamp(2.4rem,5vw,4.4rem)}
+.cm-strip-head .cm-h2{font-size:clamp(1.92rem,4vw,3.52rem)}
 .reel-strip{overflow:hidden;background:#0a0908;border-top:1px solid var(--gold-12);border-bottom:1px solid var(--gold-12)}
 .rs-track{display:flex;gap:6px;width:max-content;animation:mq 70s linear infinite}
 .reel-strip:hover .rs-track{animation-play-state:paused}
@@ -189,7 +189,7 @@
 .camp-stats>div{display:flex;flex-direction:column;gap:2.2rem;padding:1.6rem clamp(1rem,1.6vw,1.4rem);border-right:1px solid var(--line)}  /* numbers share a baseline whatever the caption length */
 .camp-stats>div:last-child{border-right:0}
 .camp-stats dt{font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-40)}
-.camp-stats b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(3rem,5vw,4.4rem);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.camp-stats b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3rem,5vw,4.4rem);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
 .camp-stats dd span{display:block;margin-top:.6rem;font-size:.86rem;color:var(--parch-70)}
 .camp-packs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.4rem)}
 .pack{
@@ -198,10 +198,10 @@
   background:radial-gradient(120% 140% at 100% 0%,rgba(74,85,81,.4),transparent 62%),rgba(13,13,13,.7);
 }
 .pack-k{font-family:var(--mono);font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
-.pack h3{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3vw,2.6rem);line-height:1}
-.pack h3 em{font-style:italic;color:var(--gold)}
+.pack h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.4vw,2.1rem);line-height:1}
+.pack h3 em{font-style:normal;color:var(--gold)}
 .pack p{font-size:.94rem;color:var(--parch-70)}
-.pack-price{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold)}
+.pack-price{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);font-family:var(--serif);font-size:1.05rem;color:var(--gold)}
 .camp-cta{margin-top:clamp(1.6rem,3vw,2.4rem)}
 @media(max-width:1000px){.camp-grid{grid-template-columns:1fr}}
 @media(max-width:560px){
@@ -214,7 +214,7 @@
 /* ── closing call ── */
 .cm-end{padding:clamp(6rem,14vh,10rem) var(--gutter);text-align:center}
 .cm-end .sec-label{padding:0}
-.cm-end h2{font-size:clamp(3.4rem,10vw,9rem);margin:0 auto 3rem}
+.cm-end h2{font-size:clamp(2.72rem,8vw,7.2rem);margin:0 auto 3rem}
 .cm-end-actions{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
 .cm-mail{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-70);transition:color .3s}
 .cm-mail:hover{color:var(--gold)}

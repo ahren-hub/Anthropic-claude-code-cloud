@@ -25,10 +25,19 @@ ahrendezvous.com. See "Site structure" below.
 | Cinematic Slate   | #4A5551 | muted grounding accents |
 Plus one sparing "pop" accent (supari influence) for interactive states.
 
-**Typography:** the owner's Canva brand kit specifies Cinzel / Playfair Display
-headings, Montserrat subheads and Inter / Lato body. The site deliberately keeps
-Cormorant Garamond + Space Grotesk + Space Mono (owner's choice, Oct 2026 — it
-matches the depoluce look they liked); match the kit if asked.
+**Typography (owner's direction, Oct 2026 — supersedes the Canva kit fonts):**
+- Headlines: **AHRDVS Sculptural**, the owner's own brand alphabet ("Sculptural 07,
+  Development 3.0"). Built into a web font by `site-src/fonts/build_font.py` from
+  `site-src/fonts/sculptural-07-specimen.svg`: capitals on uppercase keys, small
+  caps on lowercase keys, tabular lining figures, plus period/comma/apostrophe/
+  hyphen drawn to match. Other characters (& ? ! etc.) fall back to Domine. Used
+  for `.display` headlines, the Enter-screen wordmark and big numerals.
+- Subheaders and body: **Domine** (Google Fonts).
+- UI labels, nav, buttons: Space Mono.
+- No italics exist in either face; emphasis is gold and upright (`font-synthesis:none`).
+- Swashes: the R tail and V flourish run under the next letter inside a word, as in
+  the logo lockup; the font kerns them away from spaces and punctuation, and the
+  word-reveal masks crop only vertically so tails are never cut off.
 
 ## Content
 Primary source: the owner's Google Doc "Ahrendezvous Entertainment - Master

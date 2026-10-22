@@ -264,6 +264,7 @@ var io=('IntersectionObserver' in window)&&!RED?new IntersectionObserver(functio
   });
 },{rootMargin:'0px 0px -10% 0px'}):null;
 /* wrap each word in a mask; elements like <em> are kept and split inside */
+var BRAND=/^\s*["']?AHRDVS Sculptural/;
 A.split=function(el){
   var i=0;
   (function walk(node){
@@ -275,6 +276,11 @@ A.split=function(el){
           if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));return;}
           var w=document.createElement('span'),s=document.createElement('span');
           w.className='w';s.textContent=part;s.style.setProperty('--i',i++);
+          /* in the brand face a final R/V swash needs the room the font's
+             kerning would give before a space (masks break kerning) */
+          var tail=/[RV]$/.exec(part)||/[rv]$/.exec(part);
+          if(tail&&BRAND.test(getComputedStyle(node.nodeType===1?node:el).fontFamily))
+            w.style.marginRight={R:'.24em',V:'.13em',r:'.19em',v:'.1em'}[tail[0]];
           w.appendChild(s);frag.appendChild(w);
         });
         node.replaceChild(frag,n);

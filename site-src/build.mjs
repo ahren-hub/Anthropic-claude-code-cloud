@@ -71,8 +71,9 @@ function build(page) {
   html = html.replace(/"@photo:([\w-]+)"/g, (m, s) => attr(full(pick([s])[0])));
   html = html.replace(/"@alt:([\w-]+)"/g, (m, s) => attr(pick([s])[0].alt));
   html = html.replace(/"@brand:([\w-]+)\.(webp|png)"/g, (m, n, e) => attr(uri(`brand/${n}.${e}`, `image/${e}`)));
+  html = html.replace(/"@font:([\w.-]+)\.woff2"/g, (m, n) => `"data:font/woff2;base64,${readFileSync(join(SRC, 'fonts', n + '.woff2')).toString('base64')}"`);
   html = html.replace(/"@founder:([\w-]+)"/g, (m, n) => attr(uri(`founder/${n}.webp`, 'image/webp')));
-  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}|"@(photo|alt|founder|brand):/);
+  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}|"@(photo|alt|founder|brand|font):/);
   if (left) throw new Error(`${page}: unresolved directive ${left[0]}`);
   return html;
 }

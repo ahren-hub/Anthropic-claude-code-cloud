@@ -22,8 +22,8 @@
 .e-emblem{width:clamp(70px,9vw,104px);height:auto;opacity:.9;filter:drop-shadow(0 0 24px rgba(197,168,128,.25))}
 /* ── broadcast wordmark: CRT scanlines + per-letter signal glitch ── */
 .e-name{
-  position:relative;font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(2.4rem,7vw,4.6rem);line-height:1;color:var(--parchment);text-align:center;
+  position:relative;font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.9rem,6.6vw,4.6rem);line-height:1;color:var(--parchment);text-align:center;
   padding:.14em .35em;
 }
 .e-name sup{font-size:.3em;vertical-align:.8em;color:var(--ember);font-style:normal}
@@ -128,10 +128,10 @@
 }
 .hero-liner p{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(1.05rem,2vw,1.5rem);line-height:1.5;color:var(--parchment);
+  font-size:clamp(.98rem,1.7vw,1.3rem);line-height:1.5;color:var(--parchment);
   text-shadow:0 2px 24px rgba(13,13,13,.9);
 }
-.hero-liner em{font-style:italic;color:var(--gold)}
+.hero-liner em{font-style:normal;color:var(--gold)}
 .hero-meta{
   position:absolute;bottom:1.7rem;left:var(--gutter);right:var(--gutter);
   display:flex;justify-content:space-between;align-items:center;
@@ -162,7 +162,7 @@
 .dc::after{
   content:attr(data-num);
   position:absolute;right:calc(var(--gutter) + 4rem);
-  font-family:var(--serif);font-style:italic;
+  font-family:var(--display);
   font-size:clamp(6rem,14vw,11rem);line-height:1;
   color:rgba(247,245,240,.035);pointer-events:none;z-index:0;
   transition:color .5s,transform .65s cubic-bezier(.76,0,.24,1);
@@ -172,8 +172,8 @@
 .dc:not(.soon):hover .dc-num{color:var(--gold)}
 .dc-body{position:relative;z-index:1}
 .dc-body h3{
-  font-family:var(--serif);font-weight:500;
-  font-size:clamp(2.6rem,5.5vw,4.8rem);line-height:1.08;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.1rem,4.4vw,3.8rem);line-height:1.08;
 }
 .dc-body p{font-size:.85rem;color:var(--parch-70);margin-top:.5rem;max-width:48ch}
 .dc-badge{

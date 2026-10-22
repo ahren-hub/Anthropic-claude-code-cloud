@@ -7,7 +7,7 @@
 .cu-sec{padding:clamp(5rem,12vh,9rem) var(--gutter);scroll-margin-top:60px}
 .cu-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem 4rem;align-items:end;margin-bottom:clamp(2.4rem,5vw,4rem)}
 .cu-head .sec-label{grid-column:1/-1;margin-bottom:.6rem}
-.cu-h2{font-size:clamp(2.8rem,6vw,5.6rem)}
+.cu-h2{font-size:clamp(2.24rem,4.8vw,4.48rem)}
 @media(max-width:860px){.cu-head{grid-template-columns:1fr}}
 
 /* ── HERO: the rendezvous field ── */
@@ -29,14 +29,14 @@
 @keyframes pulse{from{transform:scale(1);opacity:.6}to{transform:scale(5.5);opacity:0}}
 .cu-hero-copy{position:relative;z-index:2;max-width:min(100%,760px)}
 @media(min-width:900px){.cu-hero-copy{max-width:min(46vw,760px)}}  /* keep clear of the ring on the right */
-.cu-title{font-size:clamp(3.8rem,12vw,11rem);margin:1rem 0 1.6rem}
+.cu-title{font-size:clamp(3.04rem,9.6vw,8.8rem);margin:1rem 0 1.6rem}
 .cu-hero .lede{max-width:46ch;text-shadow:0 2px 18px rgba(13,13,13,.9)}
 .cu-actions{display:flex;flex-wrap:wrap;align-items:flex-end;gap:1.2rem 1.6rem;margin-top:2.4rem}
 .cu-count{
   position:absolute;z-index:2;right:var(--gutter);bottom:clamp(3rem,9vh,6rem);display:flex;gap:2.4rem;
   font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);
 }
-.cu-count b{display:block;font-family:var(--serif);font-weight:400;font-size:2.6rem;letter-spacing:0;line-height:1;color:var(--parch-70);margin-bottom:.45rem;font-variant-numeric:tabular-nums}
+.cu-count b{display:block;font-family:var(--display);font-weight:400;font-size:2.6rem;letter-spacing:0;line-height:1;color:var(--parch-70);margin-bottom:.45rem;font-variant-numeric:tabular-nums}
 .cu-count .tg b{color:var(--gold)}
 /* narrow screens: reserve a band above the copy for the gathering; short phones grow the hero */
 @media(max-width:899px){.cu-count{display:none}.cu-hero{padding-top:calc(88px + min(62vw,330px));padding-bottom:2.6rem}}
@@ -44,10 +44,10 @@
 /* ── MANIFESTO: words light up as you read down ── */
 .cu-manifesto{padding:clamp(6rem,16vh,11rem) var(--gutter)}
 .cu-manifesto .sec-label{margin-bottom:2.4rem}
-.cu-scrub{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,3.4rem);line-height:1.2;max-width:min(100%,1180px)}
+.cu-scrub{font-family:var(--serif);font-weight:400;font-size:clamp(1.45rem,2.9vw,2.7rem);line-height:1.3;max-width:min(100%,1180px)}
 .cu-scrub .sw{color:rgba(247,245,240,.2);transition:color .45s}
 .cu-scrub .sw.lit{color:var(--parchment)}
-.cu-scrub em{font-style:italic}
+.cu-scrub em{font-style:normal}
 .cu-scrub em .sw.lit{color:var(--gold)}
 html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
 
@@ -65,10 +65,10 @@ html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
 .scene:hover .scene-img img{transform:scale(1)}
 .scene-body{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:2rem;padding:clamp(1.6rem,3.4vw,3.2rem)}
 .scene-no{font-family:var(--mono);font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
-.scene-title{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,5vw,4.8rem);line-height:1;margin:1.2rem 0 1.4rem}
-.scene-title em{font-style:italic;color:var(--gold)}
+.scene-title{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,4vw,3.8rem);line-height:1.08;margin:1.2rem 0 1.4rem}
+.scene-title em{font-style:normal;color:var(--gold)}
 .scene-body p{font-size:1.04rem;color:var(--parch-70);max-width:38ch}
-.scene-ghost{position:absolute;right:-.04em;bottom:-.28em;font-family:var(--serif);font-style:italic;font-size:clamp(10rem,18vw,16rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none}
+.scene-ghost{position:absolute;right:-.04em;bottom:-.28em;font-family:var(--display);font-size:clamp(10rem,18vw,16rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none}
 .scene-dim{position:absolute;inset:0;background:#050505;opacity:var(--dim,0);pointer-events:none}
 @media(max-width:899px){
   .scene{position:relative;top:auto;height:auto;min-height:0}
@@ -121,7 +121,7 @@ html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
 .join-card:hover::before,.join-card:focus-visible::before{transform:scaleY(1)}
 .jc-k{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40);transition:color .45s}
 .join-card:hover .jc-k,.join-card:focus-visible .jc-k{color:rgba(13,13,13,.62)}
-.join-card b{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.05}
+.join-card b{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.4vw,2.15rem);line-height:1.15}
 .join-card .arr{position:absolute;right:1.6rem;top:1.6rem;font-size:1.4rem;color:var(--gold);transition:transform .45s var(--ease),color .45s}
 .join-card:hover .arr,.join-card:focus-visible .arr{transform:translate(5px,-5px);color:var(--obsidian)}
 @media(max-width:860px){.join-grid{grid-template-columns:1fr}.join-card{border-right:0;border-bottom:1px solid var(--line);min-height:0}.join-card:last-child{border-bottom:0}}
@@ -129,7 +129,7 @@ html:not(.rv) .cu-scrub .sw{color:var(--parchment)}
 /* ── CLOSE ── */
 .cu-end{padding:clamp(6rem,14vh,10rem) var(--gutter);text-align:center}
 .cu-end .sec-label{padding:0}
-.cu-end h2{font-size:clamp(3.4rem,10vw,9rem);margin:0 auto 3rem}
+.cu-end h2{font-size:clamp(2.72rem,8vw,7.2rem);margin:0 auto 3rem}
 .cu-end-actions{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
 .cu-mail{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--parch-70);transition:color .3s}
 .cu-mail:hover{color:var(--gold)}

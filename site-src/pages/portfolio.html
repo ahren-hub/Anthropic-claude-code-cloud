@@ -9,10 +9,10 @@
   display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:2rem 4rem;align-items:end;
 }
 .pf-hero .sec-label{grid-column:1/-1;margin-bottom:0;padding:0}
-.pf-title{font-size:clamp(3.6rem,11.5vw,11rem)}
+.pf-title{font-size:clamp(2.88rem,9.2vw,8.8rem)}
 .pf-intro{display:flex;flex-direction:column;gap:2rem;padding-bottom:1.1rem}
 .pf-stats{list-style:none;display:flex;gap:clamp(1.4rem,3vw,2.6rem);font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--parch-40)}
-.pf-stats b{display:block;font-family:var(--serif);font-weight:400;font-size:2.6rem;letter-spacing:0;line-height:1;color:var(--parchment);margin-bottom:.45rem}
+.pf-stats b{display:block;font-family:var(--display);font-weight:400;font-size:2.6rem;letter-spacing:0;line-height:1;color:var(--parchment);margin-bottom:.45rem}
 @media(max-width:860px){.pf-hero{grid-template-columns:1fr}}
 
 /* ── moving film strip: sprockets + edge print ── */
@@ -38,7 +38,7 @@
   padding:clamp(5rem,12vh,9rem) var(--gutter);
 }
 .pf-reel .reel-frame{width:min(80vw,380px);margin:0}
-.pf-reel-copy h2{font-size:clamp(3rem,6.5vw,6rem);margin:1.2rem 0 1.4rem}
+.pf-reel-copy h2{font-size:clamp(2.4rem,5.2vw,4.8rem);margin:1.2rem 0 1.4rem}
 .reel-meta{display:flex;flex-wrap:wrap;gap:1.4rem 2.8rem;margin-top:2.6rem;padding-top:1.6rem;border-top:1px solid var(--line)}
 .reel-meta dt{font-family:var(--mono);font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:var(--parch-40);margin-bottom:.4rem}
 .reel-meta dd{font-family:var(--mono);font-size:.92rem;letter-spacing:.06em;color:var(--parchment)}
@@ -90,7 +90,7 @@
 }
 .tile:hover .tile-cap,.tile:focus-visible .tile-cap{transform:none}
 .tile-cap b{font-family:var(--mono);font-size:.54rem;font-weight:400;letter-spacing:.22em;color:var(--gold);flex:none}
-.tile-cap span{font-family:var(--serif);font-size:1.35rem;line-height:1.1;color:var(--parchment)}
+.tile-cap span{font-family:var(--serif);font-size:1.1rem;line-height:1.1;color:var(--parchment)}
 .tile-cap i{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parch-70);flex:none}
 .tile:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
 @media(hover:none){.tile-cap{transform:none;padding-top:2rem}.tile-cap i{display:none}}
@@ -122,7 +122,7 @@
 /* ── closing call ── */
 .pf-end{padding:clamp(5rem,12vh,9rem) var(--gutter);border-top:1px solid var(--line);text-align:center}
 .pf-end .sec-label{padding:0}
-.pf-end h2{font-size:clamp(3rem,8vw,7.5rem);margin:0 auto 3rem;max-width:14ch}
+.pf-end h2{font-size:clamp(2.4rem,6.4vw,6rem);margin:0 auto 3rem;max-width:14ch}
 .pf-end-actions{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:1.4rem 2rem}
 
 /* ═══ LIGHTBOX ═══════════════════════════════════════════════════════ */
@@ -148,7 +148,7 @@
 .lb-btn:hover{border-color:var(--gold);background:var(--gold);color:var(--obsidian)}
 .lb-stage{display:flex;align-items:center;justify-content:center;min-height:0;padding:.4rem var(--gutter);touch-action:pan-y;user-select:none}
 .lb-img{display:block;max-width:none;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.6)}
-.lb-title{flex:1;text-align:center;font-family:var(--serif);font-size:clamp(1.2rem,2.4vw,1.8rem);letter-spacing:0;text-transform:none;color:var(--parchment)}
+.lb-title{flex:1;text-align:center;font-family:var(--serif);font-size:clamp(1rem,1.9vw,1.45rem);letter-spacing:0;text-transform:none;color:var(--parchment)}
 html.lb-open{overflow:hidden}
 @media(max-width:640px){.lb-btn span{display:none}}
 
