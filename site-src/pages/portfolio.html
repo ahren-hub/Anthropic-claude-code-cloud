@@ -94,6 +94,7 @@
 .tile-cap i{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parch-70);flex:none}
 .tile:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
 @media(hover:none){.tile-cap{transform:none;padding-top:2rem}.tile-cap i{display:none}}
+@media(max-width:640px){.tile-cap{flex-direction:column;align-items:flex-start;gap:.3rem;padding:1.6rem .75rem .7rem}.tile-cap span{font-size:.9rem;line-height:1.15;text-wrap:balance}.tile-cap i{display:none}}
 .tile-edge,.tile-mark{display:none}
 
 /* contact-sheet view: film frames with sprockets, edge print, grease-pencil mark */
@@ -126,7 +127,7 @@
 .pf-end-actions{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:1.4rem 2rem}
 
 /* ═══ LIGHTBOX ═══════════════════════════════════════════════════════ */
-.lb{position:fixed;inset:0;z-index:1500;display:grid;grid-template-rows:auto minmax(0,1fr) auto;visibility:hidden}
+.lb{position:fixed;inset:0;z-index:1500;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;visibility:hidden}
 .lb[hidden]{display:none}
 .lb::before{content:'';position:absolute;inset:0;background:rgba(8,8,7,.97);opacity:0;transition:opacity .5s}
 .lb>*{position:relative}

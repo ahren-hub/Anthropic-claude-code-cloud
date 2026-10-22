@@ -178,6 +178,13 @@ html:not(.cursor-on) .c-trail{display:none}
 .clap-lg .nc-board{padding:1.05rem 2rem 1.1rem 1.5rem;gap:.35rem}
 .clap-lg .nc-l1{font-size:1.35rem;letter-spacing:.2em}
 .clap-lg .nc-l2{font-size:.78rem;letter-spacing:.24em}
+/* phones: the 1.5x labels must still fit the screen; let them wrap if needed */
+.clap{max-width:100%}
+@media(max-width:520px){
+  .clap-lg .nc-board{padding:.95rem 1.2rem 1rem 1.05rem}
+  .clap-lg .nc-l1{font-size:1rem;letter-spacing:.13em;white-space:normal}
+  .clap-lg .nc-l2{letter-spacing:.18em;white-space:normal}
+}
 /* phones: the nav has room for the full name + Menu only; the menu carries the CTA.
    Placed after .clap so it wins the cascade. */
 @media(max-width:640px){.nav-right{gap:1rem}.nav-clap{display:none}}
@@ -256,7 +263,7 @@ html.cut-in.cut-out .cut-slate{opacity:1;transition:opacity .25s .28s}
 .sec-label.flush{padding:0}
 .display{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:0;text-wrap:balance}
 .display em{font-style:normal;color:var(--gold)}
-.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch}
+.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch;text-wrap:pretty}
 .btn{
   position:relative;isolation:isolate;overflow:hidden;
   display:inline-flex;align-items:center;gap:.9rem;padding:1.05rem 1.6rem;
@@ -386,7 +393,7 @@ html.rv [data-split]:not(.in) .w>span{transform:translateY(112%)}
 .ct-main{padding:0 var(--gutter) clamp(5rem,12vh,8rem)}
 .ct-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:start}
 .ct-side{position:sticky;top:112px;display:flex;flex-direction:column;gap:2.6rem}
-@media(max-width:980px){.ct-grid{grid-template-columns:1fr}.ct-side{position:static;order:-1}}
+@media(max-width:980px){.ct-grid{grid-template-columns:minmax(0,1fr)}.ct-side{position:static;order:-1}}
 
 /* ── the call sheet ── */
 .sheet{border:1px solid var(--line);background:rgba(13,13,13,.78)}
@@ -455,11 +462,12 @@ button.clap[disabled]{opacity:.55;pointer-events:none}
 
 .ct-glance .sec-label{margin-bottom:1rem}
 .gl-row{
-  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1rem 0;
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.2rem 1rem;padding:1rem 0;
   border-bottom:1px solid var(--line);font-family:var(--serif);font-size:1.08rem;transition:color .3s,padding .45s var(--ease);
 }
 .gl-row:first-of-type{border-top:1px solid var(--line)}
-.gl-row b{font-weight:400;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gl-row b{font-weight:400;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap;margin-left:auto}
+.gl-row span{white-space:nowrap}
 .gl-row small{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--parch-40);margin-left:.3rem}
 .gl-row:hover{color:var(--gold);padding-left:.6rem}
 

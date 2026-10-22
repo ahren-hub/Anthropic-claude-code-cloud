@@ -178,6 +178,13 @@ html:not(.cursor-on) .c-trail{display:none}
 .clap-lg .nc-board{padding:1.05rem 2rem 1.1rem 1.5rem;gap:.35rem}
 .clap-lg .nc-l1{font-size:1.35rem;letter-spacing:.2em}
 .clap-lg .nc-l2{font-size:.78rem;letter-spacing:.24em}
+/* phones: the 1.5x labels must still fit the screen; let them wrap if needed */
+.clap{max-width:100%}
+@media(max-width:520px){
+  .clap-lg .nc-board{padding:.95rem 1.2rem 1rem 1.05rem}
+  .clap-lg .nc-l1{font-size:1rem;letter-spacing:.13em;white-space:normal}
+  .clap-lg .nc-l2{letter-spacing:.18em;white-space:normal}
+}
 /* phones: the nav has room for the full name + Menu only; the menu carries the CTA.
    Placed after .clap so it wins the cascade. */
 @media(max-width:640px){.nav-right{gap:1rem}.nav-clap{display:none}}
@@ -256,7 +263,7 @@ html.cut-in.cut-out .cut-slate{opacity:1;transition:opacity .25s .28s}
 .sec-label.flush{padding:0}
 .display{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:0;text-wrap:balance}
 .display em{font-style:normal;color:var(--gold)}
-.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch}
+.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch;text-wrap:pretty}
 .btn{
   position:relative;isolation:isolate;overflow:hidden;
   display:inline-flex;align-items:center;gap:.9rem;padding:1.05rem 1.6rem;
@@ -455,6 +462,7 @@ html.rv [data-split]:not(.in) .w>span{transform:translateY(112%)}
 .tile-cap i{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parch-70);flex:none}
 .tile:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
 @media(hover:none){.tile-cap{transform:none;padding-top:2rem}.tile-cap i{display:none}}
+@media(max-width:640px){.tile-cap{flex-direction:column;align-items:flex-start;gap:.3rem;padding:1.6rem .75rem .7rem}.tile-cap span{font-size:.9rem;line-height:1.15;text-wrap:balance}.tile-cap i{display:none}}
 .tile-edge,.tile-mark{display:none}
 
 /* contact-sheet view: film frames with sprockets, edge print, grease-pencil mark */
@@ -487,7 +495,7 @@ html.rv [data-split]:not(.in) .w>span{transform:translateY(112%)}
 .pf-end-actions{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:1.4rem 2rem}
 
 /* ═══ LIGHTBOX ═══════════════════════════════════════════════════════ */
-.lb{position:fixed;inset:0;z-index:1500;display:grid;grid-template-rows:auto minmax(0,1fr) auto;visibility:hidden}
+.lb{position:fixed;inset:0;z-index:1500;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;visibility:hidden}
 .lb[hidden]{display:none}
 .lb::before{content:'';position:absolute;inset:0;background:rgba(8,8,7,.97);opacity:0;transition:opacity .5s}
 .lb>*{position:relative}

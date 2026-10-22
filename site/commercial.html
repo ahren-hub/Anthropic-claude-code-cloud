@@ -178,6 +178,13 @@ html:not(.cursor-on) .c-trail{display:none}
 .clap-lg .nc-board{padding:1.05rem 2rem 1.1rem 1.5rem;gap:.35rem}
 .clap-lg .nc-l1{font-size:1.35rem;letter-spacing:.2em}
 .clap-lg .nc-l2{font-size:.78rem;letter-spacing:.24em}
+/* phones: the 1.5x labels must still fit the screen; let them wrap if needed */
+.clap{max-width:100%}
+@media(max-width:520px){
+  .clap-lg .nc-board{padding:.95rem 1.2rem 1rem 1.05rem}
+  .clap-lg .nc-l1{font-size:1rem;letter-spacing:.13em;white-space:normal}
+  .clap-lg .nc-l2{letter-spacing:.18em;white-space:normal}
+}
 /* phones: the nav has room for the full name + Menu only; the menu carries the CTA.
    Placed after .clap so it wins the cascade. */
 @media(max-width:640px){.nav-right{gap:1rem}.nav-clap{display:none}}
@@ -256,7 +263,7 @@ html.cut-in.cut-out .cut-slate{opacity:1;transition:opacity .25s .28s}
 .sec-label.flush{padding:0}
 .display{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:0;text-wrap:balance}
 .display em{font-style:normal;color:var(--gold)}
-.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch}
+.lede{font-size:clamp(1rem,1.25vw,1.12rem);color:var(--parch-70);max-width:46ch;text-wrap:pretty}
 .btn{
   position:relative;isolation:isolate;overflow:hidden;
   display:inline-flex;align-items:center;gap:.9rem;padding:1.05rem 1.6rem;
@@ -468,7 +475,7 @@ html.rv [data-split]:not(.in) .w>span{transform:translateY(112%)}
 .tier input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .tier-hit{position:absolute;inset:0;z-index:3}
 .tier-ghost{
-  position:absolute;right:-.04em;top:-.2em;font-family:var(--display);
+  position:absolute;right:-.04em;top:-.06em;font-family:var(--display);
   font-size:clamp(9rem,16vw,14rem);line-height:1;color:rgba(247,245,240,.035);pointer-events:none;
 }
 .tier-head{position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:2.2rem}
