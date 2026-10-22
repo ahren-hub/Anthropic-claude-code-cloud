@@ -3,6 +3,7 @@
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
 <meta name="theme-color" content="#0D0D0D">
+<link rel="icon" type="image/png" href="@brand:favicon.png">
 <script>document.documentElement.className='js'</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,6 +106,8 @@ html:not(.cursor-on) .c-trail{display:none}
 }
 .nav-logo{display:flex;flex-direction:column;line-height:1.7}
 .nav-logo b{font-family:var(--mono);font-size:.92rem;font-weight:700;letter-spacing:.3em;color:var(--parchment)}
+.nav-logo b{display:flex;align-items:flex-start;gap:.15rem}
+.nav-logo .wm{height:20px;width:auto;display:block}
 .nav-logo b sup{color:var(--ember);font-size:.55em;letter-spacing:0}
 .nav-logo i{font-family:var(--mono);font-style:normal;font-size:.64rem;letter-spacing:.46em;color:var(--gold)}
 .nav-right{display:flex;align-items:center;gap:2.2rem}
@@ -323,7 +326,7 @@ footer{
   text-transform:uppercase;color:var(--parch-40);
   background:rgba(13,13,13,.6);backdrop-filter:blur(6px);
 }
-footer .mono-mark{color:var(--gold)}
+footer .mono-mark{color:var(--gold);display:inline-flex;align-items:center}
 footer a:hover{color:var(--gold)}
 
 /* ═══ REVEALS — hidden only once the shared script is live (html.rv) ═ */

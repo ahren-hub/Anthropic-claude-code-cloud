@@ -19,6 +19,7 @@
 .e-cross.tl{top:2.4rem;left:2.4rem}.e-cross.tr{top:2.4rem;right:2.4rem}
 .e-cross.bl{bottom:2.4rem;left:2.4rem}.e-cross.br{bottom:2.4rem;right:2.4rem}
 .e-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold)}
+.e-emblem{width:clamp(70px,9vw,104px);height:auto;opacity:.9;filter:drop-shadow(0 0 24px rgba(197,168,128,.25))}
 /* ── broadcast wordmark: CRT scanlines + per-letter signal glitch ── */
 .e-name{
   position:relative;font-family:var(--serif);font-style:italic;font-weight:400;
@@ -213,6 +214,7 @@ html.no-anim [data-hfade]{opacity:1;transform:none}
   <svg class="e-cross bl" viewBox="0 0 34 34"><path d="M17 0V34M0 17H34"/></svg>
   <svg class="e-cross br" viewBox="0 0 34 34"><path d="M17 0V34M0 17H34"/></svg>
 
+  <img class="e-emblem" src="@brand:emblem.webp" alt="" aria-hidden="true">
   <p class="e-name" id="e-name" aria-label="Ahrendezvous®" data-hover>Ahrendezvous<sup aria-hidden="true">®</sup><span class="e-scan" aria-hidden="true"></span></p>
   <span class="e-tc" id="e-tc" aria-hidden="true"><b>●</b> REC — TC 00:00:00:00 · CH 01</span>
 
