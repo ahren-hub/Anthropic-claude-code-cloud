@@ -126,4 +126,4 @@ to build a space where everyone — including introverts and outsiders — can
 create on their own terms. Multi-medium creative: "beauty is not a monolith."
 Collaborations: 1st Phorm, Sick Ride Nation, Live Nation, RADCO, Children's
 Center for Hope & Healing. Instagram @ahrenrene. Modern Romantic brand is
-inactive — keep off the site. Portrait photo still to be supplied.
+inactive — keep off the site. Portraits in site-src/photos/founder (B&W double exposure; red sunglasses profile on hover — the same shoot as the Portfolio "Portrait in red").

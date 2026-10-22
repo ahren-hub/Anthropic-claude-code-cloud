@@ -70,7 +70,8 @@ function build(page) {
   const attr = (s) => `"${s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"`;
   html = html.replace(/"@photo:([\w-]+)"/g, (m, s) => attr(full(pick([s])[0])));
   html = html.replace(/"@alt:([\w-]+)"/g, (m, s) => attr(pick([s])[0].alt));
-  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}|"@(photo|alt):/);
+  html = html.replace(/"@founder:([\w-]+)"/g, (m, n) => attr(uri(`founder/${n}.webp`, 'image/webp')));
+  const left = html.match(/<!-- @[\w-]+[^>]*-->|\/\*@data:[^*]*\*\/|\{\{\w+\}\}|"@(photo|alt|founder):/);
   if (left) throw new Error(`${page}: unresolved directive ${left[0]}`);
   return html;
 }
